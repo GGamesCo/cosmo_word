@@ -11,7 +11,7 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
     await Firebase.initializeApp(
-      name: "----------------",
+      name: "cosmo-word",
       options: DefaultFirebaseOptions.currentPlatform,
     ).whenComplete(() {
       print("completedAppInitialize");
@@ -25,7 +25,7 @@ void main() async {
 
 void initializeAppsflyer(){
   AppsFlyerOptions appsFlyerOptions = AppsFlyerOptions(
-        afDevKey: "--------------------------",
+        afDevKey: "MeYXSnbosTs2hTceWK9U6Q",
         showDebug: true);
 
   AppsflyerSdk appsflyerSdk = AppsflyerSdk(appsFlyerOptions);
