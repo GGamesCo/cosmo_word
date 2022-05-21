@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class SpaceShooterGame extends FlameGame with PanDetector, HasTappables {
+class SpaceShooterGame extends FlameGame with PanDetector, HasTappables, HasCollisionDetection {
   late Scene wordBrick;
 
   @override
