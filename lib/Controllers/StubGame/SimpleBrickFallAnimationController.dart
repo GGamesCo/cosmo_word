@@ -8,6 +8,8 @@ import 'package:flame/effects.dart';
 import '../../UiComponents/StubGame/WordSprite.dart';
 
 class SimpleAnimatedBrick {
+  final Random _random = Random();
+
   final String word;
   final String colorCode;
 
@@ -15,7 +17,6 @@ class SimpleAnimatedBrick {
 
   late WordSprite _wordSprite;
   bool _isLanded = false;
-  List<Effect> _appliedFallEffects = [];
 
   SimpleAnimatedBrick({required this.word, required this.colorCode});
 
@@ -26,13 +27,15 @@ class SimpleAnimatedBrick {
     uiElement = _wordSprite;
   }
 
+
   void _setupAnimationsEffects(){
     final fallEffect = MoveAlongPathEffect(
-      Path() ..quadraticBezierTo(0, 0, 0, 450),
+      Path() ..quadraticBezierTo(0, 0, 0, 500),
       EffectController(duration: 2),
     );
 
-    final flyRotateEffect = RotateEffect.to(pi*2/10, EffectController(duration: 2));
+    var turnSign = _random.nextBool() ? 1 : -1;
+    final flyRotateEffect = RotateEffect.to(turnSign * pi * 2/40, EffectController(duration: 2));
 
     _wordSprite.add(fallEffect);
     _wordSprite.add(flyRotateEffect);

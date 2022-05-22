@@ -6,7 +6,6 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:cosmo_word/Models/Events/InputCompletedEventArgs.dart';
-import 'package:cosmo_word/UiComponents/StubGame/RocketChallengeZone.dart';
 
 import '../../UiComponents/StubGame/StubChallengeZoneUiControl.dart';
 import '../../UiComponents/StubGame/WordSprite.dart';
@@ -53,5 +52,6 @@ class StubChallengeZoneController implements ChallengeZoneController {
 
   @override
   void onDispose() {
+
   }
 }
