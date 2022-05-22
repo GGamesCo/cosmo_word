@@ -17,19 +17,13 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -52,11 +46,32 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAK95SNgpFzlKjsEzaaRCVykpBPptpMWX8',
+    appId: '1:255893037221:web:7ba1607bde973798a5ad4c',
+    messagingSenderId: '255893037221',
+    projectId: 'ggames-cosmo-word',
+    authDomain: 'ggames-cosmo-word.firebaseapp.com',
+    storageBucket: 'ggames-cosmo-word.appspot.com',
+    measurementId: 'G-VBE7CRZ35M',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCHnyOS9734j8eg91bCokLJ5rB-NVU8r3s',
-    appId: '1:255893037221:android:0b04612fb8852deca5ad4c',
+    appId: '1:255893037221:android:e18b44324c983672a5ad4c',
     messagingSenderId: '255893037221',
     projectId: 'ggames-cosmo-word',
     storageBucket: 'ggames-cosmo-word.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyAeeuCOVHtVVg4xCbbLCo82XH8QhRqXId0',
+    appId: '1:255893037221:ios:65215a0e56f0591fa5ad4c',
+    messagingSenderId: '255893037221',
+    projectId: 'ggames-cosmo-word',
+    storageBucket: 'ggames-cosmo-word.appspot.com',
+    androidClientId: '255893037221-u8f4et940g12sm386dih3jihp109drub.apps.googleusercontent.com',
+    iosClientId: '255893037221-0oln20pfdi17j68063ap9gc771p85939.apps.googleusercontent.com',
+    iosBundleId: 'com.example.flutterCompleteGuide',
   );
 }
