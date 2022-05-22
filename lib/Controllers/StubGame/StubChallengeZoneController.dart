@@ -2,11 +2,13 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:cosmo_word/Controllers/StubGame/SimpleBrickFallAnimationController.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:cosmo_word/Models/Events/InputCompletedEventArgs.dart';
 import 'package:cosmo_word/UiComponents/StubGame/RocketChallengeZone.dart';
 
+import '../../UiComponents/StubGame/StubChallengeZoneUiControl.dart';
 import '../../UiComponents/StubGame/WordSprite.dart';
 import '../Abstract/ChallengeZoneController.dart';
 
@@ -21,7 +23,7 @@ class StubChallengeZoneController implements ChallengeZoneController {
   late Component rootUiControl;
 
   StubChallengeZoneController(){
-    rootUiControl = RocketChallengeZone();
+    rootUiControl = StubChallengeZoneUiControl(size: Vector2(400, 500), position: Vector2(0,0));
   }
 
   @override

@@ -32,7 +32,7 @@ class SimpleAnimatedBrick {
       EffectController(duration: 2),
     );
 
-    final flyRotateEffect = RotateEffect.to(pi*2/40, EffectController(duration: 2));
+    final flyRotateEffect = RotateEffect.to(pi*2/10, EffectController(duration: 2));
 
     _wordSprite.add(fallEffect);
     _wordSprite.add(flyRotateEffect);

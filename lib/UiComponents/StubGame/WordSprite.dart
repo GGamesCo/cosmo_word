@@ -42,8 +42,11 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
   }
 
   void setNewAnchorPoint(Set<Vector2> collisionPoints) {
-    anchor = Anchor.bottomRight;
-    position = Vector2(position.x + width, position.y + height);
+    var newAnchorRelativeX = (collisionPoints.first.x-position.x)/width;
+    var newAnchorRelativeY = 1.0;
+    anchor = Anchor(newAnchorRelativeX, newAnchorRelativeY);
+
+    position = Vector2(collisionPoints.first.x, collisionPoints.first.y);
   }
 }
 
