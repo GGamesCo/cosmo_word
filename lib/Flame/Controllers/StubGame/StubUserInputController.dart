@@ -1,9 +1,7 @@
-
 import 'package:event/src/event.dart';
 import 'package:flame/components.dart';
-import 'package:cosmo_word/Models/Events/InputCompletedEventArgs.dart';
-import 'package:cosmo_word/UiComponents/StubGame/DisplayZone.dart';
-import 'package:cosmo_word/UiComponents/StubGame/JoystickZone.dart';
+import '../../Models/Events/InputCompletedEventArgs.dart';
+import '../../UiComponents/StubGame/JoystickZone.dart';
 import '../Abstract/UserInputController.dart';
 
 class StubUserInputController implements UserInputController {

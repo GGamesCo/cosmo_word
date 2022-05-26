@@ -1,8 +1,6 @@
-
 import 'package:flame/components.dart';
-import 'package:cosmo_word/Models/Events/InputCompletedEventArgs.dart';
-import 'package:cosmo_word/UiComponents/StubGame/DisplayZone.dart';
-
+import '../../Models/Events/InputCompletedEventArgs.dart';
+import '../../UiComponents/StubGame/DisplayZone.dart';
 import '../Abstract/InputDisplayController.dart';
 
 class StubInputDisplayController implements InputDisplayController {
