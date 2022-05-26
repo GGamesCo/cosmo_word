@@ -8,7 +8,6 @@ import 'Abstract/UserInputController.dart';
 
 class GameScreenController implements UiControllerBase {
 
-  final UserInputController userInputController;
   final ChallengeZoneController challengeController;
   final InputDisplayController inputDisplayController;
 
@@ -16,7 +15,6 @@ class GameScreenController implements UiControllerBase {
   late Component rootUiControl;
 
   GameScreenController({
-      required this.userInputController,
       required this.challengeController,
       required this.inputDisplayController
   }){
@@ -25,16 +23,11 @@ class GameScreenController implements UiControllerBase {
 
   @override
   Future<void> init() async {
-    userInputController.init();
     challengeController.init();
     inputDisplayController.init();
 
-    rootUiControl.add(userInputController.rootUiControl);
     rootUiControl.add(challengeController.rootUiControl);
     rootUiControl.add(inputDisplayController.rootUiControl);
-
-    userInputController.onInputCompleted + _onNewWordInput;
-    userInputController.isLocked = false;
   }
 
   @override
@@ -42,17 +35,14 @@ class GameScreenController implements UiControllerBase {
 
   }
 
-  void _onNewWordInput(InputCompletedEventArgs? wordInput) async {
-    userInputController.isLocked = true;
+  void onNewWordInput(InputCompletedEventArgs? wordInput) async {
     await Future.wait([
       challengeController.handleInputCompleted(wordInput),
       inputDisplayController.handleInputCompleted(wordInput)
     ]);
-    userInputController.isLocked = false;
   }
 
   @override
   void onDispose(){
-    userInputController.onInputCompleted - _onNewWordInput;
   }
 }
