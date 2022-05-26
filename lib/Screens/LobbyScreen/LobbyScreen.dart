@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'GameScreen.dart';
+import '../GameScreen/GameScreen.dart';
 
 class LobbyScreen extends StatelessWidget {
   @override

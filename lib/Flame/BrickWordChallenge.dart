@@ -1,28 +1,30 @@
-import 'package:cosmo_word/Flame/UiComponents/Scene.dart';
+
+import 'package:event/event.dart';
 import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 
 import 'Controllers/GameScreenController.dart';
 import 'Controllers/StubGame/StubChallengeZoneController.dart';
 import 'Controllers/StubGame/StubInputDisplayController.dart';
-import 'Controllers/StubGame/StubUserInputController.dart';
+import 'Models/Events/InputCompletedEventArgs.dart';
 
-class BrickWordChallenge extends FlameGame with PanDetector, HasTappables, HasCollisionDetection {
-  late Scene wordBrick;
+class BrickWordChallenge extends FlameGame with HasTappables, HasCollisionDetection {
+
+  final Event<InputCompletedEventArgs> userInputReceivedEvent;
+
+  BrickWordChallenge({required this.userInputReceivedEvent});
 
   @override
-  Future<void>? onLoad() {
+  Future<void> onLoad() async {
     var gameScreenController = GameScreenController(
-        userInputController: StubUserInputController(),
         challengeController: StubChallengeZoneController(),
         inputDisplayController: StubInputDisplayController()
     );
+
+    userInputReceivedEvent.subscribe((userInput) {
+      gameScreenController.onNewWordInput(userInput);
+    });
+
     gameScreenController.init();
     add(gameScreenController.rootUiControl);
-  }
-
-  @override
-  void onPanUpdate(DragUpdateInfo info) {
-    wordBrick.move(info.delta.game);
   }
 }
