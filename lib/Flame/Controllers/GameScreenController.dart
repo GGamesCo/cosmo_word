@@ -1,6 +1,5 @@
+import 'package:cosmo_word/Flame/UiComponents/Scene.dart';
 import 'package:flame/components.dart';
-import 'package:cosmo_word/UiComponents/Scene.dart';
-
 import '../Models/Events/InputCompletedEventArgs.dart';
 import 'Abstract/ChallengeZoneController.dart';
 import 'Abstract/InputDisplayController.dart';

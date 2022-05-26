@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 
-import '../../main.dart';
+import '../../../main.dart';
+import '../../BrickWordChallenge.dart';
 
 
-class DisplayZone extends SpriteComponent with HasGameRef<SpaceShooterGame> {
+
+
+class DisplayZone extends SpriteComponent with HasGameRef<BrickWordChallenge> {
   @override
   Future<void> onLoad() async {
     sprite = await gameRef.loadSprite('display_zone.png');

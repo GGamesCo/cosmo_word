@@ -1,18 +1,15 @@
 import 'dart:async';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
+import 'package:cosmo_word/Flame/UiComponents/Scene.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flame/effects.dart';
-import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
-import 'package:cosmo_word/Controllers/StubGame/StubChallengeZoneController.dart';
-import 'package:cosmo_word/Controllers/StubGame/StubInputDisplayController.dart';
-import 'package:cosmo_word/Controllers/StubGame/StubUserInputController.dart';
-import 'package:cosmo_word/UiComponents/Scene.dart';
 import 'package:flutter/material.dart';
-import 'package:flame/components.dart';
 import 'package:flame/input.dart';
-
-import 'Controllers/GameScreenController.dart';
+import 'Flame/Controllers/GameScreenController.dart';
+import 'Flame/Controllers/StubGame/StubChallengeZoneController.dart';
+import 'Flame/Controllers/StubGame/StubInputDisplayController.dart';
+import 'Flame/Controllers/StubGame/StubUserInputController.dart';
+import 'Screens/LobbyScreen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -31,7 +28,10 @@ void main() async {
 
   initializeAppsflyer();
 
-  runApp(new MyApp());
+  runApp(MaterialApp(
+    title: 'Navigation Basics',
+    home: LobbyScreen(),
+  ));
 }
 
 void initializeAppsflyer(){
@@ -46,31 +46,4 @@ void initializeAppsflyer(){
     registerOnAppOpenAttributionCallback: true,
     registerOnDeepLinkingCallback: true
 );
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return GameWidget(game: SpaceShooterGame());
-  }
-}
-
-class SpaceShooterGame extends FlameGame with PanDetector, HasTappables, HasCollisionDetection {
-  late Scene wordBrick;
-
-  @override
-  Future<void>? onLoad() {
-    var gameScreenController = GameScreenController(
-        userInputController: StubUserInputController(),
-        challengeController: StubChallengeZoneController(),
-        inputDisplayController: StubInputDisplayController()
-    );
-    gameScreenController.init();
-    add(gameScreenController.rootUiControl);
-  }
-
-  @override
-  void onPanUpdate(DragUpdateInfo info) {
-    wordBrick.move(info.delta.game);
-  }
 }

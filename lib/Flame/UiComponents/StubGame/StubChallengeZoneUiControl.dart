@@ -5,9 +5,11 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
+import '../../../main.dart';
+import '../../BrickWordChallenge.dart';
 
-class StubChallengeZoneUiControl extends RectangleComponent with HasGameRef<SpaceShooterGame> {
+
+class StubChallengeZoneUiControl extends RectangleComponent with HasGameRef<BrickWordChallenge> {
 
 
   StubChallengeZoneUiControl({required position, required size})
