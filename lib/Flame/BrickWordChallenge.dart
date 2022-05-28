@@ -1,4 +1,5 @@
 
+import 'package:cosmo_word/Flame/Controllers/StubGame/StaticBackgroundController.dart';
 import 'package:event/event.dart';
 import 'package:flame/game.dart';
 
@@ -15,9 +16,11 @@ class BrickWordChallenge extends FlameGame with HasTappables, HasCollisionDetect
 
   @override
   Future<void> onLoad() async {
+
     var gameScreenController = GameScreenController(
-        challengeController: StubChallengeZoneController(),
-        inputDisplayController: StubInputDisplayController()
+      backgroundController: StaticBackgroundController(bgImageFile: "green.jpg"),
+      challengeController: StubChallengeZoneController(),
+      inputDisplayController: StubInputDisplayController()
     );
 
     userInputReceivedEvent.subscribe((userInput) {
