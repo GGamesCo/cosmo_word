@@ -1,22 +1,18 @@
-import 'dart:ui';
-
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
-
-import '../../../main.dart';
 import '../../BrickWordChallenge.dart';
 
 
 class StubChallengeZoneUiControl extends RectangleComponent with HasGameRef<BrickWordChallenge> {
-
 
   StubChallengeZoneUiControl({required position, required size})
       : super(position: position, size: size);
 
   @override
   Future<void> onLoad() async {
+    setColor(Colors.transparent);
     var bgImage = await gameRef.loadSprite('rocket_challenge.png');
     var sprite = SpriteComponent(sprite: bgImage, size: size);
     add(sprite);
@@ -41,7 +37,8 @@ class StubChallengeZoneUiControl extends RectangleComponent with HasGameRef<Bric
       EffectController(duration: 0),
     );
 
-    tester.add(effect);
-    add(tester);
+
+    //tester.add(effect);
+    //add(tester);
   }
 }

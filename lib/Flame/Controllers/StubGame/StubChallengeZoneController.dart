@@ -28,10 +28,6 @@ class StubChallengeZoneController implements ChallengeZoneController {
   }
 
   @override
-  Future<void> onStart() async {
-  }
-
-  @override
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
     var pickedWord = _pickRandomListElement(_inputWordsList);
     var pickedColor = _pickRandomListElement(_colorCodes);

@@ -17,7 +17,7 @@ class GameplayLayer extends StatelessWidget{
     return Column(
       children: [
         Container(
-            height: 575, // ??? ???? magic size value. Responsiveness?
+            height: 575, // ??? ???? magic value. Responsiveness?
             child: GameWidget(game: BrickWordChallenge(userInputReceivedEvent: userInputEvent))
         ),
         InputJoystick(userInputEvent: userInputEvent)
