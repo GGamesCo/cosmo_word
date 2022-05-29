@@ -13,8 +13,7 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
 
   final String word;
   final String color;
-
-  double _oneWordWidthK = 50;
+  final int sizeFactor;
 
   Event<BrickCollisionEventArgs> onCollisionDetected = Event<BrickCollisionEventArgs>();
 
@@ -24,7 +23,7 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     'y': Color.fromRGBO(209, 129, 30, 1),
   };
 
-  WordSprite({required this.word, required this.color});
+  WordSprite({required this.word, required this.color, required this.sizeFactor});
 
   @override
   Future<void> onLoad() async {
@@ -33,10 +32,11 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     final image = await Flame.images.load("bricks/${spriteName}");
     sprite = Sprite(image);
 
-    var expectedImgWidth = _oneWordWidthK*word.length;
+    var expectedImgWidth = sizeFactor*word.length;
     var scaleFactor = image.width/expectedImgWidth;
 
     var xPosition = (5-word.length)*20.0;
+    xPosition = 10;
 
     position = Vector2(50+xPosition, 0);
 
@@ -53,11 +53,11 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
       ),
     );
     
-    add(TextComponent(text: word, textRenderer: textPaint, position: Vector2(0, 4)));
+    //add(TextComponent(text: word, textRenderer: textPaint, position: Vector2(0, 4)));
 
     //for layers
-    add(RectangleHitbox.relative(Vector2(1, 0.99), parentSize: size));
-    //add(RectangleHitbox());
+    //add(RectangleHitbox.relative(Vector2(1, 0.99), parentSize: size));
+    add(RectangleHitbox());
   }
 
   @override

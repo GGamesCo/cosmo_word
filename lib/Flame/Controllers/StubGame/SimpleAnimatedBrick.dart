@@ -12,16 +12,17 @@ class SimpleAnimatedBrick {
 
   final String word;
   final String colorCode;
+  final int sizeFactor;
 
   late Component uiElement;
 
   late WordSprite _wordSprite;
   bool _isLanded = false;
 
-  SimpleAnimatedBrick({required this.word, required this.colorCode});
+  SimpleAnimatedBrick({required this.word, required this.colorCode, required this.sizeFactor});
 
   void init(){
-    _wordSprite = WordSprite(word: this.word, color: this.colorCode);
+    _wordSprite = WordSprite(word: this.word, color: this.colorCode, sizeFactor: sizeFactor);
     _wordSprite.onCollisionDetected + _onWordCollisionDetected;
     _setupAnimationsEffects();
     uiElement = _wordSprite;
