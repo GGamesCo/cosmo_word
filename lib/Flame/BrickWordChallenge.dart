@@ -24,7 +24,7 @@ class BrickWordChallenge extends FlameGame with HasTappables, HasDraggables, Has
     var gameScreenController = GameScreenController(
       backgroundController: StaticBackgroundController(bgImageFile: "green.jpg"),
       challengeController: StubChallengeZoneController(),
-      inputDisplayController: StubInputDisplayController()
+      inputDisplayController: StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent)
     );
 
     userInputReceivedEvent.subscribe((userInput) {

@@ -4,14 +4,16 @@ import 'package:flutter/material.dart' show Paint, Color, Colors, Canvas, Offset
 import 'package:event/event.dart';
 
 class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
+
+  Color activeColor = Color.fromRGBO(241, 174, 89, 1);
+  Color inactiveColor = Colors.white;
+
   Paint _paint = Paint()
-    ..color = Color.fromRGBO(241, 174, 89, 1)
+  //  ..color = Color.fromRGBO(241, 174, 89, 1)
     ..strokeWidth = 15;
 
   List<SymbolLocationModel> points = <SymbolLocationModel>[];
   Offset lastCursorPoint = Offset.zero;
-
-  var deactivatingSymbol = Event<Value<String>>();
 
   @override
   Future<void> onLoad() async {
@@ -25,6 +27,7 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
     if (points.isEmpty)
       return;
 
+    _paint.color = isReseting ? inactiveColor : activeColor;
     if (points.length >= 2) {
       for (var i = 1; i < points.length; i++) {
         canvas.drawLine(points[i - 1].position, points[i].position, _paint);
@@ -54,9 +57,6 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
     isReseting = true;
 
     while(points.length > 0){
-
-      deactivatingSymbol.broadcast(Value(points.last.id));
-
       if (points.length > 1)
       {
         await Future.delayed(const Duration(milliseconds: 1), cutLastPoint);

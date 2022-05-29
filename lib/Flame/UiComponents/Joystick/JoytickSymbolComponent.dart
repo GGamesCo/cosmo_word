@@ -62,9 +62,19 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
 
       isActive = toogle;
 
-      btn.scale = Vector2(0.8, 0.8);
-      await Future.delayed(const Duration(milliseconds: 30), () {
-        btn.scale = Vector2(1, 1);
-     } );
+      double scaleFactor = 1;
+      while(scaleFactor > 0.8){
+        scaleFactor -= 0.02;
+        await Future.delayed(const Duration(milliseconds: 10));
+        btn.scale = Vector2(scaleFactor, scaleFactor);
+      }
+
+      while(scaleFactor < 1){
+        scaleFactor += 0.02;
+        await Future.delayed(const Duration(milliseconds: 10));
+        btn.scale = Vector2(scaleFactor, scaleFactor);
+      }
+
+      btn.scale = Vector2(1, 1);
   }
 }

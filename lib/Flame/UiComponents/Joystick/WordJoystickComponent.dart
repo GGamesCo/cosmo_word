@@ -5,6 +5,8 @@ import '../../UiComponents/Joystick/SymbolLocationModel.dart';
 import 'package:flame/components.dart';
 import '../../UiComponents/Joystick/JoytickLineTrackerComponent.dart';
 import 'package:flutter/material.dart' show Offset;
+import 'package:event/event.dart';
+import '../../../../Flame/Models/Events/InputCompletedEventArgs.dart';
 
 class WordJoystickComponent extends SpriteComponent with HasGameRef {
   late JoystickLineTrackerComponent navigator;
@@ -12,7 +14,9 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
 
   List<String> alph = List<String>.empty();
 
-  WordJoystickComponent({required List<String> alph}){
+  final Event<InputCompletedEventArgs> userInputEvent;
+
+  WordJoystickComponent({required List<String> alph, required this.userInputEvent}){
     assert(alph.length >= 3 && alph.length <= 5);
 
     this.alph = alph;
@@ -30,9 +34,6 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
     size = Vector2(uiConfig.size.x, uiConfig.size.y);
 
     navigator = JoystickLineTrackerComponent();
-    navigator.deactivatingSymbol + (arg) => {
-      symbols.firstWhere((element) => element.symbolId == arg!.value).changeStateAnimated(false)
-    };
     add(navigator);
 
     symbols = <JoystickSymbolComponent>[];
@@ -74,18 +75,10 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
     if (!navigator.points.map((x) => x.id).contains(arg.symbolId)) {
       navigator.points
           .add(SymbolLocationModel(arg.symbolId, startSymbolLocation));
+      symbols.firstWhere((element) => element.symbolId == arg.symbolId).changeStateAnimated(true);
     }
 
-    var lineStartPosition = symbols
-        .firstWhere((element) => element.symbolId == arg.symbolId)
-        .position;
     var lineEndPosition = arg.location;
-
-    // Add start symbol location
-    if (navigator.points.isEmpty) {
-      navigator.points.add(SymbolLocationModel(
-          arg.symbolId, Offset(lineStartPosition.x, lineStartPosition.y)));
-    }
 
     // Init current cursor position
     navigator.lastCursorPoint = Offset(lineEndPosition.x, lineEndPosition.y);
@@ -96,21 +89,17 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
         existIntersections = true;
         if (!navigator.points.map((x) => x.id).contains(symbol.symbolId) && symbol.symbolId != ignoredSymbol) {
           navigator.points.add(SymbolLocationModel(symbol.symbolId, Offset(symbol.x, symbol.y)));
-          symbol.isActive = true;
+          symbol.changeStateAnimated(true);
           cursorAlreadyLeaveLastSymbol = false;
         }
         else if (navigator.points.last.id == symbol.symbolId){
           if (cursorAlreadyLeaveLastSymbol){
             ignoredSymbol = navigator.points.last.id;
             navigator.points.removeLast();
+            symbol.changeStateAnimated(false);
           }
         }
       }
-
-      // Highlight all selected symbols
-      //symbol.isActive =
-      //    ;
-      symbol.changeStateAnimated(navigator.points.map((e) => e.id).contains(symbol.symbolId));
     }
 
     if (!existIntersections){
@@ -125,12 +114,16 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
           "Wrong end event. Expected drag end for symbol ${navigator.points.first.id} but occured for ${arg.symbolId}");
 
     // #Usage: Remove from here and Call outside Reset if Word accepted and ResetAnimated if declined
+    String inputResult = "";
+    navigator.points.forEach((element) { inputResult += element.id;});
+    userInputEvent.broadcast(InputCompletedEventArgs(inputResult));
     reset();
+
   }
 
   void reset() {
     navigator.resetAnimated();
-  //  symbols.forEach((element) => element.isActive = false);
+    symbols.where((element) => element.isActive).forEach((element) {element.changeStateAnimated(false);});
 
     print("Reset.");
   }
