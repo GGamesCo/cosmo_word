@@ -22,17 +22,16 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
   void render(Canvas canvas) {
     super.render(canvas);
 
-    if (points.length >= 2){
-      for (var i = 1; i < points.length; i++){
-        canvas.drawLine(points[i-1].position, points[i].position, _paint);
-      }
+    if (points.isEmpty)
+      return;
 
-      if(!isReseting)
-        canvas.drawLine(points.last.position, lastCursorPoint, _paint);
-    } else if(points.length == 1){
-      if(!isReseting)
-        canvas.drawLine(points.last.position, lastCursorPoint, _paint);
+    if (points.length >= 2) {
+      for (var i = 1; i < points.length; i++) {
+        canvas.drawLine(points[i - 1].position, points[i].position, _paint);
+      }
     }
+      if(!isReseting)
+        canvas.drawLine(points.last.position, lastCursorPoint, _paint);
   }
 
   void updateLastPoint(Offset point){
@@ -57,7 +56,7 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
 
       if (points.length > 1)
       {
-        await Future.delayed(const Duration(microseconds: 950), cutLastPoint);
+        await Future.delayed(const Duration(microseconds: 1000), cutLastPoint);
       }
       else
       {

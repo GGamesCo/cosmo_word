@@ -1,16 +1,16 @@
 import 'package:cosmo_word/UiComponents/Joystick/DragPointerLocation.dart';
+import 'package:cosmo_word/UiComponents/Joystick/JoystickSymbolSpriteComponent.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart' show Paint, Colors, Canvas;
 import 'package:event/event.dart';
-import 'package:flutter/painting.dart';
 
 class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable{
-  Paint _paint = Paint();
-
   String symbolId;
+
   Vector2 cursorPosition = new Vector2(0, 0);
   bool isActive  = false;
+  late JoystickSymbolSpriteComponent btn;
 
   var draggUpdate = Event<SymbolPointerLocation>();
   var dragEnd = Event<SymbolPointerLocation>();
@@ -20,22 +20,18 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    width = 50;
-    height = 50;
+    width = 40;
+    height = 40;
     anchor = Anchor.center;
 
-    var textComponent = TextComponent()
-    ..text = symbolId
-    ..textRenderer = TextPaint(style: TextStyle(color: Colors.black, fontSize: 32));
-
-    add(textComponent);
+    btn = JoystickSymbolSpriteComponent(this.symbolId);
+    add(btn);
   }
 
   @override
   void render(Canvas canvas){
     super.render(canvas);
-    _paint.color = isActive ? Colors.red : Colors.white;
-    canvas.drawRect(size.toRect(), _paint);
+    btn.paint.color = isActive ? Colors.red : Colors.white;
   }
 
   @override
@@ -59,5 +55,18 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
   bool isPointInsideSymbol(Vector2 point){
     return point.x >= (position + transform.offset).x && point.y >= (position + transform.offset).y
         && point.x <= (position + transform.offset + size).x && point.y <=  (position + transform.offset + size).y;
+  }
+
+  Future<void> changeStateAnimated(bool toogle) async {
+      if (isActive == toogle){
+        return;
+      }
+
+      isActive = toogle;
+
+      btn.scale = Vector2(0.8, 0.8);
+      await Future.delayed(const Duration(milliseconds: 30), () {
+        btn.scale = Vector2(1, 1);
+     } );
   }
 }

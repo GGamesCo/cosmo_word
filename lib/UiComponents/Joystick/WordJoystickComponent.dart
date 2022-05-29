@@ -18,7 +18,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
 
     navigator = JoystickLineTrackerComponent();
     navigator.deactivatingSymbol + (arg) => {
-      symbols.firstWhere((element) => element.symbolId == arg!.value).isActive = false
+      symbols.firstWhere((element) => element.symbolId == arg!.value).changeStateAnimated(false)
     };
     add(navigator);
 
@@ -87,6 +87,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
         existIntersections = true;
         if (!navigator.points.map((x) => x.id).contains(symbol.symbolId) && symbol.symbolId != ignoredSymbol) {
           navigator.points.add(SymbolLocationModel(symbol.symbolId, Offset(symbol.x, symbol.y)));
+          symbol.changeStateAnimated(true);
           cursorAlreadyLeaveLastSymbol = false;
         }
         else if (navigator.points.last.id == symbol.symbolId){
