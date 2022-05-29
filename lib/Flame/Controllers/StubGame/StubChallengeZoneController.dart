@@ -28,11 +28,14 @@ class StubChallengeZoneController implements ChallengeZoneController {
   @override
   Future<void> init() async {
     _completedWordsZoneController = CompletedWordsZoneController(
-      viewportSize: Vector2(300, 400),
-      viewportPosition: Vector2(50, 100),
-      containerSize: Vector2(200, 300),
-      containerPosition: Vector2(50, 10),
-      brickSizeFactor: 20
+      viewportSize: Vector2(280, 500),
+      viewportPosition: Vector2(0, 0),
+      requiredBrickHeight: 20,
+      initialScrollOffset: 0,
+      fullContainerHeight: 800,
+      containerScrollThreshold: 0.6,
+      containerScrollStepSize: 0.2,
+      scrollAnimDurationSec: 1.5
     );
     _completedWordsZoneController.init();
     rootUiControl.add(_completedWordsZoneController.rootUiControl);

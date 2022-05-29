@@ -1,27 +1,22 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 
 import '../../BrickWordChallenge.dart';
-import '../../Controllers/StubGame/SimpleAnimatedBrick.dart';
-import '../../Models/CompletedBrickData.dart';
 
 class CompletedWordsZoneUiControl extends RectangleComponent with HasGameRef<BrickWordChallenge> {
 
   final Vector2 viewportSize;
   final Vector2 viewportPosition;
-
-  final Vector2 containerSize;
-  final Vector2 containerPosition;
-
-  final int brickSizeFactor;
+  final double bricksContainerHeight;
+  double scrollOffset;
 
   CompletedWordsZoneUiControl({
     required this.viewportSize,
     required this.viewportPosition,
-    required this.containerSize,
-    required this.containerPosition,
-    required this.brickSizeFactor
+    required this.bricksContainerHeight,
+    required this.scrollOffset
   }) : super(position: viewportPosition, size: viewportSize);
 
   late RectangleComponent _bricksContainer;
@@ -30,19 +25,22 @@ class CompletedWordsZoneUiControl extends RectangleComponent with HasGameRef<Bri
   Future<void> onLoad() async {
     setColor(Colors.blue);
 
-    _bricksContainer = RectangleComponent(size: containerSize, position: containerPosition);
+    _bricksContainer = RectangleComponent(
+        size: Vector2(viewportSize.x, bricksContainerHeight + scrollOffset),
+        position: Vector2(0, viewportSize.y)
+    );
+    _bricksContainer.anchor = Anchor.bottomLeft;
     _bricksContainer.setColor(Colors.red);
+     add(_bricksContainer);
 
     var floorHitbox = RectangleHitbox(
         position: Vector2(
             0,
-            _bricksContainer.height-1
+            _bricksContainer.height - 1
         ),
-        size: Vector2(width, 1)
+        size: Vector2(_bricksContainer.width, 1)
     );
-    add(floorHitbox);
-
-    add(_bricksContainer);
+    _bricksContainer.add(floorHitbox);
   }
 
   void attachNewBrick(Component brick){
@@ -53,6 +51,18 @@ class CompletedWordsZoneUiControl extends RectangleComponent with HasGameRef<Bri
   void render(Canvas canvas) {
     super.render(canvas);
     canvas.clipRect(this.size.toRect());
+  }
+
+  void updateScrollOffset(double scrollStepSize, double duration) {
+    scrollOffset = scrollOffset + scrollStepSize;
+    //_bricksContainer.position.y = bricksContainerHeight + scrollOffset;
+
+    var scrollEffect = MoveAlongPathEffect(
+      Path() ..quadraticBezierTo(0, 0, 0, scrollStepSize),
+      EffectController(duration: duration),
+    );
+
+    _bricksContainer.add(scrollEffect);
   }
 
 }

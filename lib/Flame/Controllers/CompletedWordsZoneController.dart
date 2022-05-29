@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cosmo_word/Flame/Controllers/Abstract/UiControllerBase.dart';
 import 'package:flame/components.dart';
 import 'package:flame/src/components/component.dart';
@@ -10,42 +12,68 @@ class CompletedWordsZoneController extends UiControllerBase{
 
   final Vector2 viewportSize;
   final Vector2 viewportPosition;
-  final Vector2 containerSize;
-  final Vector2 containerPosition;
-  final int brickSizeFactor;
+  final double requiredBrickHeight;
+  final double initialScrollOffset;
+  final double fullContainerHeight;
+  final double containerScrollThreshold;
+  final double containerScrollStepSize;
+  final double scrollAnimDurationSec;
+
+  late Vector2 containerSize;
+  late Vector2 containerPosition;
+
 
   late CompletedWordsZoneUiControl rootUiControl;
-  int _currentBrickPriority = 1000;
+  int _currentBrickNumber = 0;
 
   CompletedWordsZoneController({
     required this.viewportSize,
     required this.viewportPosition,
-    required this.containerSize,
-    required this.containerPosition,
-    required this.brickSizeFactor
+    required this.requiredBrickHeight,
+    required this.initialScrollOffset,
+    required this.fullContainerHeight,
+    required this.containerScrollThreshold,
+    required this.containerScrollStepSize,
+    required this.scrollAnimDurationSec
   });
 
   @override
   Future<void> init() async {
     rootUiControl = CompletedWordsZoneUiControl(
-        viewportSize: viewportSize,
-        viewportPosition: viewportPosition,
-        containerSize: containerSize,
-        containerPosition: containerPosition,
-        brickSizeFactor: brickSizeFactor
+      viewportSize: viewportSize,
+      viewportPosition: viewportPosition,
+      bricksContainerHeight: fullContainerHeight,
+      scrollOffset: initialScrollOffset
     );
   }
 
   void renderNewBrick(CompletedBrickData newBrickData){
+
+    var normalizedSpawnHeight = fullContainerHeight > viewportSize.y ? fullContainerHeight - viewportSize.y - rootUiControl.scrollOffset : 0;
+    var normalizedFallDistance = min(fullContainerHeight, viewportSize.y);
+
     var brickInstance = SimpleAnimatedBrick(
-        word: newBrickData.word,
-        colorCode: newBrickData.colorCode,
-        sizeFactor: this.brickSizeFactor
+      word: newBrickData.word,
+      colorCode: newBrickData.colorCode,
+      requiredBrickHeight: requiredBrickHeight,
+      spawnHeight: normalizedSpawnHeight*1,
+      fallDistance: normalizedFallDistance
     );
     brickInstance.init();
-    brickInstance.uiElement.priority = _currentBrickPriority--;
+    brickInstance.uiElement.priority = 1000 - _currentBrickNumber++;
 
     rootUiControl.attachNewBrick(brickInstance.uiElement);
+    validateScrollOffset();
+  }
+
+  void validateScrollOffset(){
+    var viewportHeight = viewportSize.y;
+    var alreadyFilledHeight = _currentBrickNumber*requiredBrickHeight-rootUiControl.scrollOffset;
+
+    var filledPart = alreadyFilledHeight / viewportHeight;
+    if(filledPart > containerScrollThreshold){
+      rootUiControl.updateScrollOffset(viewportHeight*containerScrollStepSize, scrollAnimDurationSec);
+    }
   }
 
   @override
