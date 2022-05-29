@@ -6,7 +6,7 @@ import 'package:flame/components.dart';
 import '../../Models/Events/InputCompletedEventArgs.dart';
 import '../../UiComponents/StubGame/StubChallengeZoneUiControl.dart';
 import '../Abstract/ChallengeZoneController.dart';
-import 'SimpleBrickFallAnimationController.dart';
+import 'SimpleAnimatedBrick.dart';
 
 class StubChallengeZoneController implements ChallengeZoneController {
 
@@ -14,6 +14,8 @@ class StubChallengeZoneController implements ChallengeZoneController {
   List<String> _colorCodes = ['y', 'g', 'r'];
 
   Random _random = new Random();
+
+  int _currentBrickPriority = 1000;
 
   @override
   late Component rootUiControl;
@@ -33,6 +35,7 @@ class StubChallengeZoneController implements ChallengeZoneController {
     var pickedColor = _pickRandomListElement(_colorCodes);
     var wordController = SimpleAnimatedBrick(word: pickedWord, colorCode: pickedColor);
     wordController.init();
+    wordController.uiElement.priority = _currentBrickPriority--;
     rootUiControl.add(wordController.uiElement);
   }
 

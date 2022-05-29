@@ -56,8 +56,8 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     add(TextComponent(text: word, textRenderer: textPaint, position: Vector2(0, 4)));
 
     //for layers
-    //add(RectangleHitbox.relative(Vector2(1, 0.95), parentSize: size));
-    add(RectangleHitbox());
+    add(RectangleHitbox.relative(Vector2(1, 0.99), parentSize: size));
+    //add(RectangleHitbox());
   }
 
   @override

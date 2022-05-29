@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
-import '../../../BrickWordChallenge.dart';
+import '../../BrickWordChallenge.dart';
+
 
 class InputDisplayZoneGlass extends SpriteComponent with HasGameRef<BrickWordChallenge> {
   @override

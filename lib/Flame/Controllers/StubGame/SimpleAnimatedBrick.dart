@@ -31,7 +31,7 @@ class SimpleAnimatedBrick {
   void _setupAnimationsEffects(){
     final fallEffect = MoveAlongPathEffect(
       Path() ..quadraticBezierTo(0, 0, 0, 500),
-      EffectController(duration: 2),
+      EffectController(duration: 1.5),
     );
 
     var turnSign = _random.nextBool() ? 1 : -1;
@@ -39,6 +39,7 @@ class SimpleAnimatedBrick {
 
     _wordSprite.add(fallEffect);
     _wordSprite.add(flyRotateEffect);
+
   }
 
   void _onWordCollisionDetected(BrickCollisionEventArgs? args) {
