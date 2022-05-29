@@ -2,9 +2,9 @@ import 'package:event/event.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 
-class SymbolPointerLocation extends EventArgs{
+class SymbolPointerLocationArgs extends EventArgs{
   String symbolId;
   Vector2 location;
 
-  SymbolPointerLocation(this.symbolId, this.location);
+  SymbolPointerLocationArgs(this.symbolId, this.location);
 }

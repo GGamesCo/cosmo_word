@@ -1,5 +1,5 @@
-import 'package:cosmo_word/UiComponents/Joystick/DragPointerLocation.dart';
-import 'package:cosmo_word/UiComponents/Joystick/JoystickSymbolSpriteComponent.dart';
+import '../../UiComponents/Joystick/DragPointerLocation.dart';
+import '../../UiComponents/Joystick/JoystickSymbolSpriteComponent.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart' show Paint, Colors, Canvas;
@@ -12,16 +12,14 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
   bool isActive  = false;
   late JoystickSymbolSpriteComponent btn;
 
-  var draggUpdate = Event<SymbolPointerLocation>();
-  var dragEnd = Event<SymbolPointerLocation>();
+  var draggUpdate = Event<SymbolPointerLocationArgs>();
+  var dragEnd = Event<SymbolPointerLocationArgs>();
 
   JoystickSymbolComponent(this.symbolId);
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    width = 50;
-    height = 50;
     anchor = Anchor.center;
 
     btn = JoystickSymbolSpriteComponent(this.symbolId);
@@ -41,14 +39,14 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
     var localEventPosition = event.eventPosition.game - parentPosition;
 
     cursorPosition = Vector2(localEventPosition.x > 0 ? localEventPosition.x : 0, localEventPosition.y > 0 ? localEventPosition.y : 0);
-    draggUpdate.broadcast(SymbolPointerLocation(symbolId, cursorPosition));
+    draggUpdate.broadcast(SymbolPointerLocationArgs(symbolId, cursorPosition));
     return false;
   }
 
   @override
   bool onDragEnd(DragEndInfo event){
     print("Symbol drag end.");
-    dragEnd.broadcast(SymbolPointerLocation(symbolId, event.velocity));
+    dragEnd.broadcast(SymbolPointerLocationArgs(symbolId, event.velocity));
     return false;
   }
 

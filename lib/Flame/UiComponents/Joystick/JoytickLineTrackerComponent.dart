@@ -1,4 +1,4 @@
-import 'package:cosmo_word/UiComponents/Joystick/SymbolLocationModel.dart';
+import '../../UiComponents/Joystick/SymbolLocationModel.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart' show Paint, Color, Colors, Canvas, Offset;
 import 'package:event/event.dart';
@@ -48,6 +48,9 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
 
   bool isReseting = false;
   Future<void> resetAnimated() async{
+    if(isReseting)
+      return;
+
     isReseting = true;
 
     while(points.length > 0){

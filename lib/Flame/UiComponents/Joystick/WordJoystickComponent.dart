@@ -1,20 +1,33 @@
-import 'package:cosmo_word/UiComponents/Joystick/DragPointerLocation.dart';
-import 'package:cosmo_word/UiComponents/Joystick/JoytickSymbolComponent.dart';
-import 'package:cosmo_word/UiComponents/Joystick/SymbolLocationModel.dart';
+import 'package:cosmo_word/Flame/UiComponents/Joystick/JoystickUiConfig.dart';
+import '../../UiComponents/Joystick/DragPointerLocation.dart';
+import '../../UiComponents/Joystick/JoytickSymbolComponent.dart';
+import '../../UiComponents/Joystick/SymbolLocationModel.dart';
 import 'package:flame/components.dart';
-import 'package:cosmo_word/UiComponents/Joystick/JoytickLineTrackerComponent.dart';
+import '../../UiComponents/Joystick/JoytickLineTrackerComponent.dart';
 import 'package:flutter/material.dart' show Offset;
 
 class WordJoystickComponent extends SpriteComponent with HasGameRef {
   late JoystickLineTrackerComponent navigator;
   late List<JoystickSymbolComponent> symbols;
 
+  List<String> alph = List<String>.empty();
+
+  WordJoystickComponent({required List<String> alph}){
+    assert(alph.length >= 3 && alph.length <= 5);
+
+    this.alph = alph;
+}
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    anchor = Anchor.center;
-    sprite = await gameRef.loadSprite('joystick_bg.jpg');
-    position = gameRef.size / 2;
+    anchor = Anchor.topCenter;
+    sprite = await gameRef.loadSprite('widget/joystickBg.png');
+
+
+    var uiConfig = JoystickUiConfig();
+    position = Vector2(gameRef.size.x / 2, gameRef.size.y - uiConfig.size.y);
+    size = Vector2(uiConfig.size.x, uiConfig.size.y);
 
     navigator = JoystickLineTrackerComponent();
     navigator.deactivatingSymbol + (arg) => {
@@ -23,17 +36,13 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
     add(navigator);
 
     symbols = <JoystickSymbolComponent>[];
-    symbols.add(JoystickSymbolComponent("A")
-      ..position = Vector2(size.x * 0.2, size.y * 0.5));
 
-    symbols.add(JoystickSymbolComponent("B")
-      ..position = Vector2(size.x * 0.5, size.y * 0.2));
-
-    symbols.add(JoystickSymbolComponent("С")
-      ..position = Vector2(size.x * 0.8, size.y * 0.5));
-
-    symbols.add(JoystickSymbolComponent("D")
-      ..position = Vector2(size.x * 0.5, size.y * 0.8));
+    var btnsConfig = uiConfig.configs[alph.length]!;
+    for (var i = 0; i < alph.length; i++){
+      symbols.add(JoystickSymbolComponent(alph[i])
+        ..position = btnsConfig[i].position
+        ..size = btnsConfig[i].size);
+    }
 
     for (var symbol in symbols) {
       add(symbol);
@@ -52,7 +61,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
   bool cursorAlreadyLeaveLastSymbol = false;
   String ignoredSymbol = "";
 
-  void onDraggUpdate(SymbolPointerLocation arg) {
+  void onDraggUpdate(SymbolPointerLocationArgs arg) {
     if (navigator.points.isNotEmpty &&
         navigator.points.first.id != arg.symbolId) {
       reset();
@@ -87,7 +96,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
         existIntersections = true;
         if (!navigator.points.map((x) => x.id).contains(symbol.symbolId) && symbol.symbolId != ignoredSymbol) {
           navigator.points.add(SymbolLocationModel(symbol.symbolId, Offset(symbol.x, symbol.y)));
-          symbol.changeStateAnimated(true);
+          symbol.isActive = true;
           cursorAlreadyLeaveLastSymbol = false;
         }
         else if (navigator.points.last.id == symbol.symbolId){
@@ -99,8 +108,9 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
       }
 
       // Highlight all selected symbols
-      symbol.isActive =
-          navigator.points.map((e) => e.id).contains(symbol.symbolId);
+      //symbol.isActive =
+      //    ;
+      symbol.changeStateAnimated(navigator.points.map((e) => e.id).contains(symbol.symbolId));
     }
 
     if (!existIntersections){
@@ -109,7 +119,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
     }
   }
 
-  void onDragEnd(SymbolPointerLocation arg) {
+  void onDragEnd(SymbolPointerLocationArgs arg) {
     if (navigator.points.first.id != arg.symbolId)
       throw Exception(
           "Wrong end event. Expected drag end for symbol ${navigator.points.first.id} but occured for ${arg.symbolId}");
