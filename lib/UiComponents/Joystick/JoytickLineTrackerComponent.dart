@@ -56,7 +56,7 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
 
       if (points.length > 1)
       {
-        await Future.delayed(const Duration(microseconds: 1000), cutLastPoint);
+        await Future.delayed(const Duration(milliseconds: 1), cutLastPoint);
       }
       else
       {
@@ -78,11 +78,11 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
     double y = 0;
 
     if (endPos.dx > startPos.dx){
-      x = endPos.dx - 1;
+      x = endPos.dx - 2;
       if (x < startPos.dx)
         x = startPos.dx;
     } else if (endPos.dx < startPos.dx){
-      x = endPos.dx + 1;
+      x = endPos.dx + 2;
       if (x > startPos.dx)
         x = startPos.dx;
     } else if (startPos.dx == endPos.dx){
