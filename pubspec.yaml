@@ -60,6 +60,7 @@ flutter:
     - assets/images/backgrounds/
     - assets/images/bricks/
     - assets/images/input_display/
+    - assets/images/widget/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

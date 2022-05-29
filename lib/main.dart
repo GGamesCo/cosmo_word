@@ -4,10 +4,16 @@ import 'package:cosmo_word/Flame/UiComponents/Scene.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Screens/LobbyScreen/LobbyScreen.dart';
+import 'package:flame/game.dart';
+import 'package:cosmo_word/Controllers/StubGame/StubChallengeZoneController.dart';
+import 'package:cosmo_word/Controllers/StubGame/StubInputDisplayController.dart';
+import 'package:cosmo_word/Controllers/StubGame/StubUserInputController.dart';
+import 'package:flutter/material.dart';
+import 'Controllers/GameScreenController.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
-
   // Firebase initialization
   if (Firebase.apps.isEmpty) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -28,16 +34,38 @@ void main() async {
   ));
 }
 
-void initializeAppsflyer(){
-  AppsFlyerOptions appsFlyerOptions = AppsFlyerOptions(
-        afDevKey: "MeYXSnbosTs2hTceWK9U6Q",
-        showDebug: true);
+void initializeAppsflyer() {
+  AppsFlyerOptions appsFlyerOptions =
+      AppsFlyerOptions(afDevKey: "MeYXSnbosTs2hTceWK9U6Q", showDebug: true);
 
   AppsflyerSdk appsflyerSdk = AppsflyerSdk(appsFlyerOptions);
 
   appsflyerSdk.initSdk(
-    registerConversionDataCallback: true,
-    registerOnAppOpenAttributionCallback: true,
-    registerOnDeepLinkingCallback: true
-);
+      registerConversionDataCallback: true,
+      registerOnAppOpenAttributionCallback: true,
+      registerOnDeepLinkingCallback: true);
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GameWidget(game: SpaceShooterGame());
+  }
+}
+
+class SpaceShooterGame extends FlameGame with HasTappables, HasDraggables {
+  late GameScreenController gameScreenController;
+
+  @override
+  bool debugMode = false;
+
+  @override
+  Future<void>? onLoad() {
+    gameScreenController = GameScreenController(
+        userInputController: StubUserInputController(),
+        challengeController: StubChallengeZoneController(),
+        inputDisplayController: StubInputDisplayController());
+    gameScreenController.init();
+    add(gameScreenController.rootUiControl);
+  }
 }

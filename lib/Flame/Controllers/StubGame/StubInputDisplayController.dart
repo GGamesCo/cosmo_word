@@ -4,6 +4,7 @@ import '../../Models/Events/InputCompletedEventArgs.dart';
 import '../../UiComponents/StubGame/DisplayZone.dart';
 import '../../UiComponents/StubGame/InputDisplayZone/InputDisplayZoneCover.dart';
 import '../Abstract/InputDisplayController.dart';
+import '../../UiComponents/Joystick/WordJoystickComponent.dart';
 
 class StubInputDisplayController implements InputDisplayController {
   @override
@@ -12,10 +13,13 @@ class StubInputDisplayController implements InputDisplayController {
   StubInputDisplayController(){
     var rectangle = RectangleComponent();
 
-    rectangle.add(InputDisplayZoneGlass());
-    rectangle.add(InputDisplayZoneCover());
+    rectangle.add(WordJoystickComponent(
+      alph: ['U', 'D', 'O', 'C', 'L'] // Array must be of size 3 - 5
+    ));
+    // rectangle.add(InputDisplayZoneGlass());
+    // rectangle.add(InputDisplayZoneCover());
 
-    rectangle.position = Vector2(0, 500);
+    rectangle.position = Vector2(0, 0);
 
     rootUiControl = rectangle;
   }

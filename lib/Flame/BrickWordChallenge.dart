@@ -8,11 +8,15 @@ import 'Controllers/StubGame/StubChallengeZoneController.dart';
 import 'Controllers/StubGame/StubInputDisplayController.dart';
 import 'Models/Events/InputCompletedEventArgs.dart';
 
-class BrickWordChallenge extends FlameGame with HasTappables, HasCollisionDetection {
+class BrickWordChallenge extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection {
 
   final Event<InputCompletedEventArgs> userInputReceivedEvent;
 
   BrickWordChallenge({required this.userInputReceivedEvent});
+
+  // Uncomment to see components outlines
+  // @override
+  // bool debugMode = true;
 
   @override
   Future<void> onLoad() async {
