@@ -18,6 +18,9 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
     position = gameRef.size / 2;
 
     navigator = JoystickLineTrackerComponent();
+    navigator.deactivatingSymbol + (arg) => {
+      symbols.firstWhere((element) => element.symbolId == arg!.value).isActive = false
+    };
     add(navigator);
 
     symbols = <JoystickSymbolComponent>[];
@@ -29,6 +32,9 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
 
     symbols.add(JoystickSymbolComponent("С")
       ..position = Vector2(size.x * 0.8, size.y * 0.5));
+
+    symbols.add(JoystickSymbolComponent("D")
+      ..position = Vector2(size.x * 0.5, size.y * 0.8));
 
     for (var symbol in symbols) {
       add(symbol);
@@ -112,8 +118,8 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
   }
 
   void reset() {
-    navigator.reset();
-    symbols.forEach((element) => element.isActive = false);
+    navigator.resetAnimated();
+  //  symbols.forEach((element) => element.isActive = false);
 
     print("Reset.");
   }

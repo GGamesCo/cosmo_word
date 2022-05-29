@@ -3,6 +3,7 @@ import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart' show Paint, Colors, Canvas;
 import 'package:event/event.dart';
+import 'package:flutter/painting.dart';
 
 class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable{
   Paint _paint = Paint();
@@ -22,6 +23,12 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
     width = 50;
     height = 50;
     anchor = Anchor.center;
+
+    var textComponent = TextComponent()
+    ..text = symbolId
+    ..textRenderer = TextPaint(style: TextStyle(color: Colors.black, fontSize: 32));
+
+    add(textComponent);
   }
 
   @override

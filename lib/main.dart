@@ -56,7 +56,7 @@ class SpaceShooterGame extends FlameGame with HasTappables, HasDraggables {
   late GameScreenController gameScreenController;
 
   @override
-  bool debugMode = true;
+  bool debugMode = false;
 
   @override
   Future<void>? onLoad() {
