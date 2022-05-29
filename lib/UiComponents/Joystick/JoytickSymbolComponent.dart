@@ -20,8 +20,8 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    width = 40;
-    height = 40;
+    width = 50;
+    height = 50;
     anchor = Anchor.center;
 
     btn = JoystickSymbolSpriteComponent(this.symbolId);
@@ -31,7 +31,7 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
   @override
   void render(Canvas canvas){
     super.render(canvas);
-    btn.paint.color = isActive ? Colors.red : Colors.white;
+    btn.isActive = isActive;
   }
 
   @override

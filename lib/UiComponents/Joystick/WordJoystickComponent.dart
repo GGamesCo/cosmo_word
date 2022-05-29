@@ -114,6 +114,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
       throw Exception(
           "Wrong end event. Expected drag end for symbol ${navigator.points.first.id} but occured for ${arg.symbolId}");
 
+    // #Usage: Remove from here and Call outside Reset if Word accepted and ResetAnimated if declined
     reset();
   }
 

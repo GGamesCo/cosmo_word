@@ -1,12 +1,12 @@
 import 'package:cosmo_word/UiComponents/Joystick/SymbolLocationModel.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart' show Paint, Colors, Canvas, Offset;
+import 'package:flutter/material.dart' show Paint, Color, Colors, Canvas, Offset;
 import 'package:event/event.dart';
 
 class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
-  static Paint _paint = Paint()
-    ..color = Colors.yellow
-    ..strokeWidth = 5;
+  Paint _paint = Paint()
+    ..color = Color.fromRGBO(241, 174, 89, 1)
+    ..strokeWidth = 15;
 
   List<SymbolLocationModel> points = <SymbolLocationModel>[];
   Offset lastCursorPoint = Offset.zero;
