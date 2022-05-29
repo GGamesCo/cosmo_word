@@ -38,19 +38,6 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
     canvas.drawRect(size.toRect(), _paint);
   }
 
-  // @override
-  // bool onTapDown(TapDownInfo arg){
-  //   print("Global tap position: "+ arg.raw.globalPosition.toString());
-  //   print("Local tap position: "+ arg.raw.localPosition.toString());
-  //   return true;
-  // }
-
-  // @override
-  // bool onDragStart(DragStartInfo event) {
-  //   print("Drag start position: "+ event.eventPosition.game.toString());
-  //   return false;
-  // }
-
   @override
   bool onDragUpdate(DragUpdateInfo event){
     var parentComponent = (parent as PositionComponent);
@@ -59,8 +46,7 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
 
     cursorPosition = Vector2(localEventPosition.x > 0 ? localEventPosition.x : 0, localEventPosition.y > 0 ? localEventPosition.y : 0);
     draggUpdate.broadcast(SymbolPointerLocation(symbolId, cursorPosition));
-  //  print("Cursor: " + cursorPosition.toString());
-    return true;
+    return false;
   }
 
   @override

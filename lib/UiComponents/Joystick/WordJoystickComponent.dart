@@ -3,8 +3,7 @@ import 'package:cosmo_word/UiComponents/Joystick/JoytickSymbolComponent.dart';
 import 'package:cosmo_word/UiComponents/Joystick/SymbolLocationModel.dart';
 import 'package:flame/components.dart';
 import 'package:cosmo_word/UiComponents/Joystick/JoytickLineTrackerComponent.dart';
-import 'package:flame/input.dart';
-import 'package:flutter/material.dart' show Paint, Colors, Canvas, Offset;
+import 'package:flutter/material.dart' show Offset;
 
 class WordJoystickComponent extends SpriteComponent with HasGameRef {
   late JoystickLineTrackerComponent navigator;

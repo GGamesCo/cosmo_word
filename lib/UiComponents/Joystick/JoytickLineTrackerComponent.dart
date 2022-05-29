@@ -36,7 +36,7 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
   }
 
   void updateLastPoint(Offset point){
-    if(points.isEmpty)
+    if (points.isEmpty)
       throw Exception("No points to update.");
 
     lastCursorPoint = point;

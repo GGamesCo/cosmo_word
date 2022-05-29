@@ -1,16 +1,11 @@
 import 'dart:async';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flame/effects.dart';
-import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:cosmo_word/Controllers/StubGame/StubChallengeZoneController.dart';
 import 'package:cosmo_word/Controllers/StubGame/StubInputDisplayController.dart';
 import 'package:cosmo_word/Controllers/StubGame/StubUserInputController.dart';
-import 'package:cosmo_word/UiComponents/Scene.dart';
 import 'package:flutter/material.dart';
-import 'package:flame/components.dart';
-import 'package:flame/input.dart';
 
 import 'Controllers/GameScreenController.dart';
 import 'firebase_options.dart';
