@@ -14,6 +14,7 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
   final String word;
   final String color;
   final double requiredBrickHeight;
+  final double spawnX;
 
   Event<BrickCollisionEventArgs> onCollisionDetected = Event<BrickCollisionEventArgs>();
 
@@ -23,7 +24,12 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     'y': Color.fromRGBO(209, 129, 30, 1),
   };
 
-  WordSprite({required this.word, required this.color, required this.requiredBrickHeight});
+  WordSprite({
+    required this.word,
+    required this.color,
+    required this.requiredBrickHeight,
+    required this.spawnX
+  });
 
   @override
   Future<void> onLoad() async {
@@ -33,15 +39,11 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     sprite = Sprite(image);
 
     var scaleFactor = image.height/requiredBrickHeight;
-
-    var xPosition = (5-word.length)*20.0;
-    xPosition = 10;
-
-    position = Vector2(50+xPosition, 0);
-
     width = image.width/scaleFactor;
     height = requiredBrickHeight;
-    anchor = Anchor.topLeft;
+
+    anchor = Anchor.topCenter;
+    position = Vector2(spawnX, 0);
 
     var textPaint = TextPaint(
       style: TextStyle(

@@ -26,8 +26,8 @@ class CompletedWordsZoneUiControl extends RectangleComponent with HasGameRef<Bri
     setColor(Colors.blue);
 
     _bricksContainer = RectangleComponent(
-        size: Vector2(viewportSize.x, bricksContainerHeight + scrollOffset),
-        position: Vector2(0, viewportSize.y)
+        size: Vector2(viewportSize.x, bricksContainerHeight),
+        position: Vector2(0, viewportSize.y + scrollOffset)
     );
     _bricksContainer.anchor = Anchor.bottomLeft;
     _bricksContainer.setColor(Colors.red);

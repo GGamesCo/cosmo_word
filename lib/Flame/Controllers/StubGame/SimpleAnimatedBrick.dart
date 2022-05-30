@@ -5,7 +5,7 @@ import 'package:event/event.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 
-import '../../UiComponents/StubGame/WordSprite.dart';
+import '../../UiComponents/CompletedWordsZone/WordSprite.dart';
 
 class SimpleAnimatedBrick {
   final Random _random = Random();
@@ -13,7 +13,8 @@ class SimpleAnimatedBrick {
   final String word;
   final String colorCode;
   final double requiredBrickHeight;
-  final double spawnHeight;
+  final double spawnX;
+  final double spawnY;
   final double fallDistance;
 
   late Component uiElement;
@@ -25,12 +26,18 @@ class SimpleAnimatedBrick {
     required this.word,
     required this.colorCode,
     required this.requiredBrickHeight,
-    required this.spawnHeight,
+    required this.spawnX,
+    required this.spawnY,
     required this.fallDistance,
   });
 
   void init(){
-    _wordSprite = WordSprite(word: this.word, color: this.colorCode, requiredBrickHeight: requiredBrickHeight);
+    _wordSprite = WordSprite(
+      word: this.word,
+      color: this.colorCode,
+      requiredBrickHeight: requiredBrickHeight,
+      spawnX: spawnX
+    );
     _wordSprite.onCollisionDetected + _onWordCollisionDetected;
     _setupAnimationsEffects();
     uiElement = _wordSprite;
@@ -40,7 +47,7 @@ class SimpleAnimatedBrick {
 
   void _setupAnimationsEffects(){
     _fallEffect = MoveAlongPathEffect(
-      Path() ..quadraticBezierTo(0, spawnHeight, 0, spawnHeight+fallDistance),
+      Path() ..quadraticBezierTo(0, spawnY, 0, spawnY+fallDistance),
       EffectController(duration: 1.5),
     );
 

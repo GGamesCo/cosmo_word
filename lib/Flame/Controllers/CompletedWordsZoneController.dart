@@ -56,7 +56,8 @@ class CompletedWordsZoneController extends UiControllerBase{
       word: newBrickData.word,
       colorCode: newBrickData.colorCode,
       requiredBrickHeight: requiredBrickHeight,
-      spawnHeight: normalizedSpawnHeight*1,
+      spawnY: normalizedSpawnHeight*1,
+      spawnX: viewportSize.x/2,
       fallDistance: normalizedFallDistance
     );
     brickInstance.init();
