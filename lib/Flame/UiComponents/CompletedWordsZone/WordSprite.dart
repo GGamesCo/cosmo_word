@@ -48,22 +48,25 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     var textPaint = TextPaint(
       style: TextStyle(
         color: _textColors[color],
-        fontSize: 30.0,
-        letterSpacing: 32,
+        fontSize: requiredBrickHeight-requiredBrickHeight*0.25,
+        letterSpacing: requiredBrickHeight*0.6,
         fontFamily: 'Roboto',
       ),
     );
     
-    //add(TextComponent(text: word, textRenderer: textPaint, position: Vector2(0, 4)));
+    add(TextComponent(
+        text: word,
+        textRenderer: textPaint,
+        anchor: Anchor.center,
+        position: Vector2(width/2, (height-height*0.09)/2)
+    ));
 
-    //for layers
-    //add(RectangleHitbox.relative(Vector2(1, 0.99), parentSize: size));
     add(RectangleHitbox());
   }
 
   @override
   void onCollisionStart(Set<Vector2> points, PositionComponent other) {
-
+    super.onCollisionStart(points, other);
     var globalSystemCords = points.first;
 
     var x1 = globalSystemCords.x-(position.x);
