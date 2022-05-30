@@ -17,7 +17,7 @@ class CompletedWordsZoneController extends UiControllerBase{
   final double fullContainerHeight;
   final double containerScrollThreshold;
   final double containerScrollBricksCount;
-  final double brickFallSpeed;
+  final double brickFallDuration;
   final double scrollAnimDurationSec;
 
   late Vector2 containerSize;
@@ -35,7 +35,7 @@ class CompletedWordsZoneController extends UiControllerBase{
     required this.fullContainerHeight,
     required this.containerScrollThreshold,
     required this.containerScrollBricksCount,
-    required this.brickFallSpeed,
+    required this.brickFallDuration,
     required this.scrollAnimDurationSec
   });
 
@@ -60,7 +60,7 @@ class CompletedWordsZoneController extends UiControllerBase{
       spawnY: normalizedSpawnHeight*1,
       spawnX: viewportSize.x/2,
       fallToY: fullContainerHeight - _bricksStackHeight - requiredBrickHeight,
-      brickFallSpeed: brickFallSpeed
+      brickFallDuration: brickFallDuration
     );
     brickInstance.init();
     brickInstance.uiElement.priority = 1000 - _currentBrickNumber++;

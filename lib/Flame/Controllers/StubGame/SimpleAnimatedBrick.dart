@@ -16,7 +16,7 @@ class SimpleAnimatedBrick {
   final double spawnX;
   final double spawnY;
   final double fallToY;
-  final double brickFallSpeed;
+  final double brickFallDuration;
 
   late Component uiElement;
 
@@ -29,7 +29,7 @@ class SimpleAnimatedBrick {
     required this.spawnX,
     required this.spawnY,
     required this.fallToY,
-    required this.brickFallSpeed
+    required this.brickFallDuration
   });
 
   void init(){
@@ -49,8 +49,7 @@ class SimpleAnimatedBrick {
   void _setupAnimationsEffects(){
     _fallEffect = MoveToEffect(
       Vector2(spawnX, fallToY),
-      //EffectController(speed: brickFallSpeed),
-      CurvedEffectController(1.5, Curves.bounceOut)
+      CurvedEffectController(brickFallDuration, CustomBounceCurve._())
     );
 
     //var turnSign = _random.nextBool() ? 1 : -1;
@@ -58,5 +57,30 @@ class SimpleAnimatedBrick {
 
     _wordSprite.add(_fallEffect);
     //_wordSprite.add(flyRotateEffect);
+  }
+}
+
+class CustomBounceCurve extends Curve {
+  const CustomBounceCurve._();
+
+  @override
+  double transformInternal(double t) {
+    var res = _bounce(t);
+    //print("${t},${res}");
+    return res;
+  }
+
+  double _bounce(double t) {
+    if (t < 1.0 / 2.75) {
+      return 7.5625 * t * t;
+    } else if (t < 2 / 2.75) {
+      t -= 1.5 / 2.75;
+      return 4.629 * t * t + 0.85;
+    } else if (t < 2.5 / 2.75) {
+      t -= 2.25 / 2.75;
+      return 7.5625 * t * t + 0.9375;
+    }
+    t -= 2.625 / 2.75;
+    return 7.5625 * t * t + 0.984375;
   }
 }
