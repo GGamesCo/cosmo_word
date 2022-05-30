@@ -16,15 +16,16 @@ class CompletedWordsZoneController extends UiControllerBase{
   final double initialScrollOffset;
   final double fullContainerHeight;
   final double containerScrollThreshold;
-  final double containerScrollStepSize;
+  final double containerScrollBricksCount;
+  final double brickFallSpeed;
   final double scrollAnimDurationSec;
 
   late Vector2 containerSize;
   late Vector2 containerPosition;
 
-
   late CompletedWordsZoneUiControl rootUiControl;
   int _currentBrickNumber = 0;
+  double get _bricksStackHeight => _currentBrickNumber*requiredBrickHeight;
 
   CompletedWordsZoneController({
     required this.viewportSize,
@@ -33,7 +34,8 @@ class CompletedWordsZoneController extends UiControllerBase{
     required this.initialScrollOffset,
     required this.fullContainerHeight,
     required this.containerScrollThreshold,
-    required this.containerScrollStepSize,
+    required this.containerScrollBricksCount,
+    required this.brickFallSpeed,
     required this.scrollAnimDurationSec
   });
 
@@ -50,7 +52,6 @@ class CompletedWordsZoneController extends UiControllerBase{
   void renderNewBrick(CompletedBrickData newBrickData){
 
     var normalizedSpawnHeight = fullContainerHeight > viewportSize.y ? fullContainerHeight - viewportSize.y - rootUiControl.scrollOffset : 0;
-    var normalizedFallDistance = min(fullContainerHeight, viewportSize.y);
 
     var brickInstance = SimpleAnimatedBrick(
       word: newBrickData.word,
@@ -58,7 +59,8 @@ class CompletedWordsZoneController extends UiControllerBase{
       requiredBrickHeight: requiredBrickHeight,
       spawnY: normalizedSpawnHeight*1,
       spawnX: viewportSize.x/2,
-      fallDistance: normalizedFallDistance
+      fallToY: fullContainerHeight - _bricksStackHeight - requiredBrickHeight,
+      brickFallSpeed: brickFallSpeed
     );
     brickInstance.init();
     brickInstance.uiElement.priority = 1000 - _currentBrickNumber++;
@@ -69,11 +71,11 @@ class CompletedWordsZoneController extends UiControllerBase{
 
   void validateScrollOffset(){
     var viewportHeight = viewportSize.y;
-    var alreadyFilledHeight = _currentBrickNumber*requiredBrickHeight-rootUiControl.scrollOffset;
+    var alreadyFilledHeight = _bricksStackHeight - rootUiControl.scrollOffset;
 
     var filledPart = alreadyFilledHeight / viewportHeight;
     if(filledPart > containerScrollThreshold){
-      rootUiControl.updateScrollOffset(viewportHeight*containerScrollStepSize, scrollAnimDurationSec);
+      rootUiControl.updateScrollOffset(requiredBrickHeight*containerScrollBricksCount, scrollAnimDurationSec);
     }
   }
 

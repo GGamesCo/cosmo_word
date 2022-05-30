@@ -32,10 +32,11 @@ class StubChallengeZoneController implements ChallengeZoneController {
       viewportPosition: Vector2(0, 0),
       requiredBrickHeight: 40,
       initialScrollOffset: 0,
-      fullContainerHeight: 800,
+      fullContainerHeight: 1800,
       containerScrollThreshold: 0.8,
-      containerScrollStepSize: 0.4,
-      scrollAnimDurationSec: 1.5
+      containerScrollBricksCount: 4,
+      brickFallSpeed: 600,
+      scrollAnimDurationSec: 1
     );
     _completedWordsZoneController.init();
     rootUiControl.add(_completedWordsZoneController.rootUiControl);

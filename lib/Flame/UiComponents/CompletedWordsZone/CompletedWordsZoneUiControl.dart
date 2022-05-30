@@ -55,11 +55,10 @@ class CompletedWordsZoneUiControl extends RectangleComponent with HasGameRef<Bri
 
   void updateScrollOffset(double scrollStepSize, double duration) {
     scrollOffset = scrollOffset + scrollStepSize;
-    //_bricksContainer.position.y = bricksContainerHeight + scrollOffset;
 
     var scrollEffect = MoveAlongPathEffect(
       Path() ..quadraticBezierTo(0, 0, 0, scrollStepSize),
-      EffectController(duration: duration),
+        CurvedEffectController(duration, Curves.easeOut)
     );
 
     _bricksContainer.add(scrollEffect);

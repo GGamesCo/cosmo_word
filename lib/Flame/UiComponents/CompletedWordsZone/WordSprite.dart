@@ -15,8 +15,7 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
   final String color;
   final double requiredBrickHeight;
   final double spawnX;
-
-  Event<BrickCollisionEventArgs> onCollisionDetected = Event<BrickCollisionEventArgs>();
+  final double spawnY;
 
   final Map<String, Color> _textColors = {
     'r': Color.fromRGBO(182, 82, 55, 1),
@@ -28,7 +27,8 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     required this.word,
     required this.color,
     required this.requiredBrickHeight,
-    required this.spawnX
+    required this.spawnX,
+    required this.spawnY
   });
 
   @override
@@ -43,7 +43,7 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     height = requiredBrickHeight;
 
     anchor = Anchor.topCenter;
-    position = Vector2(spawnX, 0);
+    position = Vector2(spawnX, spawnY);
 
     var textPaint = TextPaint(
       style: TextStyle(
@@ -64,9 +64,14 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     add(RectangleHitbox());
   }
 
+  /* FOR ANIMATION WITH ROTATION
+
+  Event<BrickCollisionEventArgs> onCollisionDetected = Event<BrickCollisionEventArgs>();
+
   @override
-  void onCollisionStart(Set<Vector2> points, PositionComponent other) {
-    super.onCollisionStart(points, other);
+  void onCollision(Set<Vector2> points, PositionComponent other) {
+    super.onCollision(points, other);
+
     var globalSystemCords = points.first;
 
     var x1 = globalSystemCords.x-(position.x);
@@ -90,8 +95,10 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
 
     tester.add(effect);
     //add(tester);
+
     onCollisionDetected.broadcast(BrickCollisionEventArgs(collisionPoints: points));
   }
+
 
   void setNewAnchorPoint(Set<Vector2> collisionPoints) {
 
@@ -107,6 +114,8 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     anchor = Anchor(xCord/width, yCord/height);
     position = Vector2(globalSystemCords.x, globalSystemCords.y);
   }
+
+   */
 }
 
 class BrickCollisionEventArgs extends EventArgs {

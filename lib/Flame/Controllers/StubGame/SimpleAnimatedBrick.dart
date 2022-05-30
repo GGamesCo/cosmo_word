@@ -4,23 +4,23 @@ import 'dart:ui';
 import 'package:event/event.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flutter/animation.dart';
 
 import '../../UiComponents/CompletedWordsZone/WordSprite.dart';
 
 class SimpleAnimatedBrick {
-  final Random _random = Random();
 
   final String word;
   final String colorCode;
   final double requiredBrickHeight;
   final double spawnX;
   final double spawnY;
-  final double fallDistance;
+  final double fallToY;
+  final double brickFallSpeed;
 
   late Component uiElement;
 
   late WordSprite _wordSprite;
-  bool _isLanded = false;
 
   SimpleAnimatedBrick({
     required this.word,
@@ -28,7 +28,8 @@ class SimpleAnimatedBrick {
     required this.requiredBrickHeight,
     required this.spawnX,
     required this.spawnY,
-    required this.fallDistance,
+    required this.fallToY,
+    required this.brickFallSpeed
   });
 
   void init(){
@@ -36,43 +37,26 @@ class SimpleAnimatedBrick {
       word: this.word,
       color: this.colorCode,
       requiredBrickHeight: requiredBrickHeight,
-      spawnX: spawnX
+      spawnX: spawnX,
+      spawnY: spawnY
     );
-    _wordSprite.onCollisionDetected + _onWordCollisionDetected;
     _setupAnimationsEffects();
     uiElement = _wordSprite;
   }
 
-  late MoveAlongPathEffect _fallEffect;
+  late MoveToEffect _fallEffect;
 
   void _setupAnimationsEffects(){
-    _fallEffect = MoveAlongPathEffect(
-      Path() ..quadraticBezierTo(0, spawnY, 0, spawnY+fallDistance),
-      EffectController(duration: 1.5),
+    _fallEffect = MoveToEffect(
+      Vector2(spawnX, fallToY),
+      //EffectController(speed: brickFallSpeed),
+      CurvedEffectController(1.5, Curves.bounceOut)
     );
 
-    var turnSign = _random.nextBool() ? 1 : -1;
-    final flyRotateEffect = RotateEffect.to(turnSign * pi * 2/40, EffectController(duration: 2));
+    //var turnSign = _random.nextBool() ? 1 : -1;
+    //final flyRotateEffect = RotateEffect.to(turnSign * pi * 2/40, EffectController(duration: 2));
 
     _wordSprite.add(_fallEffect);
     //_wordSprite.add(flyRotateEffect);
-
-  }
-
-  void _onWordCollisionDetected(BrickCollisionEventArgs? args) {
-    if(_isLanded)
-      return;
-
-    _isLanded = true;
-
-    _wordSprite.remove(_fallEffect);
-
-    //return;
-    //var existingEffects = _wordSprite.children.where((element) => element is Effect);
-    //_wordSprite.removeAll(existingEffects);
-
-    //final rotateToZeroEffect = RotateEffect.to(0, EffectController(duration: 0.1));
-    //_wordSprite.setNewAnchorPoint(args!.collisionPoints);
-    //_wordSprite.add(rotateToZeroEffect);
   }
 }
