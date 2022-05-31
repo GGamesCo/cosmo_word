@@ -1,8 +1,7 @@
-import 'package:cosmo_word/Flame/UiComponents/StubGame/InputDisplayZone/InputDisplayZoneGlass.dart';
 import 'package:flame/components.dart';
 import '../../Models/Events/InputCompletedEventArgs.dart';
-import '../../UiComponents/StubGame/DisplayZone.dart';
-import '../../UiComponents/StubGame/InputDisplayZone/InputDisplayZoneCover.dart';
+import '../../UiComponents/InputDisplayZone/InputDisplayZoneCover.dart';
+import '../../UiComponents/InputDisplayZone/InputDisplayZoneGlass.dart';
 import '../Abstract/InputDisplayController.dart';
 import '../../UiComponents/Joystick/WordJoystickComponent.dart';
 import 'package:event/event.dart';
