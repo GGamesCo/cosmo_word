@@ -30,14 +30,14 @@ void main() async {
 
 void initializeAppsflyer(){
   AppsFlyerOptions appsFlyerOptions = AppsFlyerOptions(
-        afDevKey: "MeYXSnbosTs2hTceWK9U6Q",
-        showDebug: true);
+      afDevKey: "MeYXSnbosTs2hTceWK9U6Q",
+      showDebug: true);
 
   AppsflyerSdk appsflyerSdk = AppsflyerSdk(appsFlyerOptions);
 
   appsflyerSdk.initSdk(
-    registerConversionDataCallback: true,
-    registerOnAppOpenAttributionCallback: true,
-    registerOnDeepLinkingCallback: true
-);
+      registerConversionDataCallback: true,
+      registerOnAppOpenAttributionCallback: true,
+      registerOnDeepLinkingCallback: true
+  );
 }

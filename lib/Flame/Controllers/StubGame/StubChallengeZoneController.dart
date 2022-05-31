@@ -11,7 +11,6 @@ import '../Abstract/ChallengeZoneController.dart';
 
 class StubChallengeZoneController implements ChallengeZoneController {
 
-  List<String> _inputWordsList = ['CLOUD', 'DO', 'LOUD', 'DOU', 'COULD' ];
   List<String> _colorCodes = ['y', 'g', 'r'];
 
   Random _random = new Random();
@@ -44,7 +43,7 @@ class StubChallengeZoneController implements ChallengeZoneController {
 
   @override
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
-    var pickedWord = _pickRandomListElement(_inputWordsList);
+    var pickedWord = wordInput!.inputString;
     var pickedColor = _pickRandomListElement(_colorCodes);
     _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
   }
