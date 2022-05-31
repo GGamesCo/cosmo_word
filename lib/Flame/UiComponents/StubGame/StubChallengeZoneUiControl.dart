@@ -12,12 +12,12 @@ class StubChallengeZoneUiControl extends RectangleComponent with HasGameRef<Bric
 
   @override
   Future<void> onLoad() async {
-    setColor(Colors.green);
-    /*
+    setColor(Colors.transparent);
+
     var bgImage = await gameRef.loadSprite('rocket_challenge.png');
     var sprite = SpriteComponent(sprite: bgImage, size: size);
     add(sprite);
-     */
+
 
     var tester = RectangleComponent(
       size: Vector2(10, 10),

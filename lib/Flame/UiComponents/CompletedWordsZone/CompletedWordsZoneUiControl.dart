@@ -23,15 +23,15 @@ class CompletedWordsZoneUiControl extends RectangleComponent with HasGameRef<Bri
 
   @override
   Future<void> onLoad() async {
-    setColor(Colors.blue);
+    setColor(Colors.transparent);
 
     _bricksContainer = RectangleComponent(
         size: Vector2(viewportSize.x, bricksContainerHeight),
         position: Vector2(0, viewportSize.y + scrollOffset)
     );
     _bricksContainer.anchor = Anchor.bottomLeft;
-    _bricksContainer.setColor(Colors.red);
-     add(_bricksContainer);
+    _bricksContainer.setColor(Colors.transparent);
+    add(_bricksContainer);
 
     var floorHitbox = RectangleHitbox(
         position: Vector2(

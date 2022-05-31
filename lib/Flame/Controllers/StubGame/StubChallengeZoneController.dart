@@ -34,7 +34,7 @@ class StubChallengeZoneController implements ChallengeZoneController {
       fullContainerHeight: 1800,
       containerScrollThreshold: 0.8,
       containerScrollBricksCount: 6,
-      brickFallDuration: 1,
+      brickFallDuration: 1.5,
       scrollAnimDurationSec: 1
     );
     _completedWordsZoneController.init();
