@@ -13,10 +13,10 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
   late List<JoystickSymbolComponent> symbols;
 
   List<String> alph = List<String>.empty();
-
+  double sideLength = 0;
   final Event<InputCompletedEventArgs> userInputEvent;
 
-  WordJoystickComponent({required List<String> alph, required this.userInputEvent}){
+  WordJoystickComponent({required List<String> alph, required double sideLength, required this.userInputEvent}){
     assert(alph.length >= 3 && alph.length <= 5);
 
     this.alph = alph;
@@ -29,7 +29,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
     sprite = await gameRef.loadSprite('widget/joystickBg.png');
 
 
-    var uiConfig = JoystickUiConfig();
+    var uiConfig = JoystickUiConfig(sideLength);
     position = Vector2(gameRef.size.x / 2, gameRef.size.y - uiConfig.size.y);
     size = Vector2(uiConfig.size.x, uiConfig.size.y);
 
