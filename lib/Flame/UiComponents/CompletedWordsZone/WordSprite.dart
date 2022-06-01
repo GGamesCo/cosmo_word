@@ -13,10 +13,9 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
 
   final String word;
   final String color;
-
-  double _oneWordWidthK = 50;
-
-  Event<BrickCollisionEventArgs> onCollisionDetected = Event<BrickCollisionEventArgs>();
+  final double requiredBrickHeight;
+  final double spawnX;
+  final double spawnY;
 
   final Map<String, Color> _textColors = {
     'r': Color.fromRGBO(182, 82, 55, 1),
@@ -24,7 +23,13 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     'y': Color.fromRGBO(209, 129, 30, 1),
   };
 
-  WordSprite({required this.word, required this.color});
+  WordSprite({
+    required this.word,
+    required this.color,
+    required this.requiredBrickHeight,
+    required this.spawnX,
+    required this.spawnY
+  });
 
   @override
   Future<void> onLoad() async {
@@ -33,35 +38,39 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     final image = await Flame.images.load("bricks/${spriteName}");
     sprite = Sprite(image);
 
-    var expectedImgWidth = _oneWordWidthK*word.length;
-    var scaleFactor = image.width/expectedImgWidth;
-
-    var xPosition = (5-word.length)*20.0;
-
-    position = Vector2(50+xPosition, 0);
-
+    var scaleFactor = image.height/requiredBrickHeight;
     width = image.width/scaleFactor;
-    height = image.height/scaleFactor;
-    anchor = Anchor.topLeft;
+    height = requiredBrickHeight;
+
+    anchor = Anchor.topCenter;
+    position = Vector2(spawnX, spawnY);
 
     var textPaint = TextPaint(
       style: TextStyle(
         color: _textColors[color],
-        fontSize: 30.0,
-        letterSpacing: 32,
+        fontSize: requiredBrickHeight-requiredBrickHeight*0.25,
+        letterSpacing: requiredBrickHeight*0.6,
         fontFamily: 'Roboto',
       ),
     );
     
-    add(TextComponent(text: word, textRenderer: textPaint, position: Vector2(0, 4)));
+    add(TextComponent(
+        text: word,
+        textRenderer: textPaint,
+        anchor: Anchor.center,
+        position: Vector2(width/2, (height-height*0.09)/2)
+    ));
 
-    //for layers
-    //add(RectangleHitbox.relative(Vector2(1, 0.95), parentSize: size));
     add(RectangleHitbox());
   }
 
+  /* FOR ANIMATION WITH ROTATION
+
+  Event<BrickCollisionEventArgs> onCollisionDetected = Event<BrickCollisionEventArgs>();
+
   @override
-  void onCollisionStart(Set<Vector2> points, PositionComponent other) {
+  void onCollision(Set<Vector2> points, PositionComponent other) {
+    super.onCollision(points, other);
 
     var globalSystemCords = points.first;
 
@@ -86,8 +95,10 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
 
     tester.add(effect);
     //add(tester);
+
     onCollisionDetected.broadcast(BrickCollisionEventArgs(collisionPoints: points));
   }
+
 
   void setNewAnchorPoint(Set<Vector2> collisionPoints) {
 
@@ -103,6 +114,8 @@ class WordSprite extends SpriteComponent with CollisionCallbacks {
     anchor = Anchor(xCord/width, yCord/height);
     position = Vector2(globalSystemCords.x, globalSystemCords.y);
   }
+
+   */
 }
 
 class BrickCollisionEventArgs extends EventArgs {

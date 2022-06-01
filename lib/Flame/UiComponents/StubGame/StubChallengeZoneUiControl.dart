@@ -3,7 +3,7 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 import '../../BrickWordChallenge.dart';
-
+import '../CompletedWordsZone/CompletedWordsZoneUiControl.dart';
 
 class StubChallengeZoneUiControl extends RectangleComponent with HasGameRef<BrickWordChallenge> {
 
@@ -13,18 +13,11 @@ class StubChallengeZoneUiControl extends RectangleComponent with HasGameRef<Bric
   @override
   Future<void> onLoad() async {
     setColor(Colors.transparent);
+
     var bgImage = await gameRef.loadSprite('rocket_challenge.png');
     var sprite = SpriteComponent(sprite: bgImage, size: size);
     add(sprite);
 
-    var floorHitbox = RectangleHitbox(
-        position: Vector2(
-            0,
-            height-1
-        ),
-        size: Vector2(width, 1)
-    );
-    add(floorHitbox);
 
     var tester = RectangleComponent(
       size: Vector2(10, 10),
@@ -36,7 +29,6 @@ class StubChallengeZoneUiControl extends RectangleComponent with HasGameRef<Bric
       const Offset(0.0, 1),
       EffectController(duration: 0),
     );
-
 
     //tester.add(effect);
     //add(tester);
