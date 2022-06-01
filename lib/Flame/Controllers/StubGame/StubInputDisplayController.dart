@@ -18,7 +18,7 @@ class StubInputDisplayController implements InputDisplayController {
     rectangle.add(WordJoystickComponent(
       alph: ['U', 'D', 'O', 'C', 'L'], // Array must be of size 3 - 5 'C', 'L'
       userInputEvent: userInputReceivedEvent,
-      sideLength: 250
+      sideLength: 200
     ));
     // rectangle.add(InputDisplayZoneGlass());
     // rectangle.add(InputDisplayZoneCover());

@@ -60,9 +60,6 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
     }
   }
 
-  bool cursorAlreadyLeaveLastSymbol = false;
-  String ignoredSymbol = "";
-
   void onDraggUpdate(SymbolPointerLocationArgs arg) {
     if (navigator.points.isNotEmpty &&
         navigator.points.first.id != arg.symbolId) {
@@ -88,24 +85,11 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
     for (var symbol in symbols) {
       if (symbol.isPointInsideSymbol(lineEndPosition)) {
         existIntersections = true;
-        if (!navigator.points.map((x) => x.id).contains(symbol.symbolId) && symbol.symbolId != ignoredSymbol) {
+        if (!navigator.points.map((x) => x.id).contains(symbol.symbolId)) {
           navigator.points.add(SymbolLocationModel(symbol.symbolId, Offset(symbol.x, symbol.y)));
           symbol.changeStateAnimated(true);
-          cursorAlreadyLeaveLastSymbol = false;
-        }
-        else if (navigator.points.last.id == symbol.symbolId){
-          if (cursorAlreadyLeaveLastSymbol){
-            ignoredSymbol = navigator.points.last.id;
-            navigator.points.removeLast();
-            symbol.changeStateAnimated(false);
-          }
         }
       }
-    }
-
-    if (!existIntersections){
-      cursorAlreadyLeaveLastSymbol = true;
-      ignoredSymbol = "";
     }
   }
 

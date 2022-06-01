@@ -21,13 +21,13 @@ class StubChallengeZoneController implements ChallengeZoneController {
   late Component rootUiControl;
 
   StubChallengeZoneController(){
-    rootUiControl = StubChallengeZoneUiControl(size: Vector2(400, 500), position: Vector2(0,0));
+    rootUiControl = StubChallengeZoneUiControl(size: Vector2(400, 430), position: Vector2(0,0));
   }
 
   @override
   Future<void> init() async {
     _completedWordsZoneController = CompletedWordsZoneController(
-      viewportSize: Vector2(280, 500),
+      viewportSize: Vector2(280, 430),
       viewportPosition: Vector2(0, 0),
       requiredBrickHeight: 40,
       initialScrollOffset: 0,
