@@ -2,12 +2,13 @@ import 'package:flame/game.dart';
 
 class JoystickUiConfig{
   // Joystick size
-  Vector2 size;
+  late Vector2 size;
 
   late Map<int, List<JoystickBtnUiConfig>> configs;
 
   JoystickUiConfig(double sideLength){
-    this.size = Vector2(sideLength, sideLength);
+    size = Vector2(sideLength, sideLength);
+
     configs = Map<int, List<JoystickBtnUiConfig>>();
     configs[3] = [
       JoystickBtnUiConfig(Vector2(size.x * .25, size.y * .25), Vector2(size.x * .3, size.y * .6)),

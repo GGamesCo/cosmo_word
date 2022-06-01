@@ -19,6 +19,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
   WordJoystickComponent({required List<String> alph, required double sideLength, required this.userInputEvent}){
     assert(alph.length >= 3 && alph.length <= 5);
 
+    this.sideLength = sideLength;
     this.alph = alph;
 }
 
