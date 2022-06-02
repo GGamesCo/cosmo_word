@@ -5,7 +5,7 @@ import '../Models/CompletedBrickData.dart';
 import '../UiComponents/CompletedWordsZone/CompletedWordsZoneUiControl.dart';
 import 'SimpleAnimatedBrick.dart';
 
-class CompletedWordsZoneController extends UiControllerBase{
+class CompletedWordsZoneController extends UiControllerBase {
 
   final Vector2 viewportSize;
   final Vector2 viewportPosition;

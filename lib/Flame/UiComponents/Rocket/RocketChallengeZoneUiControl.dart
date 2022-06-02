@@ -14,11 +14,6 @@ class RocketChallengeZoneUiControl extends RectangleComponent with HasGameRef<Wo
   Future<void> onLoad() async {
     setColor(Colors.transparent);
 
-    var bgImage = await gameRef.loadSprite('rocket_challenge.png');
-    var sprite = SpriteComponent(sprite: bgImage, size: size);
-    add(sprite);
-
-
     var tester = RectangleComponent(
       size: Vector2(10, 10),
       position: Vector2(175.84, 174.86)

@@ -3,11 +3,13 @@ import 'dart:math';
 
 import 'package:cosmo_word/Flame/Controllers/CompletedWordsZoneController.dart';
 import 'package:cosmo_word/Flame/Models/CompletedBrickData.dart';
+import 'package:cosmo_word/Flame/Models/Configuration/RocketChallengeConfig.dart';
 import 'package:flame/components.dart';
 
 import '../../Models/Events/InputCompletedEventArgs.dart';
 import '../../UiComponents/Rocket/RocketChallengeZoneUiControl.dart';
 import '../Abstract/ChallengeZoneController.dart';
+import 'RocketZoneController.dart';
 
 class RocketChallengeZoneController implements ChallengeZoneController {
 
@@ -16,6 +18,7 @@ class RocketChallengeZoneController implements ChallengeZoneController {
   Random _random = new Random();
 
   late CompletedWordsZoneController _completedWordsZoneController;
+  late RocketZoneController _rocketZoneController;
 
   @override
   late Component rootUiControl;
@@ -38,20 +41,34 @@ class RocketChallengeZoneController implements ChallengeZoneController {
       scrollAnimDurationSec: 1
     );
     _completedWordsZoneController.init();
+
+    _rocketZoneController = RocketZoneController(
+        zoneSize: Vector2(100, 400),
+        zonePosition: Vector2(281, 30),
+        rocketHeight: 70,
+        challengeConfig: RocketChallengeConfig(
+            totalTimeSec: 180,
+            wordCompletionTimeRewardSec: 20
+        )
+    );
+    _rocketZoneController.init();
+
     rootUiControl.add(_completedWordsZoneController.rootUiControl);
+    rootUiControl.add(_rocketZoneController.rootUiControl);
   }
 
   @override
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
     var pickedWord = wordInput!.inputString;
     var pickedColor = _pickRandomListElement(_colorCodes);
+
     _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
+    _rocketZoneController.handleInputCompleted(wordInput);
   }
 
   String _pickRandomListElement(List<String> list){
     var index = _random.nextInt(list.length);
     var element = list[index];
-    //list.removeAt(index);
     return element;
   }
 
