@@ -3,9 +3,9 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 
-import '../../BrickWordChallenge.dart';
+import '../../WordGame.dart';
 
-class CompletedWordsZoneUiControl extends RectangleComponent with HasGameRef<BrickWordChallenge> {
+class CompletedWordsZoneUiControl extends RectangleComponent with HasGameRef<WordGame> {
 
   final Vector2 viewportSize;
   final Vector2 viewportPosition;

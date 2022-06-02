@@ -6,10 +6,10 @@ import 'package:cosmo_word/Flame/Models/CompletedBrickData.dart';
 import 'package:flame/components.dart';
 
 import '../../Models/Events/InputCompletedEventArgs.dart';
-import '../../UiComponents/StubGame/StubChallengeZoneUiControl.dart';
+import '../../UiComponents/Rocket/RocketChallengeZoneUiControl.dart';
 import '../Abstract/ChallengeZoneController.dart';
 
-class StubChallengeZoneController implements ChallengeZoneController {
+class RocketChallengeZoneController implements ChallengeZoneController {
 
   List<String> _colorCodes = ['y', 'g', 'r'];
 
@@ -20,8 +20,8 @@ class StubChallengeZoneController implements ChallengeZoneController {
   @override
   late Component rootUiControl;
 
-  StubChallengeZoneController(){
-    rootUiControl = StubChallengeZoneUiControl(size: Vector2(400, 430), position: Vector2(0,0));
+  RocketChallengeZoneController(){
+    rootUiControl = RocketChallengeZoneUiControl(size: Vector2(400, 430), position: Vector2(0,0));
   }
 
   @override

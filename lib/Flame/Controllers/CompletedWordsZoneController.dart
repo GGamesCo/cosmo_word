@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:cosmo_word/Flame/Controllers/Abstract/UiControllerBase.dart';
 import 'package:flame/components.dart';
-import 'package:flame/src/components/component.dart';
 
 import '../Models/CompletedBrickData.dart';
 import '../UiComponents/CompletedWordsZone/CompletedWordsZoneUiControl.dart';
-import 'StubGame/SimpleAnimatedBrick.dart';
+import 'SimpleAnimatedBrick.dart';
 
 class CompletedWordsZoneController extends UiControllerBase{
 

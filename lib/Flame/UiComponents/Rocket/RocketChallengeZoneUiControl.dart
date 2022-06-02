@@ -2,12 +2,12 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
-import '../../BrickWordChallenge.dart';
+import '../../WordGame.dart';
 import '../CompletedWordsZone/CompletedWordsZoneUiControl.dart';
 
-class StubChallengeZoneUiControl extends RectangleComponent with HasGameRef<BrickWordChallenge> {
+class RocketChallengeZoneUiControl extends RectangleComponent with HasGameRef<WordGame> {
 
-  StubChallengeZoneUiControl({required position, required size})
+  RocketChallengeZoneUiControl({required position, required size})
       : super(position: position, size: size);
 
   @override

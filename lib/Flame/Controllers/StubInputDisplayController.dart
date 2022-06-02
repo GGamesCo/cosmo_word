@@ -1,9 +1,7 @@
 import 'package:flame/components.dart';
-import '../../Models/Events/InputCompletedEventArgs.dart';
-import '../../UiComponents/InputDisplayZone/InputDisplayZoneCover.dart';
-import '../../UiComponents/InputDisplayZone/InputDisplayZoneGlass.dart';
-import '../Abstract/InputDisplayController.dart';
-import '../../UiComponents/Joystick/WordJoystickComponent.dart';
+import '../Models/Events/InputCompletedEventArgs.dart';
+import 'Abstract/InputDisplayController.dart';
+import '../UiComponents/Joystick/WordJoystickComponent.dart';
 import 'package:event/event.dart';
 
 class StubInputDisplayController implements InputDisplayController {

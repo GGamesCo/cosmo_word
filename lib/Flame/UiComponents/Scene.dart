@@ -2,9 +2,9 @@
 import 'package:flame/components.dart';
 
 import '../../main.dart';
-import '../BrickWordChallenge.dart';
+import '../WordGame.dart';
 
-class Scene extends SpriteComponent with HasGameRef<BrickWordChallenge> {
+class Scene extends SpriteComponent with HasGameRef<WordGame> {
   @override
   Future<void> onLoad() async {
     sprite = await gameRef.loadSprite('player-sprite.png');
