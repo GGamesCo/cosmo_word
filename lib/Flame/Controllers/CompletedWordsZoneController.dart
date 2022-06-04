@@ -24,6 +24,9 @@ class CompletedWordsZoneController extends UiControllerBase {
   int _currentBrickNumber = 0;
   double get _bricksStackHeight => _currentBrickNumber*requiredBrickHeight;
 
+  @override
+  Future<void> get uiComponentLoadedFuture => Future.wait([rootUiControl.loaded]);
+
   CompletedWordsZoneController({
     required this.viewportSize,
     required this.viewportPosition,
@@ -37,7 +40,7 @@ class CompletedWordsZoneController extends UiControllerBase {
   });
 
   @override
-  Future<void> init() async {
+  init() {
     rootUiControl = CompletedWordsZoneUiControl(
       viewportSize: viewportSize,
       viewportPosition: viewportPosition,

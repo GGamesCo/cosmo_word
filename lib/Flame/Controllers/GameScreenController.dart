@@ -13,6 +13,9 @@ class GameScreenController implements UiControllerBase {
   final InputDisplayController inputDisplayController;
 
   @override
+  Future<void> get uiComponentLoadedFuture => rootUiControl.loaded;
+
+  @override
   late Component rootUiControl;
 
   GameScreenController({
@@ -24,7 +27,7 @@ class GameScreenController implements UiControllerBase {
   }
 
   @override
-  Future<void> init() async {
+  void init() {
     backgroundController.init();
     challengeController.init();
     inputDisplayController.init();

@@ -10,8 +10,6 @@ import '../../Utils/FormatUtils.dart';
 
 class RocketBoxUiControl extends RectangleComponent {
 
-  late Event onLoadCompleted = Event();
-
   late TextComponent _timerTxt;
   late Vector2 flyBounds;
 
@@ -97,7 +95,6 @@ class RocketBoxUiControl extends RectangleComponent {
 
     final effect = RotateEffect.to(-pi*2, EffectController(duration: 1, repeatCount: 1000));
     saw.add(effect);
-    onLoadCompleted.broadcast();
   }
 
   void updateTimerState(int secondsLeft) {

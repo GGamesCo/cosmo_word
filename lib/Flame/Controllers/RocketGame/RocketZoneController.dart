@@ -1,16 +1,11 @@
 import 'dart:async' as DartAsync;
-import 'dart:math';
 import 'package:cosmo_word/Flame/Controllers/Abstract/UiControllerBase.dart';
 import 'package:cosmo_word/Flame/UiComponents/Rocket/RocketBoxUiControl.dart';
-import 'package:event/event.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 
 
-import '../../Models/Configuration/RocketChallengeConfig.dart';
-import '../../Models/Events/InputCompletedEventArgs.dart';
 import '../../UiComponents/Rocket/RocketUiControl.dart';
 
 class RocketZoneController implements UiControllerBase {
@@ -18,26 +13,24 @@ class RocketZoneController implements UiControllerBase {
   final Vector2 zoneSize;
   final Vector2 zonePosition;
   final int rocketHeight;
-  final RocketChallengeConfig challengeConfig;
 
   late RocketBoxUiControl _rocketBoxUiControl;
   late RocketUiControl _rocketUiControl;
 
-  late DartAsync.Timer _challengeCountDown;
-  late int _secondsLeft;
-
   @override
   late Component rootUiControl;
 
+  @override
+  DartAsync.Future<void> get uiComponentLoadedFuture => Future.wait([_rocketBoxUiControl.loaded, _rocketUiControl.loaded]);
+  
   RocketZoneController({
     required this.zoneSize,
     required this.zonePosition,
-    required this.rocketHeight,
-    required this.challengeConfig
+    required this.rocketHeight
   });
 
   @override
-  Future<void> init() async {
+  void init() {
 
     var rect = RectangleComponent(size: zoneSize, position: zonePosition);
     rect.setColor(Colors.transparent);
@@ -51,37 +44,24 @@ class RocketZoneController implements UiControllerBase {
 
     rootUiControl.add(_rocketBoxUiControl);
     rootUiControl.add(_rocketUiControl);
-
-    _rocketBoxUiControl.onLoadCompleted.subscribe(rocketBoxLoadCompleted);
   }
 
-  void rocketBoxLoadCompleted(EventArgs? eventArgs){
-    _secondsLeft = challengeConfig.totalTimeSec;
-
-    var rocketPosition = calculateRocketPosition();
+  void initRocketPosition(int secondsLeft, int totalTime){
+    var rocketPosition = calculateRocketPosition(secondsLeft, totalTime);
     _rocketUiControl.position = Vector2(rocketPosition.x, rocketPosition.y);
     _rocketUiControl.setOpacity(1);
-
-    _challengeCountDown = DartAsync.Timer.periodic(
-        const Duration(seconds: 1),
-            (timer) {
-          onCountDownUpdated();
-        }
-    );
   }
 
-  void onCountDownUpdated(){
-    _secondsLeft--;
-    _rocketBoxUiControl.updateTimerState(_secondsLeft);
-    updateRocketPosition();
-    if (_secondsLeft == 0) {
+  void onCountDownUpdated(int secondsLeft, int totalTime){
+    _rocketBoxUiControl.updateTimerState(secondsLeft);
+    updateRocketPosition(secondsLeft, totalTime);
+    if (secondsLeft == 0) {
       rootUiControl.remove(_rocketUiControl);
-      _challengeCountDown.cancel();
     }
   }
 
-  void updateRocketPosition(){
-    var rocketPosition = calculateRocketPosition();
+  void updateRocketPosition(int secondsLeft, int totalTime){
+    var rocketPosition = calculateRocketPosition(secondsLeft, totalTime);
     final effect = MoveToEffect(
         Vector2(rocketPosition.x, rocketPosition.y),
         EffectController(duration: 1, curve: Curves.linear)
@@ -89,24 +69,15 @@ class RocketZoneController implements UiControllerBase {
     _rocketUiControl.add(effect);
   }
 
-  Vector2 calculateRocketPosition(){
+  Vector2 calculateRocketPosition(int secondsLeft, int totalTime){
     var topRocketBound = _rocketBoxUiControl.flyBounds.x;
     var bottomRocketBound = _rocketBoxUiControl.flyBounds.y-_rocketUiControl.requiredHeight;
 
     var availableFlyDistance = bottomRocketBound - topRocketBound;
 
-    var progress = _secondsLeft/challengeConfig.totalTimeSec;
+    var progress = secondsLeft/totalTime;
     var newHeight = _rocketBoxUiControl.flyBounds.x + availableFlyDistance * (1-progress);
-
     return Vector2(_rocketUiControl.position.x, newHeight);
-  }
-
-  @override
-  Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
-    _secondsLeft = min(
-      _secondsLeft + challengeConfig.wordCompletionTimeRewardSec,
-      challengeConfig.totalTimeSec
-    ) ;
   }
 
   @override

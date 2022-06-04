@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:cosmo_word/Flame/Controllers/CompletedWordsZoneController.dart';
 import 'package:cosmo_word/Flame/Models/CompletedBrickData.dart';
-import 'package:cosmo_word/Flame/Models/Configuration/RocketChallengeConfig.dart';
 import 'package:flame/components.dart';
 
 import '../../Models/Events/InputCompletedEventArgs.dart';
@@ -23,12 +22,15 @@ class RocketChallengeZoneController implements ChallengeZoneController {
   @override
   late Component rootUiControl;
 
+  @override
+  Future<void> get uiComponentLoadedFuture => Future.wait([_completedWordsZoneController.uiComponentLoadedFuture, _rocketZoneController.uiComponentLoadedFuture]);
+
   RocketChallengeZoneController(){
     rootUiControl = RocketChallengeZoneUiControl(size: Vector2(400, 430), position: Vector2(0,0));
   }
 
   @override
-  Future<void> init() async {
+  void init() {
     _completedWordsZoneController = CompletedWordsZoneController(
       viewportSize: Vector2(280, 430),
       viewportPosition: Vector2(0, 0),
@@ -46,15 +48,19 @@ class RocketChallengeZoneController implements ChallengeZoneController {
         zoneSize: Vector2(100, 358),
         zonePosition: Vector2(281, 30),
         rocketHeight: 70,
-        challengeConfig: RocketChallengeConfig(
-            totalTimeSec: 30,
-            wordCompletionTimeRewardSec: 3
-        )
     );
     _rocketZoneController.init();
 
     rootUiControl.add(_completedWordsZoneController.rootUiControl);
     rootUiControl.add(_rocketZoneController.rootUiControl);
+  }
+
+  void initRocketPosition(int secondsLeft, int totalTime){
+    _rocketZoneController.initRocketPosition(secondsLeft, totalTime);
+  }
+
+  void onCountDownUpdated(int secondsLeft, int totalTime){
+    _rocketZoneController.onCountDownUpdated(secondsLeft, totalTime);
   }
 
   @override
@@ -63,7 +69,6 @@ class RocketChallengeZoneController implements ChallengeZoneController {
     var pickedColor = _pickRandomListElement(_colorCodes);
 
     _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
-    _rocketZoneController.handleInputCompleted(wordInput);
   }
 
   String _pickRandomListElement(List<String> list){
