@@ -13,9 +13,16 @@ class GameScreen extends StatelessWidget {
       body: Stack(
         children: [
           GameplayLayer(userInputEvent: userInputEvent),
-          TopBarLayer()
+          TopBarLayer(),
         ],
       )
     );
+  }
+
+  void onGameCompleted(GameResults resultsData){
+    if(resultsData is RocketGameResultsData){
+      var data = resultsData as RocketGameResultsData;''
+      
+    }
   }
 }

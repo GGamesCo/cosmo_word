@@ -43,12 +43,12 @@ class RocketChallengeZoneController implements ChallengeZoneController {
     _completedWordsZoneController.init();
 
     _rocketZoneController = RocketZoneController(
-        zoneSize: Vector2(100, 400),
+        zoneSize: Vector2(100, 358),
         zonePosition: Vector2(281, 30),
         rocketHeight: 70,
         challengeConfig: RocketChallengeConfig(
-            totalTimeSec: 180,
-            wordCompletionTimeRewardSec: 20
+            totalTimeSec: 30,
+            wordCompletionTimeRewardSec: 3
         )
     );
     _rocketZoneController.init();

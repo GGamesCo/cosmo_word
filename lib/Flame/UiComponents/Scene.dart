@@ -2,9 +2,9 @@
 import 'package:flame/components.dart';
 
 import '../../main.dart';
-import '../WordGame.dart';
+import '../TimeChallengeGame.dart';
 
-class Scene extends SpriteComponent with HasGameRef<WordGame> {
+class Scene extends SpriteComponent with HasGameRef<TimeChallengeGame> {
   @override
   Future<void> onLoad() async {
     sprite = await gameRef.loadSprite('player-sprite.png');

@@ -8,12 +8,12 @@ import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 
 import '../../../main.dart';
-import '../../WordGame.dart';
+import '../../TimeChallengeGame.dart';
 
 
 
 
-class StaticBackgroundUiControl extends SpriteComponent with HasGameRef<WordGame> {
+class StaticBackgroundUiControl extends SpriteComponent with HasGameRef<TimeChallengeGame> {
 
   final String bgFileName;
   StaticBackgroundUiControl({required this.bgFileName});

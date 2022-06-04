@@ -2,10 +2,10 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
-import '../../WordGame.dart';
+import '../../TimeChallengeGame.dart';
 import '../CompletedWordsZone/CompletedWordsZoneUiControl.dart';
 
-class RocketChallengeZoneUiControl extends RectangleComponent with HasGameRef<WordGame> {
+class RocketChallengeZoneUiControl extends RectangleComponent with HasGameRef<TimeChallengeGame> {
 
   RocketChallengeZoneUiControl({required position, required size})
       : super(position: position, size: size);

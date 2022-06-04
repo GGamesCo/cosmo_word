@@ -1,7 +1,10 @@
 import 'dart:async' as DartAsync;
+import 'dart:math';
 import 'package:cosmo_word/Flame/Controllers/Abstract/UiControllerBase.dart';
 import 'package:cosmo_word/Flame/UiComponents/Rocket/RocketBoxUiControl.dart';
+import 'package:event/event.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 
@@ -23,8 +26,6 @@ class RocketZoneController implements UiControllerBase {
   late DartAsync.Timer _challengeCountDown;
   late int _secondsLeft;
 
-  late double _availableFlyHeight;
-
   @override
   late Component rootUiControl;
 
@@ -41,22 +42,31 @@ class RocketZoneController implements UiControllerBase {
     var rect = RectangleComponent(size: zoneSize, position: zonePosition);
     rect.setColor(Colors.transparent);
     rootUiControl = rect;
-    _availableFlyHeight = zoneSize.y;
 
     _rocketBoxUiControl = RocketBoxUiControl(size: zoneSize);
     _rocketUiControl = RocketUiControl(requiredHeight: rocketHeight);
     _rocketUiControl.anchor = Anchor.topCenter;
     _rocketUiControl.position = Vector2(zoneSize.x/2, 0);
+    _rocketUiControl.setOpacity(0);
 
     rootUiControl.add(_rocketBoxUiControl);
     rootUiControl.add(_rocketUiControl);
 
+    _rocketBoxUiControl.onLoadCompleted.subscribe(rocketBoxLoadCompleted);
+  }
+
+  void rocketBoxLoadCompleted(EventArgs? eventArgs){
     _secondsLeft = challengeConfig.totalTimeSec;
+
+    var rocketPosition = calculateRocketPosition();
+    _rocketUiControl.position = Vector2(rocketPosition.x, rocketPosition.y);
+    _rocketUiControl.setOpacity(1);
+
     _challengeCountDown = DartAsync.Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) {
-        onCountDownUpdated();
-      }
+        const Duration(seconds: 1),
+            (timer) {
+          onCountDownUpdated();
+        }
     );
   }
 
@@ -71,14 +81,32 @@ class RocketZoneController implements UiControllerBase {
   }
 
   void updateRocketPosition(){
+    var rocketPosition = calculateRocketPosition();
+    final effect = MoveToEffect(
+        Vector2(rocketPosition.x, rocketPosition.y),
+        EffectController(duration: 1, curve: Curves.linear)
+    );
+    _rocketUiControl.add(effect);
+  }
+
+  Vector2 calculateRocketPosition(){
+    var topRocketBound = _rocketBoxUiControl.flyBounds.x;
+    var bottomRocketBound = _rocketBoxUiControl.flyBounds.y-_rocketUiControl.requiredHeight;
+
+    var availableFlyDistance = bottomRocketBound - topRocketBound;
+
     var progress = _secondsLeft/challengeConfig.totalTimeSec;
-    var newHeight = _availableFlyHeight * (1-progress);
-    _rocketUiControl.position = Vector2(_rocketUiControl.position.x, newHeight);
+    var newHeight = _rocketBoxUiControl.flyBounds.x + availableFlyDistance * (1-progress);
+
+    return Vector2(_rocketUiControl.position.x, newHeight);
   }
 
   @override
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
-    _secondsLeft += challengeConfig.wordCompletionTimeRewardSec;
+    _secondsLeft = min(
+      _secondsLeft + challengeConfig.wordCompletionTimeRewardSec,
+      challengeConfig.totalTimeSec
+    ) ;
   }
 
   @override

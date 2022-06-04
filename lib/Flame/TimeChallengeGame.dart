@@ -7,11 +7,11 @@ import 'Controllers/StaticBackgroundController.dart';
 import 'Controllers/StubInputDisplayController.dart';
 import 'Models/Events/InputCompletedEventArgs.dart';
 
-class WordGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection {
+class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection {
 
   final Event<InputCompletedEventArgs> userInputReceivedEvent;
 
-  WordGame({required this.userInputReceivedEvent});
+  TimeChallengeGame({required this.userInputReceivedEvent});
 
   // Uncomment to see components outlines
   // @override
@@ -23,7 +23,7 @@ class WordGame extends FlameGame with HasTappables, HasDraggables, HasCollisionD
     var gameScreenController = GameScreenController(
       backgroundController: StaticBackgroundController(bgImageFile: "green.jpg"),
       challengeController: RocketChallengeZoneController(),
-      inputDisplayController: StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent)
+      inputDisplayController: StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent),
     );
 
     userInputReceivedEvent.subscribe((userInput) {

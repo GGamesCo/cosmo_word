@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:math';
-import 'dart:ui';
 import 'package:event/event.dart';
 import 'package:flame/collisions.dart';
-import 'package:flame/effects.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
