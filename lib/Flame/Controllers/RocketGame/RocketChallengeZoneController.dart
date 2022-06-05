@@ -25,13 +25,13 @@ class RocketChallengeZoneController implements ChallengeZoneController {
   Future<void> get uiComponentLoadedFuture => _rocketZoneController.uiComponentLoadedFuture;
 
   RocketChallengeZoneController(){
-    rootUiControl = RocketChallengeZoneUiControl(size: Vector2(400, 430), position: Vector2(0,0));
+    rootUiControl = RocketChallengeZoneUiControl(size: Vector2(400, 425), position: Vector2(0,50));
   }
 
   @override
   void init() {
     _completedWordsZoneController = CompletedWordsZoneController(
-      viewportSize: Vector2(280, 470),
+      viewportSize: Vector2(280, 425),
       viewportPosition: Vector2(0, 0),
       requiredBrickHeight: 40,
       initialScrollOffset: 0,
