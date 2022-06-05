@@ -24,12 +24,15 @@ class MyStoryProgress extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 1),
               child: Center(
-                child: LinearProgressIndicator(
-                  value: progressCurrent/progressTotal,
-                  minHeight: 30,
-                  backgroundColor: Color.fromRGBO(116, 126, 126, 1),
-                  color: Color.fromRGBO(255, 207, 123, 1),
-                  semanticsLabel: 'Linear progress indicator',
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child: LinearProgressIndicator(
+                    value: progressCurrent/progressTotal,
+                    minHeight: 30,
+                    backgroundColor: Color.fromRGBO(116, 126, 126, 1),
+                    color: Color.fromRGBO(255, 207, 123, 1),
+                    semanticsLabel: 'Linear progress indicator',
+                  ),
                 ),
               ),
             ),
