@@ -1,8 +1,9 @@
 import 'dart:async' as DartAsync;
 import 'dart:math';
+import 'package:cosmo_word/GameBL/TimeChallenge/TimeChallengeResults.dart';
 import 'package:event/event.dart';
 import 'package:flame/game.dart';
-import '../Abstract/Models/RocketChallengeConfig.dart';
+import '../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
 import 'Controllers/Abstract/InputDisplayController.dart';
 import 'Controllers/RocketGame/RocketChallengeZoneController.dart';
@@ -69,7 +70,11 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
           _rocketChallengeZoneController.onCountDownUpdated(_secondsLeft, challengeConfig.totalTimeSec);
           if(_secondsLeft == 0){
             _challengeCountDown.cancel();
-            gameCompletedEvent.broadcast(TimeChallengeGameCompletedEventArgs(completedWordsCount: 10));
+            gameCompletedEvent.broadcast(
+                TimeChallengeGameCompletedEventArgs(
+                  results: TimeChallengeResults(completedWordsCount: 10)
+                )
+            );
             return;
           }
         }

@@ -1,15 +1,11 @@
 import 'package:event/event.dart';
 
+import '../../../GameBL/TimeChallenge/TimeChallengeResults.dart';
+
 class GameCompletedEventArgs extends EventArgs {}
 
 class TimeChallengeGameCompletedEventArgs implements GameCompletedEventArgs{
-  final int completedWordsCount;
+  final TimeChallengeResults results;
 
-  TimeChallengeGameCompletedEventArgs({required this.completedWordsCount});
-}
-
-class BrickGameCompletedEventArgs implements GameCompletedEventArgs{
-  final int completedWordsCount;
-
-  BrickGameCompletedEventArgs({required this.completedWordsCount});
+  TimeChallengeGameCompletedEventArgs({required this.results});
 }
