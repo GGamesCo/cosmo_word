@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'LobbyNavigationButton.dart';
 
 class LobbyNavigation extends StatelessWidget{
 
@@ -17,13 +20,13 @@ class LobbyNavigation extends StatelessWidget{
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
+                      LobbyNavigationButton(
                         onTap: () => {},
-                        child: Image.asset('assets/images/lobby/lobby-navigation-goto-mystory.png'),
+                        imageFileName: 'assets/images/lobby/lobby-navigation-goto-mystory.png',
                       ),
-                      GestureDetector(
+                      LobbyNavigationButton(
                         onTap: () => {},
-                        child: Image.asset('assets/images/lobby/lobby-navigation-goto-timechalenge.png'),
+                        imageFileName: 'assets/images/lobby/lobby-navigation-goto-timechalenge.png',
                       )
                     ],
                   ),
