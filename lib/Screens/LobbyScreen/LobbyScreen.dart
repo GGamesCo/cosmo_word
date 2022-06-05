@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import '../../Flame/TimeChallengeGame.dart';
+import '../../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import '../GameScreen/GameScreen.dart';
 
 class LobbyScreen extends StatelessWidget {
@@ -12,7 +13,16 @@ class LobbyScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => GameScreen()),
+              MaterialPageRoute(builder: (context) => GameScreen(
+                  gameScreenKey: GlobalKey(),
+                  game: TimeChallengeGame(
+                    challengeConfig: RocketChallengeConfig(
+                      totalTimeSec: 30,
+                      wordCompletionTimeRewardSec: 3
+                    )
+                  )
+                )
+              ),
             );
           },
         ),

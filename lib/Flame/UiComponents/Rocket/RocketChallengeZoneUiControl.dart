@@ -2,22 +2,17 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
-import '../../BrickWordChallenge.dart';
+import '../../TimeChallengeGame.dart';
 import '../CompletedWordsZone/CompletedWordsZoneUiControl.dart';
 
-class StubChallengeZoneUiControl extends RectangleComponent with HasGameRef<BrickWordChallenge> {
+class RocketChallengeZoneUiControl extends RectangleComponent with HasGameRef<TimeChallengeGame> {
 
-  StubChallengeZoneUiControl({required position, required size})
+  RocketChallengeZoneUiControl({required position, required size})
       : super(position: position, size: size);
 
   @override
   Future<void> onLoad() async {
     setColor(Colors.transparent);
-
-    var bgImage = await gameRef.loadSprite('rocket_challenge.png');
-    var sprite = SpriteComponent(sprite: bgImage, size: size);
-    add(sprite);
-
 
     var tester = RectangleComponent(
       size: Vector2(10, 10),

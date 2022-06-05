@@ -6,7 +6,7 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
 
-import '../../UiComponents/CompletedWordsZone/WordSprite.dart';
+import '../UiComponents/CompletedWordsZone/WordSprite.dart';
 
 class SimpleAnimatedBrick {
 

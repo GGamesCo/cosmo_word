@@ -6,26 +6,30 @@ import 'package:cosmo_word/Flame/Models/CompletedBrickData.dart';
 import 'package:flame/components.dart';
 
 import '../../Models/Events/InputCompletedEventArgs.dart';
-import '../../UiComponents/StubGame/StubChallengeZoneUiControl.dart';
+import '../../UiComponents/Rocket/RocketChallengeZoneUiControl.dart';
 import '../Abstract/ChallengeZoneController.dart';
+import 'RocketZoneController.dart';
 
-class StubChallengeZoneController implements ChallengeZoneController {
+class RocketChallengeZoneController implements ChallengeZoneController {
 
   List<String> _colorCodes = ['y', 'g', 'r'];
 
   Random _random = new Random();
 
   late CompletedWordsZoneController _completedWordsZoneController;
+  late RocketZoneController _rocketZoneController;
 
   @override
   late Component rootUiControl;
 
-  StubChallengeZoneController(){
-    rootUiControl = StubChallengeZoneUiControl(size: Vector2(400, 430), position: Vector2(0,0));
+  Future<void> get uiComponentLoadedFuture => _rocketZoneController.uiComponentLoadedFuture;
+
+  RocketChallengeZoneController(){
+    rootUiControl = RocketChallengeZoneUiControl(size: Vector2(400, 430), position: Vector2(0,0));
   }
 
   @override
-  Future<void> init() async {
+  void init() {
     _completedWordsZoneController = CompletedWordsZoneController(
       viewportSize: Vector2(280, 430),
       viewportPosition: Vector2(0, 0),
@@ -38,25 +42,37 @@ class StubChallengeZoneController implements ChallengeZoneController {
       scrollAnimDurationSec: 1
     );
     _completedWordsZoneController.init();
+
+    _rocketZoneController = RocketZoneController(
+        zoneSize: Vector2(100, 358),
+        zonePosition: Vector2(281, 30),
+        rocketHeight: 70,
+    );
+    _rocketZoneController.init();
+
     rootUiControl.add(_completedWordsZoneController.rootUiControl);
+    rootUiControl.add(_rocketZoneController.rootUiControl);
+  }
+
+  void initRocketPosition(int secondsLeft, int totalTime){
+    _rocketZoneController.initRocketPosition(secondsLeft, totalTime);
+  }
+
+  void onCountDownUpdated(int secondsLeft, int totalTime){
+    _rocketZoneController.onCountDownUpdated(secondsLeft, totalTime);
   }
 
   @override
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
     var pickedWord = wordInput!.inputString;
     var pickedColor = _pickRandomListElement(_colorCodes);
+
     _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
   }
 
   String _pickRandomListElement(List<String> list){
     var index = _random.nextInt(list.length);
     var element = list[index];
-    //list.removeAt(index);
     return element;
-  }
-
-  @override
-  void onDispose() {
-
   }
 }
