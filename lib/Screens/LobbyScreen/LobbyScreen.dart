@@ -1,32 +1,43 @@
 import 'package:flutter/material.dart';
 import '../../Flame/TimeChallengeGame.dart';
 import '../../GameBL/TimeChallenge/RocketChallengeConfig.dart';
+import '../Common/Background/StaticBackground.dart';
+import '../Common/TopBar/TopBarLayer.dart';
 import '../GameScreen/GameScreen.dart';
+import 'LobbyLogo.dart';
+import 'LobbyMyStory.dart';
+import 'LobbyNavigation.dart';
 
 class LobbyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          child: const Text('Play challenge'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => GameScreen(
-                  gameScreenKey: GlobalKey(),
-                  game: TimeChallengeGame(
-                    challengeConfig: RocketChallengeConfig(
-                      totalTimeSec: 30,
-                      wordCompletionTimeRewardSec: 3
-                    )
-                  )
-                )
-              ),
-            );
-          },
+      body: Stack(
+        children: [
+          StaticBackground(fileName: 'green.jpg'),
+          Padding(
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 100,
+              bottom: 0
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                LobbyLogo(),
+                LobbyNavigation(),
+                LobbyMyStory()
+              ]
+            ),
+          ),
+          TopBarLayer(
+            showBack: false,
+            showSettings: true,
+            showBalance: true,
+          ),
+        ],
         ),
-      ),
-    );
+      );
   }
 }

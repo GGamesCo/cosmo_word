@@ -2,8 +2,8 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import '../../Flame/Models/Events/GameCompletedEventArgs.dart';
 import '../../Flame/TimeChallengeGame.dart';
+import '../Common/TopBar/TopBarLayer.dart';
 import 'Layers/Gameplay/GameplayLayer.dart';
-import 'Layers/TopBar/TopBarLayer.dart';
 
 class GameScreen extends StatelessWidget {
 
@@ -23,7 +23,11 @@ class GameScreen extends StatelessWidget {
       body: Stack(
         children: [
           GameplayLayer(game: game),
-          TopBarLayer(),
+          TopBarLayer(
+            showBack: true,
+            showSettings: false,
+            showBalance: true,
+          ),
         ],
       )
     );
