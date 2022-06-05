@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../LobbyScreen/LobbyScreen.dart';
+
+import '../../LobbyScreen/LobbyScreen.dart';
 
 class TopBarLayer extends StatelessWidget{
 
