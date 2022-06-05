@@ -86,7 +86,13 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
         _secondsLeft + challengeConfig.wordCompletionTimeRewardSec,
         challengeConfig.totalTimeSec
     );
-    _rocketChallengeZoneController.handleInputCompleted(wordInput);
-    _inputDisplayController.handleInputCompleted(wordInput);
+
+    if (Random().nextBool()){ // If word accepted
+      _rocketChallengeZoneController.handleInputCompleted(wordInput);
+      _inputDisplayController.handleInputCompleted(wordInput);
+    }
+    else{
+      _inputDisplayController.handleInputRejected();
+    }
   }
 }
