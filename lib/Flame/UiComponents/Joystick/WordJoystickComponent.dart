@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:cosmo_word/Flame/UiComponents/Joystick/JoystickUiConfig.dart';
+import '../../Models/Events/SymbolInputAddedEventArgs.dart';
 import '../../UiComponents/Joystick/DragPointerLocation.dart';
 import '../../UiComponents/Joystick/JoytickSymbolComponent.dart';
 import '../../UiComponents/Joystick/SymbolLocationModel.dart';
@@ -14,13 +17,16 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
 
   List<String> alph = List<String>.empty();
   double sideLength = 0;
-  final Event<InputCompletedEventArgs> userInputEvent;
 
-  WordJoystickComponent({required List<String> alph, required double sideLength, required this.userInputEvent}){
+  final Event<InputCompletedEventArgs> userInputCompletedEvent;
+  late Event<SymbolInputAddedEventArgs> symbolInputAddedEvent;
+
+  WordJoystickComponent({required List<String> alph, required double sideLength, required this.userInputCompletedEvent}){
     assert(alph.length >= 3 && alph.length <= 5);
 
     this.sideLength = sideLength;
     this.alph = alph;
+    this.symbolInputAddedEvent = Event<SymbolInputAddedEventArgs>();
 }
 
   @override
@@ -74,6 +80,8 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
       navigator.points
           .add(SymbolLocationModel(arg.symbolId, startSymbolLocation));
       symbols.firstWhere((element) => element.symbolId == arg.symbolId).changeStateAnimated(true);
+      var addedSymbolEvent = SymbolInputAddedEventArgs(arg.symbolId, navigator.inputString);
+      symbolInputAddedEvent.broadcast(addedSymbolEvent);
     }
 
     var lineEndPosition = arg.location;
@@ -81,12 +89,12 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
     // Init current cursor position
     navigator.lastCursorPoint = Offset(lineEndPosition.x, lineEndPosition.y);
 
-    var existIntersections = false;
     for (var symbol in symbols) {
       if (symbol.isPointInsideSymbol(lineEndPosition)) {
-        existIntersections = true;
         if (!navigator.points.map((x) => x.id).contains(symbol.symbolId)) {
+          var addedSymbolEvent = SymbolInputAddedEventArgs(symbol.symbolId, navigator.inputString);
           navigator.points.add(SymbolLocationModel(symbol.symbolId, Offset(symbol.x, symbol.y)));
+          symbolInputAddedEvent.broadcast(addedSymbolEvent);
           symbol.changeStateAnimated(true);
         }
       }
@@ -98,10 +106,8 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
       throw Exception(
           "Wrong end event. Expected drag end for symbol ${navigator.points.first.id} but occured for ${arg.symbolId}");
 
+    userInputCompletedEvent.broadcast(InputCompletedEventArgs(navigator.inputString));
     // #Usage: Remove from here and Call outside Reset if Word accepted and ResetAnimated if declined
-    String inputResult = "";
-    navigator.points.forEach((element) { inputResult += element.id;});
-    userInputEvent.broadcast(InputCompletedEventArgs(inputResult));
     reset();
 
   }

@@ -9,11 +9,17 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
   Color inactiveColor = Colors.white;
 
   Paint _paint = Paint()
-  //  ..color = Color.fromRGBO(241, 174, 89, 1)
     ..strokeWidth = 15;
 
   List<SymbolLocationModel> points = <SymbolLocationModel>[];
   Offset lastCursorPoint = Offset.zero;
+
+  String get inputString {
+    String inputResult = "";
+    points.forEach((element) { inputResult += element.id;});
+    return inputResult;
+  }
+
 
   @override
   Future<void> onLoad() async {

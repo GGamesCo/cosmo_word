@@ -1,13 +1,16 @@
+import 'dart:math';
+
+import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dart';
 import 'package:flame/components.dart';
 import '../../Models/Events/InputCompletedEventArgs.dart';
-import '../../UiComponents/InputDisplayZone/InputDisplayZoneCover.dart';
-import '../../UiComponents/InputDisplayZone/InputDisplayZoneGlass.dart';
 import '../Abstract/InputDisplayController.dart';
 import '../../UiComponents/Joystick/WordJoystickComponent.dart';
 import 'package:event/event.dart';
 
-class StubInputDisplayController implements InputDisplayController {
+class StubInputDisplayController implements InputDisplayController{
   final Event<InputCompletedEventArgs> userInputReceivedEvent;
+
+  late PreviewZoneComponent previewZone;
 
   @override
   late Component rootUiControl;
@@ -15,13 +18,27 @@ class StubInputDisplayController implements InputDisplayController {
   StubInputDisplayController({required this.userInputReceivedEvent}){
     var rectangle = RectangleComponent();
 
-    rectangle.add(WordJoystickComponent(
+
+    var joystick = WordJoystickComponent(
       alph: ['U', 'D', 'O', 'C', 'L'], // Array must be of size 3 - 5 'C', 'L'
-      userInputEvent: userInputReceivedEvent,
-      sideLength: 200
-    ));
-    // rectangle.add(InputDisplayZoneGlass());
-    // rectangle.add(InputDisplayZoneCover());
+      userInputCompletedEvent: userInputReceivedEvent,
+      sideLength: 250
+    );
+
+    previewZone = PreviewZoneComponent();
+    previewZone.position = Vector2(0, 470);
+
+    joystick.symbolInputAddedEvent.subscribe((eventArgs) {
+      print("onSymbolAdded: " + eventArgs!.lastInputSymbol);
+      previewZone.onSymbolAdded(eventArgs!);
+    });
+
+    userInputReceivedEvent.subscribe((eventArgs) {
+      //previewZone.onInputCompleted(eventArgs!);
+    });
+
+    rectangle.add(previewZone);
+    rectangle.add(joystick);
 
     rectangle.position = Vector2(0, 0);
 
@@ -39,10 +56,15 @@ class StubInputDisplayController implements InputDisplayController {
 
   @override
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
-
+    previewZone.onInputCompleted(wordInput!);
   }
 
   @override
   void onDispose() {
+  }
+
+  @override
+  Future<void> handleInputRejected() async {
+    previewZone.onInputRejected();
   }
 }

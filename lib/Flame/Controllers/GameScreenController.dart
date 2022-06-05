@@ -35,10 +35,16 @@ class GameScreenController implements UiControllerBase {
   }
 
   void onNewWordInput(InputCompletedEventArgs? wordInput) async {
-    await Future.wait([
-      challengeController.handleInputCompleted(wordInput),
-      inputDisplayController.handleInputCompleted(wordInput)
-    ]);
+
+    if (!challengeController.checkInputAcceptable(wordInput!)){
+      await inputDisplayController.handleInputRejected();
+    }
+    else{
+      await Future.wait([
+        challengeController.handleInputCompleted(wordInput),
+        inputDisplayController.handleInputCompleted(wordInput)
+      ]);
+    }
   }
 
   @override

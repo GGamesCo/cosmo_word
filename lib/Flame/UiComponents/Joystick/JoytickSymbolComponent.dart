@@ -23,6 +23,9 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
     anchor = Anchor.center;
 
     btn = JoystickSymbolSpriteComponent(this.symbolId);
+    btn.size = size;
+    btn.anchor = Anchor.center;
+    btn.position = size/2;
     add(btn);
   }
 

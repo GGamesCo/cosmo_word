@@ -23,9 +23,6 @@ class JoystickSymbolSpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    size = (parent as PositionComponent).size;
-    anchor = Anchor.center;
-    position = (parent as PositionComponent).size/2;
 
     inactiveBg =  await gameRef.loadSprite('widget/inactiveBtnBg.png');
     activeBg =  await gameRef.loadSprite('widget/activeBtnBg.png');

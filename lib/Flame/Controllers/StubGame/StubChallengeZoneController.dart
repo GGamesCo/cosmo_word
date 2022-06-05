@@ -21,13 +21,13 @@ class StubChallengeZoneController implements ChallengeZoneController {
   late Component rootUiControl;
 
   StubChallengeZoneController(){
-    rootUiControl = StubChallengeZoneUiControl(size: Vector2(400, 430), position: Vector2(0,0));
+    rootUiControl = StubChallengeZoneUiControl(size: Vector2(400, 470), position: Vector2(0,0));
   }
 
   @override
   Future<void> init() async {
     _completedWordsZoneController = CompletedWordsZoneController(
-      viewportSize: Vector2(280, 430),
+      viewportSize: Vector2(280, 470),
       viewportPosition: Vector2(0, 0),
       requiredBrickHeight: 40,
       initialScrollOffset: 0,
@@ -46,6 +46,11 @@ class StubChallengeZoneController implements ChallengeZoneController {
     var pickedWord = wordInput!.inputString;
     var pickedColor = _pickRandomListElement(_colorCodes);
     _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
+  }
+
+  @override
+  bool checkInputAcceptable(InputCompletedEventArgs wordInput){
+    return Random().nextBool();
   }
 
   String _pickRandomListElement(List<String> list){
