@@ -23,7 +23,11 @@ class GameScreen extends StatelessWidget {
       body: Stack(
         children: [
           GameplayLayer(game: game),
-          TopBarLayer(),
+          TopBarLayer(
+            showBack: true,
+            showSettings: false,
+            showBalance: true,
+          ),
         ],
       )
     );

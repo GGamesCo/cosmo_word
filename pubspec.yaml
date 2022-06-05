@@ -63,6 +63,7 @@ flutter:
     - assets/images/widget/
     - assets/images/rocket/
     - assets/images/lobby/
+    - assets/images/common_controls/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

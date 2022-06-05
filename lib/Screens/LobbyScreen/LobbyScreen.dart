@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../Flame/TimeChallengeGame.dart';
 import '../../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import '../Common/Background/StaticBackground.dart';
+import '../Common/TopBar/TopBarLayer.dart';
 import '../GameScreen/GameScreen.dart';
 import 'LobbyLogo.dart';
 import 'LobbyMyStory.dart';
@@ -29,7 +30,12 @@ class LobbyScreen extends StatelessWidget {
                 LobbyMyStory()
               ]
             ),
-          )
+          ),
+          TopBarLayer(
+            showBack: false,
+            showSettings: true,
+            showBalance: true,
+          ),
         ],
         ),
       );
