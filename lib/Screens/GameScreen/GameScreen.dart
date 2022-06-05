@@ -4,6 +4,7 @@ import '../../Flame/Models/Events/GameCompletedEventArgs.dart';
 import '../../Flame/TimeChallengeGame.dart';
 import '../Common/TopBar/TopBarLayer.dart';
 import 'Layers/Gameplay/GameplayLayer.dart';
+import 'Layers/Popups/GameCompletePopup.dart';
 
 class GameScreen extends StatelessWidget {
 
@@ -36,15 +37,10 @@ class GameScreen extends StatelessWidget {
   void onGameCompleted(GameCompletedEventArgs? resultsData){
     if(resultsData is TimeChallengeGameCompletedEventArgs){
       showDialog(
-          context: gameScreenKey.currentContext!,
-          builder: (BuildContext context){
-            return AlertDialog(
-              title: Text("Popup"),
-              content: Container(
-                child: Text("Completed words: ${resultsData.results.completedWordsCount}"),
-              ),
-            );
-          }
+        context: gameScreenKey.currentContext!,
+        builder: (BuildContext context){
+          return GameCompletePopup();
+        }
       );
     }
   }
