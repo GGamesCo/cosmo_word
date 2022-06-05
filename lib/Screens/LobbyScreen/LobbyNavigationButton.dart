@@ -22,6 +22,7 @@ class _LobbyNavigationButtonState extends State<LobbyNavigationButton> {
       onTapDown: (e) {
         HapticFeedback.vibrate();
         setState(() {_isPressed = true;});
+        widget.onTap();
       },
       onTapUp: (e) {
         setState(() {_isPressed = false;});
