@@ -5,6 +5,9 @@ import 'package:flame/components.dart';
 import '../../Models/Events/InputCompletedEventArgs.dart';
 import '../Abstract/InputDisplayController.dart';
 import '../../UiComponents/Joystick/WordJoystickComponent.dart';
+import '../Models/Events/InputCompletedEventArgs.dart';
+import 'Abstract/InputDisplayController.dart';
+import '../UiComponents/Joystick/WordJoystickComponent.dart';
 import 'package:event/event.dart';
 
 class StubInputDisplayController implements InputDisplayController{
@@ -44,23 +47,11 @@ class StubInputDisplayController implements InputDisplayController{
 
     rootUiControl = rectangle;
   }
-
-  @override
-  Future<void> init() async {
-
-  }
-
-  @override
-  Future<void> onStart() async {
-  }
+  
 
   @override
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
     previewZone.onInputCompleted(wordInput!);
-  }
-
-  @override
-  void onDispose() {
   }
 
   @override

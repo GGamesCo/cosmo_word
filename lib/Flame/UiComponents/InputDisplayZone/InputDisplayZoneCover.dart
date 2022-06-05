@@ -1,8 +1,8 @@
 import 'package:flame/components.dart';
-import '../../BrickWordChallenge.dart';
+import '../../TimeChallengeGame.dart';
 
 
-class InputDisplayZoneCover extends SpriteComponent with HasGameRef<BrickWordChallenge> {
+class InputDisplayZoneCover extends SpriteComponent with HasGameRef<TimeChallengeGame> {
   @override
   Future<void> onLoad() async {
     sprite = await gameRef.loadSprite('input_display/display_input_cover.png');

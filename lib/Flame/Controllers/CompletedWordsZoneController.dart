@@ -1,14 +1,11 @@
-import 'dart:math';
-
 import 'package:cosmo_word/Flame/Controllers/Abstract/UiControllerBase.dart';
 import 'package:flame/components.dart';
-import 'package:flame/src/components/component.dart';
 
 import '../Models/CompletedBrickData.dart';
 import '../UiComponents/CompletedWordsZone/CompletedWordsZoneUiControl.dart';
-import 'StubGame/SimpleAnimatedBrick.dart';
+import 'SimpleAnimatedBrick.dart';
 
-class CompletedWordsZoneController extends UiControllerBase{
+class CompletedWordsZoneController extends UiControllerBase {
 
   final Vector2 viewportSize;
   final Vector2 viewportPosition;
@@ -40,7 +37,7 @@ class CompletedWordsZoneController extends UiControllerBase{
   });
 
   @override
-  Future<void> init() async {
+  init() {
     rootUiControl = CompletedWordsZoneUiControl(
       viewportSize: viewportSize,
       viewportPosition: viewportPosition,
@@ -78,10 +75,4 @@ class CompletedWordsZoneController extends UiControllerBase{
       rootUiControl.updateScrollOffset(requiredBrickHeight*containerScrollBricksCount, scrollAnimDurationSec);
     }
   }
-
-  @override
-  void onDispose() {
-
-  }
-
 }
