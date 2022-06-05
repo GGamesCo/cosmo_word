@@ -22,8 +22,7 @@ class RocketChallengeZoneController implements ChallengeZoneController {
   @override
   late Component rootUiControl;
 
-  @override
-  Future<void> get uiComponentLoadedFuture => Future.wait([_completedWordsZoneController.uiComponentLoadedFuture, _rocketZoneController.uiComponentLoadedFuture]);
+  Future<void> get uiComponentLoadedFuture => _rocketZoneController.uiComponentLoadedFuture;
 
   RocketChallengeZoneController(){
     rootUiControl = RocketChallengeZoneUiControl(size: Vector2(400, 430), position: Vector2(0,0));
@@ -75,10 +74,5 @@ class RocketChallengeZoneController implements ChallengeZoneController {
     var index = _random.nextInt(list.length);
     var element = list[index];
     return element;
-  }
-
-  @override
-  void onDispose() {
-
   }
 }

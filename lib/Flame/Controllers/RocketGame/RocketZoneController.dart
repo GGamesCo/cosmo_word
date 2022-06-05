@@ -20,7 +20,6 @@ class RocketZoneController implements UiControllerBase {
   @override
   late Component rootUiControl;
 
-  @override
   DartAsync.Future<void> get uiComponentLoadedFuture => Future.wait([_rocketBoxUiControl.loaded, _rocketUiControl.loaded]);
   
   RocketZoneController({
@@ -78,10 +77,5 @@ class RocketZoneController implements UiControllerBase {
     var progress = secondsLeft/totalTime;
     var newHeight = _rocketBoxUiControl.flyBounds.x + availableFlyDistance * (1-progress);
     return Vector2(_rocketUiControl.position.x, newHeight);
-  }
-
-  @override
-  void onDispose() {
-
   }
 }

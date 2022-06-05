@@ -10,9 +10,6 @@ class StubInputDisplayController implements InputDisplayController {
   @override
   late Component rootUiControl;
 
-  @override
-  Future<void> get uiComponentLoadedFuture => Future.wait([rootUiControl.loaded]);
-
   StubInputDisplayController({required this.userInputReceivedEvent}){
     var rectangle = RectangleComponent();
 
@@ -37,9 +34,5 @@ class StubInputDisplayController implements InputDisplayController {
   @override
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
 
-  }
-
-  @override
-  void onDispose() {
   }
 }

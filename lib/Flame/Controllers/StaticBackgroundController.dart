@@ -11,17 +11,10 @@ class StaticBackgroundController implements BackgroundController {
   @override
   late Component rootUiControl;
 
-  @override
-  Future<void> get uiComponentLoadedFuture => Future.wait([rootUiControl.loaded]);
-
   StaticBackgroundController({required this.bgImageFile});
 
   @override
   init() {
     rootUiControl = StaticBackgroundUiControl(bgFileName: bgImageFile);
-  }
-
-  @override
-  void onDispose() {
   }
 }

@@ -2,9 +2,9 @@ import 'dart:async' as DartAsync;
 import 'dart:math';
 import 'package:event/event.dart';
 import 'package:flame/game.dart';
-
 import '../Abstract/Models/RocketChallengeConfig.dart';
-import 'Controllers/GameScreenController.dart';
+import 'Controllers/Abstract/BackgroundController.dart';
+import 'Controllers/Abstract/InputDisplayController.dart';
 import 'Controllers/RocketGame/RocketChallengeZoneController.dart';
 import 'Controllers/StaticBackgroundController.dart';
 import 'Controllers/StubInputDisplayController.dart';
@@ -19,8 +19,9 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
 
   final RocketChallengeConfig challengeConfig;
 
-  late GameScreenController _gameScreenController;
+  late BackgroundController _backgroundController;
   late RocketChallengeZoneController _rocketChallengeZoneController;
+  late InputDisplayController _inputDisplayController;
   late DartAsync.Timer _challengeCountDown;
   late int _secondsLeft;
 
@@ -35,20 +36,24 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
 
     var userInputReceivedEvent = Event<InputCompletedEventArgs>();
 
+    _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
     _rocketChallengeZoneController = RocketChallengeZoneController();
-    _gameScreenController = GameScreenController(
-      backgroundController: StaticBackgroundController(bgImageFile: "green.jpg"),
-      challengeController: _rocketChallengeZoneController,
-      inputDisplayController: StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent),
-    );
+    _inputDisplayController = StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent);
+
+    _backgroundController.init();
+    _rocketChallengeZoneController.init();
+    _inputDisplayController.init();
 
     userInputReceivedEvent.subscribe((userInput) {
       handleInputCompleted(userInput);
     });
 
-    _gameScreenController.init();
-    add(_gameScreenController.rootUiControl);
 
+    add(_backgroundController.rootUiControl);
+    add(_rocketChallengeZoneController.rootUiControl);
+    add(_inputDisplayController.rootUiControl);
+
+    // ?? ?? ? hack to wait until rocket inited and fly zone bounds calculated
     _rocketChallengeZoneController.uiComponentLoadedFuture.then((value) {
       setupCountdown();
     });
@@ -71,12 +76,12 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     );
   }
 
-  @override
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
     _secondsLeft = min(
         _secondsLeft + challengeConfig.wordCompletionTimeRewardSec,
         challengeConfig.totalTimeSec
     );
-    _gameScreenController.onNewWordInput(wordInput);
+    _rocketChallengeZoneController.handleInputCompleted(wordInput);
+    _inputDisplayController.handleInputCompleted(wordInput);
   }
 }
