@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import '../../Flame/Common/Mixins.dart';
 import '../../Flame/Models/Events/GameCompletedEventArgs.dart';
 import '../../Flame/TimeChallengeGame.dart';
 import '../Common/TopBar/TopBarLayer.dart';
