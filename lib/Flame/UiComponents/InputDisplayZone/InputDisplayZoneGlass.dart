@@ -1,8 +1,9 @@
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import '../../TimeChallengeGame.dart';
 
 
-class InputDisplayZoneGlass extends SpriteComponent with HasGameRef<TimeChallengeGame> {
+class InputDisplayZoneGlass<G extends FlameGame> extends SpriteComponent with HasGameRef<G> {
   @override
   Future<void> onLoad() async {
     sprite = await gameRef.loadSprite('input_display/glass.png');

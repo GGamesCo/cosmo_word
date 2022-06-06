@@ -12,8 +12,7 @@ import '../../TimeChallengeGame.dart';
 
 
 
-
-class StaticBackgroundUiControl extends SpriteComponent with HasGameRef<TimeChallengeGame> {
+class StaticBackgroundUiControl<G extends FlameGame> extends SpriteComponent with HasGameRef<G> {
 
   final String bgFileName;
   StaticBackgroundUiControl({required this.bgFileName});
