@@ -39,7 +39,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
 
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
     _rocketChallengeZoneController = RocketChallengeZoneController();
-    _inputDisplayController = StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent);
+    _inputDisplayController = StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent, game: this);
 
     _backgroundController.init();
     _rocketChallengeZoneController.init();
@@ -48,7 +48,6 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     userInputReceivedEvent.subscribe((userInput) {
       handleInputCompleted(userInput);
     });
-
 
     add(_backgroundController.rootUiControl);
     add(_rocketChallengeZoneController.rootUiControl);
