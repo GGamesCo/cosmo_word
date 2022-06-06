@@ -1,11 +1,10 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
-import '../../TimeChallengeGame.dart';
-
-class CompletedWordsZoneUiControl extends RectangleComponent with HasGameRef<TimeChallengeGame> {
+class CompletedWordsZoneUiControl<G extends FlameGame> extends RectangleComponent with HasGameRef<G> {
 
   final Vector2 viewportSize;
   final Vector2 viewportPosition;

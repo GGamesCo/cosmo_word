@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/src/components/component.dart';
-
-import '../UiComponents/StubGame/DisplayZone.dart';
+import '../UiComponents/Background/StaticBackgroundUiControl.dart';
 import 'Abstract/BackgroundController.dart';
 
 class StaticBackgroundController implements BackgroundController {

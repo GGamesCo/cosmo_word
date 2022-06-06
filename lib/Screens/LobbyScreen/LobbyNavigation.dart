@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../Flame/StoryGame.dart';
 import '../../Flame/TimeChallengeGame.dart';
+import '../../GameBL/Story/StoryLevelConfig.dart';
 import '../../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import '../GameScreen/GameScreen.dart';
 import 'LobbyNavigationButton.dart';
@@ -24,25 +26,11 @@ class LobbyNavigation extends StatelessWidget{
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       LobbyNavigationButton(
-                        onTap: () => {},
+                        onTap: () => _navigateToStoryGame(context),
                         imageFileName: 'assets/images/lobby/lobby-navigation-goto-mystory.png',
                       ),
                       LobbyNavigationButton(
-                        onTap: () {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => GameScreen(
-                        gameScreenKey: GlobalKey(),
-                        game: TimeChallengeGame(
-                        challengeConfig: RocketChallengeConfig(
-                        totalTimeSec: 30,
-                        wordCompletionTimeRewardSec: 3
-                        )
-                        )
-                        )
-                        ),
-                        );
-                        },
+                        onTap: () => _navigateToChallengeGame(context),
                         imageFileName: 'assets/images/lobby/lobby-navigation-goto-timechalenge.png',
                       )
                     ],
@@ -51,6 +39,37 @@ class LobbyNavigation extends StatelessWidget{
               )
             ]
         ),
+      ),
+    );
+  }
+
+  void _navigateToStoryGame(BuildContext context){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => GameScreen(
+          gameScreenKey: GlobalKey(),
+          game: StoryGame(
+              storyLevelConfig: StoryLevelConfig(
+                totalWords: 10
+              )
+          )
+      )
+      ),
+    );
+  }
+
+  void _navigateToChallengeGame(BuildContext context){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => GameScreen(
+          gameScreenKey: GlobalKey(),
+          game: TimeChallengeGame(
+              challengeConfig: RocketChallengeConfig(
+                  totalTimeSec: 30,
+                  wordCompletionTimeRewardSec: 3
+              )
+          )
+      )
       ),
     );
   }
