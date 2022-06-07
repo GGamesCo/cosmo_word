@@ -8,6 +8,7 @@ import 'Controllers/Abstract/BackgroundController.dart';
 import 'Controllers/Abstract/InputDisplayController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';
 import 'Controllers/StaticBackgroundController.dart';
+import 'Controllers/StoryLevel/LevelProgressBarController.dart';
 import 'Controllers/StubInputDisplayController.dart';
 import 'Models/CompletedBrickData.dart';
 import 'Models/Events/InputCompletedEventArgs.dart';
@@ -19,6 +20,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollision
   late BackgroundController _backgroundController;
   late InputDisplayController _inputDisplayController;
   late CompletedWordsZoneController _completedWordsZoneController;
+  late LevelProgressBarController _levelProgressBarController;
 
   List<String> _colorCodes = ['y', 'g', 'r'];
   Random _random = new Random();
@@ -38,7 +40,9 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollision
     var userInputReceivedEvent = Event<InputCompletedEventArgs>();
 
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
+    _backgroundController.init();
     _inputDisplayController = StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent);
+    _inputDisplayController.init();
 
     _completedWordsZoneController = CompletedWordsZoneController(
         viewportSize: Vector2(350, 455),
@@ -53,17 +57,19 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollision
     );
     _completedWordsZoneController.init();
 
-    _backgroundController.init();
-    _inputDisplayController.init();
+    _levelProgressBarController = LevelProgressBarController(
+        levelConfig: storyLevelConfig
+    );
+    _levelProgressBarController.init();
 
     userInputReceivedEvent.subscribe((userInput) {
       handleInputCompleted(userInput);
     });
 
-
     add(_backgroundController.rootUiControl);
     add(_inputDisplayController.rootUiControl);
     add(_completedWordsZoneController.rootUiControl);
+    add(_levelProgressBarController.rootUiControl);
   }
 
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
