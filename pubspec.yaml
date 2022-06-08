@@ -64,6 +64,7 @@ flutter:
     - assets/images/rocket/
     - assets/images/lobby/
     - assets/images/common_controls/
+    - assets/images/popups/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -80,3 +81,6 @@ flutter:
    - family: Roboto
      fonts:
        - asset: fonts/Roboto-Black.ttf
+   - family: Agency
+     fonts:
+       - asset: fonts/AGENCYR.ttf

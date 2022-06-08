@@ -4,6 +4,7 @@ import '../../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import '../Common/Background/StaticBackground.dart';
 import '../Common/TopBar/TopBarLayer.dart';
 import '../GameScreen/GameScreen.dart';
+import '../GameScreen/Layers/Popups/GameCompletePopup.dart';
 import 'LobbyLogo.dart';
 import 'LobbyMyStory.dart';
 import 'LobbyNavigation.dart';
@@ -37,7 +38,7 @@ class LobbyScreen extends StatelessWidget {
             showBalance: true,
           ),
         ],
-        ),
-      );
+      ),
+    );
   }
 }
