@@ -50,6 +50,7 @@ class LobbyNavigation extends StatelessWidget{
           gameScreenKey: GlobalKey(),
           game: StoryGame(
               storyLevelConfig: StoryLevelConfig(
+                levelNumber: 4,
                 totalWords: 10
               )
           )
