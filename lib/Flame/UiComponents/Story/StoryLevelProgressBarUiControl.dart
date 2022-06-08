@@ -1,5 +1,7 @@
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/flame.dart';
+import 'package:flutter/animation.dart';
 import 'package:flutter/painting.dart';
 
 class StoryLevelProgressBarUiControl extends RectangleComponent {
@@ -15,7 +17,16 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
   StoryLevelProgressBarUiControl({required this.requiredWidth, required this.levelNumber});
 
   void setProgress(double p){
-    _fillerControl.size.y = _fillerFullSize*p;
+
+    final effect = SizeEffect.to(
+        Vector2(_fillerControl.size.x, _fillerFullSize*p),
+        EffectController(
+          duration: 1,
+          curve: Curves.easeIn
+        )
+    );
+
+    _fillerControl.add(effect);
   }
 
   @override
@@ -77,7 +88,7 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
     fillerSprite.anchor = Anchor.bottomCenter;
     fillerSprite.position = Vector2(
         backBottomSprite.size.x/2,
-        backBottomSprite.position.y
+        backBottomSprite.position.y+1
     );
 
     _fillerControl = fillerSprite;
