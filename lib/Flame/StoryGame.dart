@@ -25,8 +25,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollision
   List<String> _colorCodes = ['y', 'g', 'r'];
   Random _random = new Random();
 
-  late DartAsync.Timer _challengeCountDown;
-  late int _secondsLeft;
+  late int _completedWordsCount = 0;
 
   StoryGame({required this.storyLevelConfig});
 
@@ -78,10 +77,11 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollision
     if (Random().nextBool()){ // If word accepted
       var pickedWord = wordInput!.inputString;
       var pickedColor = _pickRandomListElement(_colorCodes);
+      _completedWordsCount++;
 
       _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
       _inputDisplayController.handleInputCompleted(wordInput);
-    }
+      _levelProgressBarController.setProgress(_completedWordsCount/storyLevelConfig.totalWords);    }
     else{
       _inputDisplayController.handleInputRejected();
     }

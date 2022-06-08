@@ -1,16 +1,18 @@
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
+import 'package:flutter/painting.dart';
 
 class StoryLevelProgressBarUiControl extends RectangleComponent {
 
   final double requiredWidth;
+  final int levelNumber;
 
   late double _scale;
 
   late SpriteComponent _fillerControl;
   late double _fillerFullSize;
 
-  StoryLevelProgressBarUiControl({required this.requiredWidth});
+  StoryLevelProgressBarUiControl({required this.requiredWidth, required this.levelNumber});
 
   void setProgress(double p){
     _fillerControl.size.y = _fillerFullSize*p;
@@ -40,6 +42,19 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
 
     var fillerSprite = SpriteComponent(sprite: Sprite(filler));
 
+    var textPaint = TextPaint(
+      style: TextStyle(
+        color: Color.fromRGBO(212, 142, 55, 1),
+        fontSize: fillerSprite.width*0.2,
+        fontFamily: 'Roboto',
+      ),
+    );
+
+    var levelText = TextComponent(
+        text: this.levelNumber.toString(),
+      textRenderer: textPaint
+    );
+
     adjustSize(backTopSprite);
     adjustSize(backMiddleSprite);
     adjustSize(backBottomSprite);
@@ -68,6 +83,11 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
     _fillerControl = fillerSprite;
     _fillerFullSize = fillerSprite.size.y;
 
+    levelText.position = Vector2(
+        barBottomSprite.width/2-levelText.width/2,
+        barBottomSprite.y+barBottomSprite.height*0.5
+    );
+
     add(backTopSprite);
     add(backMiddleSprite);
     add(backBottomSprite);
@@ -77,6 +97,7 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
     add(barBottomSprite);
 
     add(fillerSprite);
+    add(levelText);
   }
 
   void adjustSize(SpriteComponent component){
