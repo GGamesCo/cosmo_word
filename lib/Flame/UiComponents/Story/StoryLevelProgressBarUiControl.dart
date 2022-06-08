@@ -2,6 +2,20 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 
 class StoryLevelProgressBarUiControl extends RectangleComponent {
+
+  final double requiredWidth;
+
+  late double _scale;
+
+  late SpriteComponent _fillerControl;
+  late double _fillerFullSize;
+
+  StoryLevelProgressBarUiControl({required this.requiredWidth});
+
+  void setProgress(double p){
+    _fillerControl.size.y = _fillerFullSize*p;
+  }
+
   @override
   Future<void> onLoad() async {
     var backTop = await Flame.images.load("level_progress_bar/back-top.png");
@@ -14,6 +28,8 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
 
     var filler = await Flame.images.load("level_progress_bar/filler.png");
 
+    _scale = requiredWidth/barMiddle.width;
+
     var backTopSprite = SpriteComponent(sprite: Sprite(backTop));
     var backMiddleSprite = SpriteComponent(sprite: Sprite(backMiddle));
     var backBottomSprite = SpriteComponent(sprite: Sprite(backBottom));
@@ -23,6 +39,16 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
     var barBottomSprite = SpriteComponent(sprite: Sprite(barBottom));
 
     var fillerSprite = SpriteComponent(sprite: Sprite(filler));
+
+    adjustSize(backTopSprite);
+    adjustSize(backMiddleSprite);
+    adjustSize(backBottomSprite);
+
+    adjustSize(barTopSprite);
+    adjustSize(barMiddleSprite);
+    adjustSize(barBottomSprite);
+
+    adjustSize(fillerSprite);
 
     backTopSprite.position = Vector2(0, 0);
     barTopSprite.position = Vector2(0, 0);
@@ -38,7 +64,9 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
         backBottomSprite.size.x/2,
         backBottomSprite.position.y
     );
-    fillerSprite.size.y = 400;
+
+    _fillerControl = fillerSprite;
+    _fillerFullSize = fillerSprite.size.y;
 
     add(backTopSprite);
     add(backMiddleSprite);
@@ -49,5 +77,9 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
     add(barBottomSprite);
 
     add(fillerSprite);
+  }
+
+  void adjustSize(SpriteComponent component){
+    component.size = Vector2(component.width*_scale, component.height*_scale);
   }
 }

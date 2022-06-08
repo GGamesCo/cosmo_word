@@ -1,22 +1,31 @@
 import 'package:cosmo_word/Flame/Controllers/Abstract/UiControllerBase.dart';
 import 'package:cosmo_word/GameBL/Story/StoryLevelConfig.dart';
+import 'package:flame/components.dart';
 import 'package:flame/src/components/component.dart';
 
 import '../../UiComponents/Story/StoryLevelProgressBarUiControl.dart';
 
 class LevelProgressBarController implements UiControllerBase{
 
+  final double width;
+  final Vector2 position;
   final StoryLevelConfig levelConfig;
 
-  late Component rootUiControl;
+  late StoryLevelProgressBarUiControl rootUiControl;
 
-  LevelProgressBarController({required this.levelConfig}){
-    rootUiControl = StoryLevelProgressBarUiControl();
-  }
+  LevelProgressBarController({
+    required this.width,
+    required this.position,
+    required this.levelConfig
+  });
 
   @override
-  void init() {
+  void init() async {
+    rootUiControl = StoryLevelProgressBarUiControl(requiredWidth: width);
 
+    await rootUiControl.loaded;
+    rootUiControl.position = Vector2(position.x, position.y);
+    rootUiControl.setProgress(0);
   }
 
 }

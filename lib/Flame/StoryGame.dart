@@ -58,6 +58,8 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollision
     _completedWordsZoneController.init();
 
     _levelProgressBarController = LevelProgressBarController(
+        width: 60,
+        position: Vector2(0, 80),
         levelConfig: storyLevelConfig
     );
     _levelProgressBarController.init();
