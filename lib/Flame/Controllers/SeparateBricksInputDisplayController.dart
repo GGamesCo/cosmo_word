@@ -7,7 +7,7 @@ import 'Abstract/InputDisplayController.dart';
 import '../UiComponents/Joystick/WordJoystickComponent.dart';
 import 'package:event/event.dart';
 
-class StubInputDisplayController implements InputDisplayController{
+SeparateBricksInputDisplayControllerontroller implements InputDisplayController {
   final Event<InputCompletedEventArgs> userInputReceivedEvent;
 
   late PreviewZoneComponent previewZone;
@@ -15,7 +15,7 @@ class StubInputDisplayController implements InputDisplayController{
   @override
   late Component rootUiControl;
 
-  StubInputDisplayController({required this.userInputReceivedEvent}){
+  SeparateBricksInputDisplayController({required this.userInputReceivedEvent}){
   }
   
 
