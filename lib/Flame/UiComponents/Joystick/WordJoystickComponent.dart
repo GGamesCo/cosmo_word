@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cosmo_word/Flame/UiComponents/Joystick/JoystickUiConfig.dart';
+import '../../ElementsLayoutBuilder.dart';
 import '../../Models/Events/SymbolInputAddedEventArgs.dart';
 import '../../UiComponents/Joystick/DragPointerLocation.dart';
 import '../../UiComponents/Joystick/JoytickSymbolComponent.dart';
@@ -12,6 +13,9 @@ import 'package:event/event.dart';
 import '../../../../Flame/Models/Events/InputCompletedEventArgs.dart';
 
 class WordJoystickComponent extends SpriteComponent with HasGameRef {
+
+  final ElementLayoutData layoutData;
+
   late JoystickLineTrackerComponent navigator;
   late List<JoystickSymbolComponent> symbols;
 
@@ -21,7 +25,11 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
   final Event<InputCompletedEventArgs> userInputCompletedEvent;
   late Event<SymbolInputAddedEventArgs> symbolInputAddedEvent;
 
-  WordJoystickComponent({required List<String> alph, required double sideLength, required this.userInputCompletedEvent}){
+  WordJoystickComponent({
+    required this.layoutData,
+    required List<String> alph,
+    required this.userInputCompletedEvent,
+  }){
     assert(alph.length >= 3 && alph.length <= 5);
 
     this.sideLength = sideLength;
@@ -32,13 +40,14 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    anchor = Anchor.topCenter;
+
     sprite = await gameRef.loadSprite('widget/joystickBg.png');
 
 
-    var uiConfig = JoystickUiConfig(sideLength);
-    position = Vector2(gameRef.size.x / 2, gameRef.size.y - uiConfig.size.y);
-    size = Vector2(uiConfig.size.x, uiConfig.size.y);
+    var uiConfig = JoystickUiConfig(layoutData.size.x);
+    anchor = layoutData.anchor;
+    position = layoutData.position;
+    size = layoutData.size;
 
     navigator = JoystickLineTrackerComponent();
     add(navigator);

@@ -1,7 +1,10 @@
 import 'dart:async' as DartAsync;
 import 'dart:math';
+import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:event/event.dart';
+import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/material.dart';
 import '../GameBL/Story/StoryLevelConfig.dart';
 import 'Common/Mixins.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
@@ -9,13 +12,16 @@ import 'Controllers/Abstract/InputDisplayController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';
 import 'Controllers/StaticBackgroundController.dart';
 import 'Controllers/StoryLevel/LevelProgressBarController.dart';
-import 'Controllers/StubInputDisplayController.dart';
+import 'Controllers/SeparateBricksInputDisplayController.dart';
 import 'Models/CompletedBrickData.dart';
 import 'Models/Events/InputCompletedEventArgs.dart';
+import 'Models/GameTypes.dart';
 
-class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection, HasGameCompletedEvent {
+class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompletedEvent {
 
   final StoryLevelConfig storyLevelConfig;
+
+  late GameElementsLayout _layoutData;
 
   late BackgroundController _backgroundController;
   late InputDisplayController _inputDisplayController;
@@ -35,12 +41,18 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollision
 
   @override
   Future<void> onLoad() async {
+    var layoutBuilder = ElementsLayoutBuilder(screenWidth: this.size.x, screenHeight: this.size.y);
+    _layoutData = layoutBuilder.calculateElementsLayout(GameType.StoryGame);
 
     var userInputReceivedEvent = Event<InputCompletedEventArgs>();
 
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
     _backgroundController.init();
-    _inputDisplayController = StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent);
+    _inputDisplayController = SeparateBricksInputDisplayController(
+      previewLayoutData: _layoutData.elementsData['inputDisplayZone']!,
+      joystickLayoutData: _layoutData.elementsData['joystick']!,
+      userInputReceivedEvent: userInputReceivedEvent
+    );
     _inputDisplayController.init();
 
     _completedWordsZoneController = CompletedWordsZoneController(
