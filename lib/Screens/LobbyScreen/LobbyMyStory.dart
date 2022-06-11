@@ -18,8 +18,6 @@ class LobbyMyStory extends StatelessWidget{
             child: Padding(
               padding: const EdgeInsets.only(top: 40),
               child: MyStoryProgress(
-                requiredWidth: 260,
-                requiredHeight: 90,
                 progressCurrent: 2,
                 progressTotal: 3
               ),
