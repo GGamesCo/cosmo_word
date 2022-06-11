@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 
 class MyStoryProgress extends StatelessWidget {
 
-  final double requiredWidth;
-  final double requiredHeight;
   final int progressCurrent;
   final int progressTotal;
 
   MyStoryProgress({
-    required this.requiredWidth,
-    required this.requiredHeight,
     required this.progressCurrent,
     required this.progressTotal
   });
