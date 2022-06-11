@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../Flame/StoryGame.dart';
 import '../../Flame/TimeChallengeGame.dart';
@@ -18,10 +19,10 @@ class LobbyNavigation extends StatelessWidget{
       child: IntrinsicHeight(
         child: Stack(
             children: [
-              Image.asset('assets/images/lobby/lobby-navigation-block.png'),
+              Center(child: Image.asset('assets/images/lobby/lobby-navigation-block.png')),
               Container(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
