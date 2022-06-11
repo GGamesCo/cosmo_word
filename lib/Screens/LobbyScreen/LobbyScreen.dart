@@ -12,6 +12,7 @@ import 'package:sizer/sizer.dart';
 class LobbyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    /*
     Timer(Duration(seconds: 1), (){
       showDialog(
           context: context,
@@ -20,6 +21,7 @@ class LobbyScreen extends StatelessWidget {
           }
       );
     });
+   */
     return Scaffold(
       body: Stack(
         children: [

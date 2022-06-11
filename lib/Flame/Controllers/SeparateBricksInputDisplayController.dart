@@ -1,13 +1,14 @@
-import 'dart:math';
-
 import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dart';
 import 'package:flame/components.dart';
+import '../ElementsLayoutBuilder.dart';
 import '../Models/Events/InputCompletedEventArgs.dart';
 import 'Abstract/InputDisplayController.dart';
 import '../UiComponents/Joystick/WordJoystickComponent.dart';
 import 'package:event/event.dart';
 
-class StubInputDisplayController implements InputDisplayController{
+class SeparateBricksInputDisplayController implements InputDisplayController {
+  final ElementLayoutData previewLayoutData;
+  final ElementLayoutData joystickLayoutData;
   final Event<InputCompletedEventArgs> userInputReceivedEvent;
 
   late PreviewZoneComponent previewZone;
@@ -15,8 +16,11 @@ class StubInputDisplayController implements InputDisplayController{
   @override
   late Component rootUiControl;
 
-  StubInputDisplayController({required this.userInputReceivedEvent}){
-  }
+  SeparateBricksInputDisplayController({
+    required this.previewLayoutData,
+    required this.joystickLayoutData,
+    required this.userInputReceivedEvent
+  });
   
 
   @override
@@ -33,15 +37,13 @@ class StubInputDisplayController implements InputDisplayController{
   void init() {
     var rectangle = RectangleComponent();
 
-
     var joystick = WordJoystickComponent(
         alph: ['U', 'D', 'O', 'C', 'L'], // Array must be of size 3 - 5 'C', 'L'
         userInputCompletedEvent: userInputReceivedEvent,
-        sideLength: 250
+        layoutData: joystickLayoutData
     );
 
-    previewZone = PreviewZoneComponent();
-    previewZone.position = Vector2(0, 470);
+    previewZone = PreviewZoneComponent(layoutData: previewLayoutData);
 
     joystick.symbolInputAddedEvent.subscribe((eventArgs) {
       print("onSymbolAdded: " + eventArgs!.lastInputSymbol);

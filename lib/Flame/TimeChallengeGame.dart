@@ -10,7 +10,7 @@ import 'Controllers/Abstract/InputDisplayController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';
 import 'Controllers/RocketGame/RocketZoneController.dart';
 import 'Controllers/StaticBackgroundController.dart';
-import 'Controllers/StubInputDisplayController.dart';
+import 'Controllers/SeparateBricksInputDisplayController.dart';
 import 'Models/CompletedBrickData.dart';
 import 'Models/Events/GameCompletedEventArgs.dart';
 import 'Models/Events/InputCompletedEventArgs.dart';
@@ -42,7 +42,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     var userInputReceivedEvent = Event<InputCompletedEventArgs>();
 
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
-    _inputDisplayController = StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent);
+    //_inputDisplayController = SeparateBricksInputDisplayController(userInputReceivedEvent: userInputReceivedEvent);
 
     _completedWordsZoneController = CompletedWordsZoneController(
         viewportSize: Vector2(280, 425),
