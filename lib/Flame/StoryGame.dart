@@ -1,7 +1,9 @@
-import 'dart:async' as DartAsync;
 import 'dart:math';
+import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
+import 'package:cosmo_word/Flame/Models/GameUiElement.dart';
 import 'package:event/event.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import '../GameBL/Story/StoryLevelConfig.dart';
 import 'Common/Mixins.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
@@ -9,13 +11,16 @@ import 'Controllers/Abstract/InputDisplayController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';
 import 'Controllers/StaticBackgroundController.dart';
 import 'Controllers/StoryLevel/LevelProgressBarController.dart';
-import 'Controllers/StubInputDisplayController.dart';
+import 'Controllers/SeparateBricksInputDisplayController.dart';
 import 'Models/CompletedBrickData.dart';
 import 'Models/Events/InputCompletedEventArgs.dart';
+import 'Models/GameTypes.dart';
 
-class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection, HasGameCompletedEvent {
+class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompletedEvent {
 
   final StoryLevelConfig storyLevelConfig;
+
+  late GameElementsLayout _layoutData;
 
   late BackgroundController _backgroundController;
   late InputDisplayController _inputDisplayController;
@@ -35,17 +40,28 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollision
 
   @override
   Future<void> onLoad() async {
+    var layoutBuilder = ElementsLayoutBuilder(screenWidth: this.size.x, screenHeight: this.size.y);
+    _layoutData = layoutBuilder.calculateElementsLayout(GameType.StoryGame);
+
+    await FlameAudio.audioCache.loadAll([
+      'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3'
+    ]);
 
     var userInputReceivedEvent = Event<InputCompletedEventArgs>();
 
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
     _backgroundController.init();
-    _inputDisplayController = StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent, game: this);
+
+    _inputDisplayController = SeparateBricksInputDisplayController(
+      previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
+      joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
+      userInputReceivedEvent: userInputReceivedEvent,
+      game: this
+    );
     _inputDisplayController.init();
 
     _completedWordsZoneController = CompletedWordsZoneController(
-        viewportSize: Vector2(350, 455),
-        viewportPosition: Vector2(20, 0),
+        layoutData: _layoutData.elementsData[GameUiElement.CompletedWordsZone]!,
         requiredBrickHeight: 40,
         initialScrollOffset: 0,
         fullContainerHeight: 1800,
@@ -57,8 +73,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollision
     _completedWordsZoneController.init();
 
     _levelProgressBarController = LevelProgressBarController(
-        width: 60,
-        position: Vector2(0, 80),
+        layoutData: _layoutData.elementsData[GameUiElement.LevelProgressBar]!,
         levelConfig: storyLevelConfig
     );
     _levelProgressBarController.init();

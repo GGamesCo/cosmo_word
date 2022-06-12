@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Screens/LobbyScreen/LobbyScreen.dart';
 import 'firebase_options.dart';
+import 'package:sizer/sizer.dart';
 
 void main() async {
 
@@ -22,10 +23,16 @@ void main() async {
 
   initializeAppsflyer();
 
-  runApp(MaterialApp(
-    title: 'Navigation Basics',
-    home: LobbyScreen(),
-  ));
+  runApp(
+    Sizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp(
+          title: 'Navigation Basics',
+          home: LobbyScreen(),
+        );
+      }
+    ),
+  );
 }
 
 void initializeAppsflyer(){

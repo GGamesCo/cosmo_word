@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cosmo_word/GameBL/TimeChallenge/TimeChallengeResults.dart';
 import 'package:event/event.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import '../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import 'Common/Mixins.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
@@ -10,15 +11,19 @@ import 'Controllers/Abstract/InputDisplayController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';
 import 'Controllers/RocketGame/RocketZoneController.dart';
 import 'Controllers/StaticBackgroundController.dart';
-import 'Controllers/StubInputDisplayController.dart';
+import 'Controllers/SeparateBricksInputDisplayController.dart';
+import 'ElementsLayoutBuilder.dart';
 import 'Models/CompletedBrickData.dart';
 import 'Models/Events/GameCompletedEventArgs.dart';
 import 'Models/Events/InputCompletedEventArgs.dart';
+import 'Models/GameTypes.dart';
+import 'Models/GameUiElement.dart';
 
 class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection, HasGameCompletedEvent {
 
   final RocketChallengeConfig challengeConfig;
 
+  late GameElementsLayout _layoutData;
   late BackgroundController _backgroundController;
   late InputDisplayController _inputDisplayController;
   late CompletedWordsZoneController _completedWordsZoneController;
@@ -38,15 +43,26 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
 
   @override
   Future<void> onLoad() async {
+    var layoutBuilder = ElementsLayoutBuilder(screenWidth: this.size.x, screenHeight: this.size.y);
+    _layoutData = layoutBuilder.calculateElementsLayout(GameType.TimeChallengeGame);
+
+    await FlameAudio.audioCache.loadAll([
+      'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3'
+    ]);
 
     var userInputReceivedEvent = Event<InputCompletedEventArgs>();
 
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
-    _inputDisplayController = StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent, game: this);
+
+    _inputDisplayController = SeparateBricksInputDisplayController(
+        previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
+        joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
+        userInputReceivedEvent: userInputReceivedEvent,
+        game: this
+    );
 
     _completedWordsZoneController = CompletedWordsZoneController(
-        viewportSize: Vector2(280, 425),
-        viewportPosition: Vector2(0, 0),
+        layoutData: _layoutData.elementsData[GameUiElement.CompletedWordsZone]!,
         requiredBrickHeight: 40,
         initialScrollOffset: 0,
         fullContainerHeight: 1800,
@@ -58,9 +74,8 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     _completedWordsZoneController.init();
 
     _rocketZoneController = RocketZoneController(
-      zoneSize: Vector2(100, 358),
-      zonePosition: Vector2(281, 30),
-      rocketHeight: 70,
+      layoutData: _layoutData.elementsData[GameUiElement.Rocket]!,
+      rocketHeightMultiplier: 0.2,
     );
     _rocketZoneController.init();
 
