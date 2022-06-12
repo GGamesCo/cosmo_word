@@ -4,9 +4,12 @@ import 'package:cosmo_word/Flame/UiComponents/Scene.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Screens/LobbyScreen/LobbyScreen.dart';
+import 'di.dart';
 import 'firebase_options.dart';
 
 void main() async {
+
+  configureDependencies();
 
   // Firebase initialization
   if (Firebase.apps.isEmpty) {

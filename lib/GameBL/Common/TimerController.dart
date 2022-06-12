@@ -1,24 +1,26 @@
 import 'dart:async';
 
 import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
+import 'package:event/event.dart';
 import 'package:injectable/injectable.dart';
 
-@Injectable(as: ITimerController)
+@Singleton(as: ITimerController)
 class TimerController extends ITimerController{
-
   late Timer timer;
   late Stopwatch stopwatch;
 
-  late int timeLeftSec;
+  late int challengeTotalTime;
   late int defaultAddStepSec;
 
   @override
   void addStep(int? addStepSec) {
-   timeLeftSec += addStepSec ?? defaultAddStepSec;
+    var newTime = timeLeftSec + (addStepSec ?? defaultAddStepSec);
+    timeLeftSec = newTime < challengeTotalTime ? newTime : challengeTotalTime;
   }
 
   @override
-  void startGame(int challengeTimeSec, int addStepSec) {
+  void start(int challengeTimeSec, int addStepSec) {
+    challengeTotalTime = challengeTimeSec;
     timeLeftSec = challengeTimeSec;
     defaultAddStepSec = addStepSec;
 
@@ -35,12 +37,25 @@ class TimerController extends ITimerController{
     return stopwatch.elapsedMilliseconds ~/ 1000;
   }
 
+  @override
+  void pause() {
+    stopwatch.stop();
+    timer.cancel();
+  }
+
+  @override
+  void resume() {
+    timer = new Timer.periodic(Duration(seconds: 1), handleTimeTick);
+    stopwatch.start();
+  }
+
   void handleTimeTick(Timer t){
     timeLeftSec--;
+    timerUpdatedEvent.broadcast(Value<int>(timeLeftSec));
 
     if (timeLeftSec < 0){
-      stop();
-      timeIsOverEvent.broadcast();
+      var elapsedSec = stop();
+      timeIsOverEvent.broadcast(Value<int>(elapsedSec));
     }
   }
 }

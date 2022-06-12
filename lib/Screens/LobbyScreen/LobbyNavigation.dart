@@ -1,3 +1,5 @@
+import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
+import 'package:cosmo_word/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -64,12 +66,7 @@ class LobbyNavigation extends StatelessWidget{
       context,
       MaterialPageRoute(builder: (context) => GameScreen(
           gameScreenKey: GlobalKey(),
-          game: TimeChallengeGame(
-              challengeConfig: RocketChallengeConfig(
-                  totalTimeSec: 30,
-                  wordCompletionTimeRewardSec: 3
-              )
-          )
+          game: TimeChallengeGame(gameController: getIt.get<TimeGameController>())
       )
       ),
     );

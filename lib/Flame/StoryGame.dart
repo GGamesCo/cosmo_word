@@ -1,5 +1,6 @@
 import 'dart:async' as DartAsync;
 import 'dart:math';
+import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
 import 'package:event/event.dart';
 import 'package:flame/game.dart';
 import '../GameBL/Story/StoryLevelConfig.dart';
@@ -39,9 +40,9 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollision
     var userInputReceivedEvent = Event<InputCompletedEventArgs>();
 
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
-    _backgroundController.init();
-    _inputDisplayController = StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent, game: this);
-    _inputDisplayController.init();
+    await _backgroundController.initAsync();
+    _inputDisplayController = StubInputDisplayController(game: this, wordSize: 3);
+    await _inputDisplayController.initAsync();
 
     _completedWordsZoneController = CompletedWordsZoneController(
         viewportSize: Vector2(350, 455),
@@ -54,14 +55,14 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasCollision
         brickFallDuration: 1.5,
         scrollAnimDurationSec: 1
     );
-    _completedWordsZoneController.init();
+    await _completedWordsZoneController.initAsync();
 
     _levelProgressBarController = LevelProgressBarController(
         width: 60,
         position: Vector2(0, 80),
         levelConfig: storyLevelConfig
     );
-    _levelProgressBarController.init();
+    await _levelProgressBarController.initAsync();
 
     userInputReceivedEvent.subscribe((userInput) {
       handleInputCompleted(userInput);

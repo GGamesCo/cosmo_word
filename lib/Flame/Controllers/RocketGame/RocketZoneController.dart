@@ -1,6 +1,8 @@
-import 'dart:async' as DartAsync;
+import 'dart:async';
 import 'package:cosmo_word/Flame/Controllers/Abstract/UiControllerBase.dart';
 import 'package:cosmo_word/Flame/UiComponents/Rocket/RocketBoxUiControl.dart';
+import 'package:cosmo_word/Flame/Utils/CompleterExtensions.dart';
+import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ class RocketZoneController implements UiControllerBase {
   @override
   late Component rootUiControl;
 
-  DartAsync.Future<void> get uiComponentLoadedFuture => Future.wait([_rocketBoxUiControl.loaded, _rocketUiControl.loaded]);
+  Future<void> get uiComponentLoadedFuture => Future.wait([_rocketBoxUiControl.loaded, _rocketUiControl.loaded]);
   
   RocketZoneController({
     required this.zoneSize,
@@ -29,7 +31,7 @@ class RocketZoneController implements UiControllerBase {
   });
 
   @override
-  void init() {
+  Future initAsync() {
 
     var rect = RectangleComponent(size: zoneSize, position: zonePosition);
     rect.setColor(Colors.transparent);
@@ -43,6 +45,8 @@ class RocketZoneController implements UiControllerBase {
 
     rootUiControl.add(_rocketBoxUiControl);
     rootUiControl.add(_rocketUiControl);
+
+    return Completer().completeAndReturnFuture();
   }
 
   void initRocketPosition(int secondsLeft, int totalTime){

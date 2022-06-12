@@ -1,6 +1,14 @@
-class RocketChallengeConfig {
-  final int totalTimeSec;
-  final int wordCompletionTimeRewardSec;
+import 'package:injectable/injectable.dart';
 
-  RocketChallengeConfig({required this.totalTimeSec, required this.wordCompletionTimeRewardSec});
+@Injectable()
+class RocketChallengeConfig {
+  late int totalTimeSec;
+  late int wordCompletionTimeRewardSec;
+  late int wordSize;
+
+  RocketChallengeConfig(){
+    totalTimeSec = 30;
+    wordCompletionTimeRewardSec = 5;
+    wordSize = 5;
+  }
 }

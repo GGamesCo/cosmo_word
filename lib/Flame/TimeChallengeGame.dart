@@ -1,12 +1,13 @@
 import 'dart:async' as DartAsync;
 import 'dart:math';
+import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
+import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
 import 'package:cosmo_word/GameBL/TimeChallenge/TimeChallengeResults.dart';
-import 'package:event/event.dart';
+import 'package:cosmo_word/di.dart';
+import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import '../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import 'Common/Mixins.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
-import 'Controllers/Abstract/InputDisplayController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';
 import 'Controllers/RocketGame/RocketZoneController.dart';
 import 'Controllers/StaticBackgroundController.dart';
@@ -16,21 +17,17 @@ import 'Models/Events/GameCompletedEventArgs.dart';
 import 'Models/Events/InputCompletedEventArgs.dart';
 
 class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection, HasGameCompletedEvent {
-
-  final RocketChallengeConfig challengeConfig;
+  final TimeGameController gameController;
 
   late BackgroundController _backgroundController;
-  late InputDisplayController _inputDisplayController;
+  late StubInputDisplayController _inputDisplayController;
   late CompletedWordsZoneController _completedWordsZoneController;
   late RocketZoneController _rocketZoneController;
 
   List<String> _colorCodes = ['y', 'g', 'r'];
   Random _random = new Random();
 
-  late DartAsync.Timer _challengeCountDown;
-  late int _secondsLeft;
-
-  TimeChallengeGame({required this.challengeConfig});
+  TimeChallengeGame({required this.gameController});
 
   // Uncomment to see components outlines
   // @override
@@ -38,11 +35,10 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
 
   @override
   Future<void> onLoad() async {
-
-    var userInputReceivedEvent = Event<InputCompletedEventArgs>();
+    await gameController.initAsync();
 
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
-    _inputDisplayController = StubInputDisplayController(userInputReceivedEvent: userInputReceivedEvent, game: this);
+    _inputDisplayController = StubInputDisplayController(game: this, wordSize: gameController.challengeConfig.wordSize);
 
     _completedWordsZoneController = CompletedWordsZoneController(
         viewportSize: Vector2(280, 425),
@@ -55,70 +51,55 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
         brickFallDuration: 1.5,
         scrollAnimDurationSec: 1
     );
-    _completedWordsZoneController.init();
+    await _completedWordsZoneController.initAsync();
 
     _rocketZoneController = RocketZoneController(
       zoneSize: Vector2(100, 358),
       zonePosition: Vector2(281, 30),
       rocketHeight: 70,
     );
-    _rocketZoneController.init();
+    await _rocketZoneController.initAsync();
 
-    _backgroundController.init();
-    _inputDisplayController.init();
-
-    userInputReceivedEvent.subscribe((userInput) {
-      handleInputCompleted(userInput);
-    });
+    await _backgroundController.initAsync();
+    await _inputDisplayController.initAsync();
 
     add(_backgroundController.rootUiControl);
     add(_inputDisplayController.rootUiControl);
     add(_completedWordsZoneController.rootUiControl);
     add(_rocketZoneController.rootUiControl);
 
-    // ?? ?? ? hack to wait until rocket inited and fly zone bounds calculated
+  //   // ?? ?? ? hack to wait until rocket inited and fly zone bounds calculated
     _rocketZoneController.uiComponentLoadedFuture.then((value) {
-      setupCountdown();
+      gameController.startGame();
+      setupSubscriptions();
+      //setupCountdown();
+  });
+  }
+
+  void setupSubscriptions() {
+    gameController.wordInputController.onInputAccepted.subscribe((args) => {
+      handleInputAccepted(InputCompletedEventArgs(args!.value))
+    });
+
+    _rocketZoneController.initRocketPosition(gameController.timerController.timeLeftSec, gameController.challengeConfig.totalTimeSec);
+    gameController.timerController.timerUpdatedEvent.subscribe((args) {
+      _rocketZoneController.onCountDownUpdated(gameController.timerController.timeLeftSec, gameController.challengeConfig.totalTimeSec);
+    });
+
+    gameController.timerController.timeIsOverEvent.subscribe((args) {
+      gameCompletedEvent.broadcast(
+          TimeChallengeGameCompletedEventArgs(
+              results: TimeChallengeResults(completedWordsCount: 10)
+          )
+      );
     });
   }
 
-  void setupCountdown() {
-    _secondsLeft = challengeConfig.totalTimeSec;
-    _rocketZoneController.initRocketPosition(_secondsLeft, challengeConfig.totalTimeSec);
-    _challengeCountDown = DartAsync.Timer.periodic(
-        const Duration(seconds: 1),
-        (timer) {
-          _secondsLeft--;
-          _rocketZoneController.onCountDownUpdated(_secondsLeft, challengeConfig.totalTimeSec);
-          if(_secondsLeft == 0){
-            _challengeCountDown.cancel();
-            gameCompletedEvent.broadcast(
-                TimeChallengeGameCompletedEventArgs(
-                  results: TimeChallengeResults(completedWordsCount: 10)
-                )
-            );
-            return;
-          }
-        }
-    );
-  }
-
-  Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
-    if (Random().nextBool()){ // If word accepted
-      _secondsLeft = min(
-          _secondsLeft + challengeConfig.wordCompletionTimeRewardSec,
-          challengeConfig.totalTimeSec
-      );
-
+  Future<void> handleInputAccepted(InputCompletedEventArgs? wordInput) async {
       var pickedWord = wordInput!.inputString;
       var pickedColor = _pickRandomListElement(_colorCodes);
 
       _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
-      _inputDisplayController.handleInputCompleted(wordInput);
-    }
-    else{
-      _inputDisplayController.handleInputRejected();
-    }
   }
 
   String _pickRandomListElement(List<String> list){

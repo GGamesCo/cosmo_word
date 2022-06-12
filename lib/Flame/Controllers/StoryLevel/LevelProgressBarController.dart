@@ -19,7 +19,7 @@ class LevelProgressBarController implements UiControllerBase{
   });
 
   @override
-  void init() async {
+  Future initAsync() async {
     rootUiControl = StoryLevelProgressBarUiControl(
       requiredWidth: width,
       levelNumber: levelConfig.levelNumber

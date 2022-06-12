@@ -1,10 +1,14 @@
+import 'package:event/event.dart';
+
 abstract class IBalanceController{
 
-  Future<bool> isEnoughAsync(double requestedAmount);
+  Event<Value<int>> balanceUpdatedEvent = Event<Value<int>>();
 
-  Future<double> getBalanceAsync();
+  Future<bool> isEnoughAsync(int requestedAmount);
 
-  Future<void> spendBalanceAsync(double amount);
+  Future<int> getBalanceAsync();
 
-  Future<void> addBalanceAsync(double amount);
+  Future<void> spendBalanceAsync(int amount);
+
+  Future<void> addBalanceAsync(int amount);
 }
