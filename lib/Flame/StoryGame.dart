@@ -3,6 +3,7 @@ import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/GameUiElement.dart';
 import 'package:event/event.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import '../GameBL/Story/StoryLevelConfig.dart';
 import 'Common/Mixins.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
@@ -41,6 +42,10 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompl
   Future<void> onLoad() async {
     var layoutBuilder = ElementsLayoutBuilder(screenWidth: this.size.x, screenHeight: this.size.y);
     _layoutData = layoutBuilder.calculateElementsLayout(GameType.StoryGame);
+
+    await FlameAudio.audioCache.loadAll([
+      'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3'
+    ]);
 
     var userInputReceivedEvent = Event<InputCompletedEventArgs>();
 

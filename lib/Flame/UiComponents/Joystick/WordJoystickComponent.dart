@@ -101,8 +101,8 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
     for (var symbol in symbols) {
       if (symbol.isPointInsideSymbol(lineEndPosition)) {
         if (!navigator.points.map((x) => x.id).contains(symbol.symbolId)) {
-          var addedSymbolEvent = SymbolInputAddedEventArgs(symbol.symbolId, navigator.inputString);
           navigator.points.add(SymbolLocationModel(symbol.symbolId, Offset(symbol.x, symbol.y)));
+          var addedSymbolEvent = SymbolInputAddedEventArgs(symbol.symbolId, navigator.inputString);
           symbolInputAddedEvent.broadcast(addedSymbolEvent);
           symbol.changeStateAnimated(true);
         }

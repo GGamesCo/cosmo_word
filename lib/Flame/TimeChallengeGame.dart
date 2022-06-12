@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cosmo_word/GameBL/TimeChallenge/TimeChallengeResults.dart';
 import 'package:event/event.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import '../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import 'Common/Mixins.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
@@ -42,9 +43,12 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
 
   @override
   Future<void> onLoad() async {
-
     var layoutBuilder = ElementsLayoutBuilder(screenWidth: this.size.x, screenHeight: this.size.y);
     _layoutData = layoutBuilder.calculateElementsLayout(GameType.TimeChallengeGame);
+
+    await FlameAudio.audioCache.loadAll([
+      'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3'
+    ]);
 
     var userInputReceivedEvent = Event<InputCompletedEventArgs>();
 
