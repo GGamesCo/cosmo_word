@@ -1,5 +1,6 @@
 import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 import '../ElementsLayoutBuilder.dart';
 import '../Models/Events/InputCompletedEventArgs.dart';
 import 'Abstract/InputDisplayController.dart';
@@ -45,7 +46,10 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
     previewZone = PreviewZoneComponent(layoutData: previewLayoutData);
 
     joystick.symbolInputAddedEvent.subscribe((eventArgs) {
-      print("onSymbolAdded: " + eventArgs!.lastInputSymbol);
+      print("onSymbolAdded: " + eventArgs!.inputString);
+      var countSymbols = eventArgs!.inputString.length;
+      print("SOUND: btn-press-${countSymbols}.mp3");
+      FlameAudio.play('btn-press-${countSymbols}.mp3');
       previewZone.onSymbolAdded(eventArgs!);
     });
 

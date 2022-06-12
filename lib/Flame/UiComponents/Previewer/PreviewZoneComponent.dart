@@ -2,6 +2,7 @@ import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/Events/SymbolInputAddedEventArgs.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 import '../../../../Flame/Models/Events/InputCompletedEventArgs.dart';
 import '../Joystick/JoystickSymbolSpriteComponent.dart';
 
@@ -57,7 +58,7 @@ class PreviewZoneComponent extends SpriteComponent with HasGameRef {
 
   void onInputCompleted(InputCompletedEventArgs eventArgs){
     print("Input accepted");
-
+    FlameAudio.play('success.mp3');
     reset((x) => {
       x.add(MoveEffect.to(Vector2(-gameRef.size.x - btnSize.x, 0), EffectController(duration: 0.5)))
     });
@@ -65,7 +66,7 @@ class PreviewZoneComponent extends SpriteComponent with HasGameRef {
 
   void onInputRejected(){
     print("Input rejected");
-
+    FlameAudio.play('fail.mp3');
     reset((x) => {
       x.add(MoveEffect.to(Vector2(gameRef.size.x, 0), EffectController(duration: 0.5)))
     });
