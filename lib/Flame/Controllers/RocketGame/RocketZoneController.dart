@@ -6,13 +6,13 @@ import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 
 
+import '../../ElementsLayoutBuilder.dart';
 import '../../UiComponents/Rocket/RocketUiControl.dart';
 
 class RocketZoneController implements UiControllerBase {
 
-  final Vector2 zoneSize;
-  final Vector2 zonePosition;
-  final int rocketHeight;
+  final ElementLayoutData layoutData;
+  final double rocketHeightMultiplier;
 
   late RocketBoxUiControl _rocketBoxUiControl;
   late RocketUiControl _rocketUiControl;
@@ -23,22 +23,23 @@ class RocketZoneController implements UiControllerBase {
   DartAsync.Future<void> get uiComponentLoadedFuture => Future.wait([_rocketBoxUiControl.loaded, _rocketUiControl.loaded]);
   
   RocketZoneController({
-    required this.zoneSize,
-    required this.zonePosition,
-    required this.rocketHeight
+    required this.layoutData,
+    required this.rocketHeightMultiplier
   });
 
   @override
   void init() {
 
-    var rect = RectangleComponent(size: zoneSize, position: zonePosition);
+    var rect = RectangleComponent(size: layoutData.size);
     rect.setColor(Colors.transparent);
+    rect.anchor = layoutData.anchor;
+    rect.position = layoutData.position;
     rootUiControl = rect;
 
-    _rocketBoxUiControl = RocketBoxUiControl(size: zoneSize);
-    _rocketUiControl = RocketUiControl(requiredHeight: rocketHeight);
+    _rocketBoxUiControl = RocketBoxUiControl(size: layoutData.size);
+    _rocketUiControl = RocketUiControl(requiredHeight: layoutData.size.y*rocketHeightMultiplier);
     _rocketUiControl.anchor = Anchor.topCenter;
-    _rocketUiControl.position = Vector2(zoneSize.x/2, 0);
+    _rocketUiControl.position = Vector2(layoutData.size.x/2, 0);
     _rocketUiControl.setOpacity(0);
 
     rootUiControl.add(_rocketBoxUiControl);
