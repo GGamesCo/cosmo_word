@@ -82,7 +82,7 @@ class ElementsLayoutBuilder {
   }
 
   void _calculateRocket(double completedWordsZoneWidth){
-    //dimension not from ps, hz ))
+    //dimension from ps
     var widthToHeightDimension = 350/1250;
     var height = _topPartAvailableHeight*0.75;
     var width = height * widthToHeightDimension;
