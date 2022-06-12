@@ -1,10 +1,8 @@
-import 'dart:async' as DartAsync;
 import 'dart:math';
 import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
+import 'package:cosmo_word/Flame/Models/GameUiElement.dart';
 import 'package:event/event.dart';
-import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/material.dart';
 import '../GameBL/Story/StoryLevelConfig.dart';
 import 'Common/Mixins.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
@@ -49,15 +47,14 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompl
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
     _backgroundController.init();
     _inputDisplayController = SeparateBricksInputDisplayController(
-      previewLayoutData: _layoutData.elementsData['inputDisplayZone']!,
-      joystickLayoutData: _layoutData.elementsData['joystick']!,
+      previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
+      joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
       userInputReceivedEvent: userInputReceivedEvent
     );
     _inputDisplayController.init();
 
     _completedWordsZoneController = CompletedWordsZoneController(
-        viewportSize: Vector2(350, 455),
-        viewportPosition: Vector2(20, 0),
+        layoutData: _layoutData.elementsData[GameUiElement.CompletedWordsZone]!,
         requiredBrickHeight: 40,
         initialScrollOffset: 0,
         fullContainerHeight: 1800,
@@ -69,8 +66,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompl
     _completedWordsZoneController.init();
 
     _levelProgressBarController = LevelProgressBarController(
-        width: 60,
-        position: Vector2(0, 80),
+        layoutData: _layoutData.elementsData[GameUiElement.LevelProgressBar]!,
         levelConfig: storyLevelConfig
     );
     _levelProgressBarController.init();

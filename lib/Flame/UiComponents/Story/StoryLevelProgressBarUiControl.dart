@@ -56,13 +56,13 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
     var textPaint = TextPaint(
       style: TextStyle(
         color: Color.fromRGBO(212, 142, 55, 1),
-        fontSize: fillerSprite.width*0.2,
+        fontSize: 25,
         fontFamily: 'Roboto',
       ),
     );
 
     var levelText = TextComponent(
-        text: this.levelNumber.toString(),
+      text: this.levelNumber.toString(),
       textRenderer: textPaint
     );
 

@@ -1,14 +1,14 @@
 import 'package:cosmo_word/Flame/Controllers/Abstract/UiControllerBase.dart';
 import 'package:flame/components.dart';
 
+import '../ElementsLayoutBuilder.dart';
 import '../Models/CompletedBrickData.dart';
 import '../UiComponents/CompletedWordsZone/CompletedWordsZoneUiControl.dart';
 import 'SimpleAnimatedBrick.dart';
 
 class CompletedWordsZoneController extends UiControllerBase {
 
-  final Vector2 viewportSize;
-  final Vector2 viewportPosition;
+  final ElementLayoutData layoutData;
   final double requiredBrickHeight;
   final double initialScrollOffset;
   final double fullContainerHeight;
@@ -25,8 +25,7 @@ class CompletedWordsZoneController extends UiControllerBase {
   double get _bricksStackHeight => _currentBrickNumber*requiredBrickHeight;
 
   CompletedWordsZoneController({
-    required this.viewportSize,
-    required this.viewportPosition,
+    required this.layoutData,
     required this.requiredBrickHeight,
     required this.initialScrollOffset,
     required this.fullContainerHeight,
@@ -39,8 +38,9 @@ class CompletedWordsZoneController extends UiControllerBase {
   @override
   init() {
     rootUiControl = CompletedWordsZoneUiControl(
-      viewportSize: viewportSize,
-      viewportPosition: viewportPosition,
+      viewportSize: layoutData.size,
+      viewportPosition: layoutData.position,
+      anchor: layoutData.anchor,
       bricksContainerHeight: fullContainerHeight,
       scrollOffset: initialScrollOffset
     );
@@ -48,14 +48,14 @@ class CompletedWordsZoneController extends UiControllerBase {
 
   void renderNewBrick(CompletedBrickData newBrickData){
 
-    var normalizedSpawnHeight = fullContainerHeight > viewportSize.y ? fullContainerHeight - viewportSize.y - rootUiControl.scrollOffset : 0;
+    var normalizedSpawnHeight = fullContainerHeight > layoutData.size.y ? fullContainerHeight - layoutData.size.y - rootUiControl.scrollOffset : 0;
 
     var brickInstance = SimpleAnimatedBrick(
       word: newBrickData.word,
       colorCode: newBrickData.colorCode,
       requiredBrickHeight: requiredBrickHeight,
       spawnY: normalizedSpawnHeight*1,
-      spawnX: viewportSize.x/2,
+      spawnX: layoutData.size.x/2,
       fallToY: fullContainerHeight - _bricksStackHeight - requiredBrickHeight,
       brickFallDuration: brickFallDuration
     );
@@ -67,7 +67,7 @@ class CompletedWordsZoneController extends UiControllerBase {
   }
 
   void validateScrollOffset(){
-    var viewportHeight = viewportSize.y;
+    var viewportHeight = layoutData.size.y;
     var alreadyFilledHeight = _bricksStackHeight - rootUiControl.scrollOffset;
 
     var filledPart = alreadyFilledHeight / viewportHeight;

@@ -22,7 +22,6 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
     required this.userInputReceivedEvent
   });
   
-
   @override
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
     previewZone.onInputCompleted(wordInput!);
