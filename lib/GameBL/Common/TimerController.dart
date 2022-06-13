@@ -50,10 +50,11 @@ class TimerController extends ITimerController{
   }
 
   void handleTimeTick(Timer t){
-    timeLeftSec--;
+    timeLeftSec = timeLeftSec-- > 0 ? timeLeftSec-- : 0;
+
     timerUpdatedEvent.broadcast(Value<int>(timeLeftSec));
 
-    if (timeLeftSec < 0){
+    if (timeLeftSec <= 0){
       var elapsedSec = stop();
       timeIsOverEvent.broadcast(Value<int>(elapsedSec));
     }

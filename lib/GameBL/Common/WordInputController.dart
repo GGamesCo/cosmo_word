@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:event/event.dart';
 import 'package:injectable/injectable.dart';
@@ -5,12 +7,13 @@ import 'package:injectable/injectable.dart';
 import 'Abstract/IWordRepository.dart';
 
 @Singleton(as: IWordInputController)
-class WordInputController extends IWordInputController{
+class WordInputController extends IWordInputController {
 
   final IWordRepository wordRepository;
 
   late int setSize;
   WordSet? currentWordSet = null;
+  List<String> usedWordSetIds = List<String>.empty(growable: true);
   List<String> completedWords = List<String>.empty(growable: true);
   int get completedWordsCount => completedWords.length;
 
@@ -26,7 +29,8 @@ class WordInputController extends IWordInputController{
 
   @override
   Future refreshSetAsync(int size) async {
-    currentWordSet = await wordRepository.getSetAsync(size, currentWordSet);
+    currentWordSet = (await wordRepository.getSetAsync(size, usedWordSetIds)).copy();
+    usedWordSetIds.add(currentWordSet!.id);
     onSetRefreshed.broadcast(Value<WordSet>(currentWordSet!));
   }
 
@@ -54,5 +58,11 @@ class WordInputController extends IWordInputController{
     }
 
     return wasWordAccepted;
+  }
+
+  void reset() {
+    currentWordSet = null;
+    completedWords.clear();
+    usedWordSetIds.clear();
   }
 }

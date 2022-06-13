@@ -14,4 +14,6 @@ abstract class IWordInputController{
   Future refreshSetAsync(int size);
 
   Future<bool> tryAcceptWordAsync(String word);
+
+  void reset();
 }

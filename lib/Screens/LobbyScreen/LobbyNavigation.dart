@@ -1,4 +1,5 @@
 import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
+import 'package:cosmo_word/Screens/GameScreen/Layers/Popups/GameCompletePopup.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,7 +40,7 @@ class LobbyNavigation extends StatelessWidget{
                     ],
                   ),
                 ),
-              )
+              ),
             ]
         ),
       ),
@@ -49,7 +50,8 @@ class LobbyNavigation extends StatelessWidget{
   void _navigateToStoryGame(BuildContext context){
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => GameScreen(
+      MaterialPageRoute(builder: (context) =>
+          GameScreen(
           gameScreenKey: GlobalKey(),
           game: StoryGame(
               storyLevelConfig: StoryLevelConfig(

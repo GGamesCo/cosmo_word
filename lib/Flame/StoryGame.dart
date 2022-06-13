@@ -56,7 +56,6 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompl
     _inputDisplayController = SeparateBricksInputDisplayController(
       previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
       joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
-      userInputReceivedEvent: userInputReceivedEvent,
       game: this,
       wordSize: 3
     );

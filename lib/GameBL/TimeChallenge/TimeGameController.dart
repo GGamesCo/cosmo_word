@@ -12,28 +12,46 @@ class TimeGameController{
   final ITimerController timerController;
   final IBalanceController balanceController;
 
+  bool isActive = false;
+
   TimeGameController({required this.wordInputController, required this.timerController,
   required this.challengeConfig, required this.balanceController});
 
   Future initAsync() async {
-    wordInputController.onInputAccepted.subscribe((args) => timerController.addStep(challengeConfig.wordCompletionTimeRewardSec));
+    wordInputController.onInputAccepted.subscribe((args) {
+      if(isActive)
+        timerController.addStep(challengeConfig.wordCompletionTimeRewardSec);
+    });
     timerController.timeIsOverEvent.subscribe((args) => handleGameCompletionAsync(args!.value));
   }
 
-  void startGame() => timerController.start(challengeConfig.totalTimeSec, challengeConfig.wordCompletionTimeRewardSec);
+  void startGame() {
+    timerController.start(challengeConfig.totalTimeSec,
+        challengeConfig.wordCompletionTimeRewardSec);
+    isActive = true;
+  }
 
-  void pauseGame() => timerController.pause();
+  void pauseGame() {
+    isActive = false;
+    timerController.pause();
+  }
 
-  void resumeGame() => timerController.resume();
+  void resumeGame() {
+    isActive = true;
+    timerController.resume();
+  }
 
   void terminateGame(){
+    isActive = false;
     timerController.stop();
+    wordInputController.reset();
   }
 
   Future handleGameCompletionAsync(int timeSpent) async{
     print("handleGameCompletion..");
+    isActive = false;
     timerController.stop();
-    var rewardCoins = wordInputController.completedWordsCount * timeSpent;
+    var rewardCoins = wordInputController.completedWordsCount * 5;
     balanceController.addBalanceAsync(rewardCoins);
   }
 }

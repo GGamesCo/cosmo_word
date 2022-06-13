@@ -30,7 +30,6 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
   SeparateBricksInputDisplayController({
     required this.previewLayoutData,
     required this.joystickLayoutData,
-    required this.userInputReceivedEvent,
     required this.game, required this.wordSize
   }){
  	wordInputController = getIt.get<IWordInputController>();

@@ -4,6 +4,7 @@ import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
 import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
 import 'package:cosmo_word/GameBL/TimeChallenge/TimeChallengeResults.dart';
 import 'package:cosmo_word/di.dart';
+import 'package:event/event.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
@@ -26,7 +27,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
 
   late GameElementsLayout _layoutData;
   late BackgroundController _backgroundController;
-  late StubInputDisplayController _inputDisplayController;
+  late SeparateBricksInputDisplayController _inputDisplayController;
   late CompletedWordsZoneController _completedWordsZoneController;
   late RocketZoneController _rocketZoneController;
 
@@ -50,14 +51,11 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
       'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3'
     ]);
 
-    var userInputReceivedEvent = Event<InputCompletedEventArgs>();
-
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
 
     _inputDisplayController = SeparateBricksInputDisplayController(
         previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
         joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
-        userInputReceivedEvent: userInputReceivedEvent,
         game: this,
         wordSize: gameController.challengeConfig.wordSize
     );
