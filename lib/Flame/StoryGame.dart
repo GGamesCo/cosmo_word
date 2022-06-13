@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
 import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/GameUiElement.dart';
 import 'package:event/event.dart';
@@ -50,15 +51,16 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompl
     var userInputReceivedEvent = Event<InputCompletedEventArgs>();
 
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
-    _backgroundController.init();
+    await _backgroundController.initAsync();
 
     _inputDisplayController = SeparateBricksInputDisplayController(
       previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
       joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
-      userInputReceivedEvent: userInputReceivedEvent,
-      game: this
+      game: this,
+      wordSize: 3
     );
-    _inputDisplayController.init();
+    
+     await _inputDisplayController.initAsync();
 
     _completedWordsZoneController = CompletedWordsZoneController(
         layoutData: _layoutData.elementsData[GameUiElement.CompletedWordsZone]!,
@@ -70,13 +72,13 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompl
         brickFallDuration: 1.5,
         scrollAnimDurationSec: 1
     );
-    _completedWordsZoneController.init();
+    await _completedWordsZoneController.initAsync();
 
     _levelProgressBarController = LevelProgressBarController(
         layoutData: _layoutData.elementsData[GameUiElement.LevelProgressBar]!,
         levelConfig: storyLevelConfig
     );
-    _levelProgressBarController.init();
+    await _levelProgressBarController.initAsync();
 
     userInputReceivedEvent.subscribe((userInput) {
       handleInputCompleted(userInput);

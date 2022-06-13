@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cosmo_word/Flame/Utils/CompleterExtensions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/src/components/component.dart';
 import '../UiComponents/Background/StaticBackgroundUiControl.dart';
@@ -13,7 +16,8 @@ class StaticBackgroundController implements BackgroundController {
   StaticBackgroundController({required this.bgImageFile});
 
   @override
-  init() {
+  Future initAsync() {
     rootUiControl = StaticBackgroundUiControl(bgFileName: bgImageFile);
+    return Completer().completeAndReturnFuture();
   }
 }

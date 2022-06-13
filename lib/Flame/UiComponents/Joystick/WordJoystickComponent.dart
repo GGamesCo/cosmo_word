@@ -1,6 +1,10 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:cosmo_word/Flame/UiComponents/Joystick/JoystickUiConfig.dart';
+import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
+import 'package:cosmo_word/di.dart';
+import 'package:get_it/get_it.dart';
 import '../../ElementsLayoutBuilder.dart';
 import '../../Models/Events/SymbolInputAddedEventArgs.dart';
 import '../../UiComponents/Joystick/DragPointerLocation.dart';
@@ -12,30 +16,31 @@ import 'package:flutter/material.dart' show Offset;
 import 'package:event/event.dart';
 import '../../../../Flame/Models/Events/InputCompletedEventArgs.dart';
 
-class WordJoystickComponent extends SpriteComponent with HasGameRef {
+class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable  {
 
   final ElementLayoutData layoutData;
 
   late JoystickLineTrackerComponent navigator;
   late List<JoystickSymbolComponent> symbols;
+  late IWordInputController wordInputController;
 
   List<String> alph = List<String>.empty();
   double sideLength = 0;
 
-  final Event<InputCompletedEventArgs> userInputCompletedEvent;
-  late Event<SymbolInputAddedEventArgs> symbolInputAddedEvent;
+  final Event<InputCompletedEventArgs> userInputCompletedEvent = Event<InputCompletedEventArgs>();
+  late Event<SymbolInputAddedEventArgs> symbolInputAddedEvent = Event<SymbolInputAddedEventArgs>();
 
   WordJoystickComponent({
     required this.layoutData,
-    required List<String> alph,
-    required this.userInputCompletedEvent,
+    required List<String> alph
   }){
     assert(alph.length >= 3 && alph.length <= 5);
 
     this.sideLength = sideLength;
     this.alph = alph;
     this.symbolInputAddedEvent = Event<SymbolInputAddedEventArgs>();
-}
+    this.wordInputController = getIt.get<IWordInputController>();
+  }
 
   @override
   Future<void> onLoad() async {
@@ -125,6 +130,12 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef {
     navigator.resetAnimated();
     symbols.where((element) => element.isActive).forEach((element) {element.changeStateAnimated(false);});
 
-    print("Reset.");
+    print("Reset Joystick.");
+  }
+
+  @override
+  FutureOr onDispose() {
+    userInputCompletedEvent.unsubscribeAll();
+    symbolInputAddedEvent.unsubscribeAll();
   }
 }

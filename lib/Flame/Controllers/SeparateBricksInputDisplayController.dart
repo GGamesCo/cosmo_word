@@ -1,4 +1,8 @@
 import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dart';
+import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
+import 'package:cosmo_word/GameBL/Common/Abstract/IWordRepository.dart';
+import 'package:cosmo_word/GameBL/TimeChallenge/RocketChallengeConfig.dart';
+import 'package:cosmo_word/di.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
@@ -11,10 +15,14 @@ import 'package:event/event.dart';
 class SeparateBricksInputDisplayController implements InputDisplayController {
   final ElementLayoutData previewLayoutData;
   final ElementLayoutData joystickLayoutData;
-  final Event<InputCompletedEventArgs> userInputReceivedEvent;
-  final FlameGame game;
 
+  final FlameGame game;
+  final int wordSize;
+
+  late IWordInputController wordInputController;
   late PreviewZoneComponent previewZone;
+
+  WordJoystickComponent? wordJoystickComponent = null;
 
   @override
   late Component rootUiControl;
@@ -22,9 +30,10 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
   SeparateBricksInputDisplayController({
     required this.previewLayoutData,
     required this.joystickLayoutData,
-    required this.userInputReceivedEvent,
-    required this.game
-  });
+    required this.game, required this.wordSize
+  }){
+ 	wordInputController = getIt.get<IWordInputController>();
+  }
 
   @override
   Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
@@ -37,16 +46,37 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
   }
 
   @override
-  void init() {
-    var rectangle = RectangleComponent();
+  Future initAsync() async {
+   	var rectangle = RectangleComponent();
 
+    previewZone = PreviewZoneComponent(layoutData: previewLayoutData);
+
+    await wordInputController.initializeAsync(wordSize);
+    wordInputController.onSetRefreshed.subscribe((args) => initJoystickUi(args!.value));
+    wordInputController.onInputAccepted.subscribe((args) => handleInputCompleted(InputCompletedEventArgs(args!.value)));
+    wordInputController.onInputRejected.subscribe((args) => handleInputRejected());
+
+    
+    rectangle.add(previewZone);
+
+    rectangle.position = Vector2(0, 0);
+
+    rootUiControl = rectangle;
+
+    initJoystickUi(wordInputController.currentWordSet!);
+  }
+
+  Future handleJoystickEvent(InputCompletedEventArgs args) async {
+    await wordInputController.tryAcceptWordAsync(args!.inputString);
+  }
+
+  void initJoystickUi(WordSet wordSet){
     var joystick = WordJoystickComponent(
-        alph: ['U', 'D', 'O', 'C', 'L'], // Array must be of size 3 - 5 'C', 'L'
-        userInputCompletedEvent: userInputReceivedEvent,
+        alph: wordInputController.currentWordSet!.chars,
         layoutData: joystickLayoutData
     );
 
-    previewZone = PreviewZoneComponent(layoutData: previewLayoutData);
+    joystick.userInputCompletedEvent.subscribe((args) => handleJoystickEvent(args!));
 
     joystick.symbolInputAddedEvent.subscribe((eventArgs) {
       print("onSymbolAdded: " + eventArgs!.inputString);
@@ -56,11 +86,12 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
       previewZone.onSymbolAdded(eventArgs!);
     });
 
-    rectangle.add(previewZone);
-    rectangle.add(joystick);
+    if (wordJoystickComponent != null){
+      wordJoystickComponent!.onDispose();
+      wordJoystickComponent!.removeFromParent();
+    }
+    wordJoystickComponent = joystick;
 
-    rectangle.position = Vector2(0, 0);
-
-    rootUiControl = rectangle;
-  }
+    rootUiControl.add(wordJoystickComponent!);
+	}
 }

@@ -1,3 +1,5 @@
+import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
+import 'package:cosmo_word/di.dart';
 import 'package:flutter/material.dart';
 
 import '../../LobbyScreen/LobbyScreen.dart';
@@ -12,7 +14,7 @@ class TopBarLayer extends StatelessWidget{
   TopBarLayer({
     required this.showBack,
     required this.showSettings,
-    required this.showBalance
+    required this.showBalance,
   });
 
   @override
@@ -31,7 +33,10 @@ class TopBarLayer extends StatelessWidget{
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LobbyScreen()),
+                        MaterialPageRoute(builder: (context) {
+                          getIt.get<TimeGameController>().terminateGame();
+                          return LobbyScreen();
+                        }),
                       );
                     },
                     child: Image.asset('assets/images/common_controls/backBtn.png'),
@@ -46,7 +51,7 @@ class TopBarLayer extends StatelessWidget{
               ],
             ),
             if(showBalance) ...[
-              BalanceIndication(coinsAmount: 124)
+              BalanceIndication()
             ]
           ],
         ),

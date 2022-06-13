@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:cosmo_word/Flame/Controllers/Abstract/UiControllerBase.dart';
+import 'package:cosmo_word/Flame/Utils/CompleterExtensions.dart';
 import 'package:flame/components.dart';
 import '../ElementsLayoutBuilder.dart';
 import '../Models/CompletedBrickData.dart';
@@ -35,7 +38,7 @@ class CompletedWordsZoneController extends UiControllerBase {
   });
 
   @override
-  init() {
+  Future initAsync() {
     rootUiControl = CompletedWordsZoneUiControl(
       viewportSize: layoutData.size,
       viewportPosition: layoutData.position,
@@ -43,6 +46,8 @@ class CompletedWordsZoneController extends UiControllerBase {
       bricksContainerHeight: fullContainerHeight,
       scrollOffset: initialScrollOffset
     );
+
+    return Completer().completeAndReturnFuture();
   }
 
   void renderNewBrick(CompletedBrickData newBrickData){
