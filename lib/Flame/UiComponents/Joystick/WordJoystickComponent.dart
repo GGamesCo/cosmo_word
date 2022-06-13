@@ -5,6 +5,7 @@ import 'package:cosmo_word/Flame/UiComponents/Joystick/JoystickUiConfig.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:get_it/get_it.dart';
+import '../../ElementsLayoutBuilder.dart';
 import '../../Models/Events/SymbolInputAddedEventArgs.dart';
 import '../../UiComponents/Joystick/DragPointerLocation.dart';
 import '../../UiComponents/Joystick/JoytickSymbolComponent.dart';
@@ -16,6 +17,9 @@ import 'package:event/event.dart';
 import '../../../../Flame/Models/Events/InputCompletedEventArgs.dart';
 
 class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable  {
+
+  final ElementLayoutData layoutData;
+
   late JoystickLineTrackerComponent navigator;
   late List<JoystickSymbolComponent> symbols;
   late IWordInputController wordInputController;
@@ -26,7 +30,10 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
   final Event<InputCompletedEventArgs> userInputCompletedEvent = Event<InputCompletedEventArgs>();
   late Event<SymbolInputAddedEventArgs> symbolInputAddedEvent = Event<SymbolInputAddedEventArgs>();
 
-  WordJoystickComponent({required List<String> alph, required double sideLength}){
+  WordJoystickComponent({
+    required this.layoutData,
+    required List<String> alph
+  }){
     assert(alph.length >= 3 && alph.length <= 5);
 
     this.sideLength = sideLength;
@@ -38,13 +45,14 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    anchor = Anchor.topCenter;
+
     sprite = await gameRef.loadSprite('widget/joystickBg.png');
 
 
-    var uiConfig = JoystickUiConfig(sideLength);
-    position = Vector2(gameRef.size.x / 2, gameRef.size.y - uiConfig.size.y);
-    size = Vector2(uiConfig.size.x, uiConfig.size.y);
+    var uiConfig = JoystickUiConfig(layoutData.size.x);
+    anchor = layoutData.anchor;
+    position = layoutData.position;
+    size = layoutData.size;
 
     navigator = JoystickLineTrackerComponent();
     add(navigator);
@@ -98,8 +106,8 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
     for (var symbol in symbols) {
       if (symbol.isPointInsideSymbol(lineEndPosition)) {
         if (!navigator.points.map((x) => x.id).contains(symbol.symbolId)) {
-          var addedSymbolEvent = SymbolInputAddedEventArgs(symbol.symbolId, navigator.inputString);
           navigator.points.add(SymbolLocationModel(symbol.symbolId, Offset(symbol.x, symbol.y)));
+          var addedSymbolEvent = SymbolInputAddedEventArgs(symbol.symbolId, navigator.inputString);
           symbolInputAddedEvent.broadcast(addedSymbolEvent);
           symbol.changeStateAnimated(true);
         }

@@ -4,7 +4,7 @@ import 'package:flame/flame.dart';
 
 class RocketUiControl extends SpriteComponent {
 
-  final int requiredHeight;
+  final double requiredHeight;
 
   RocketUiControl({required this.requiredHeight});
 

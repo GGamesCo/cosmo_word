@@ -8,12 +8,14 @@ class CompletedWordsZoneUiControl<G extends FlameGame> extends RectangleComponen
 
   final Vector2 viewportSize;
   final Vector2 viewportPosition;
+  final Anchor anchor;
   final double bricksContainerHeight;
   double scrollOffset;
 
   CompletedWordsZoneUiControl({
     required this.viewportSize,
     required this.viewportPosition,
+    required this.anchor,
     required this.bricksContainerHeight,
     required this.scrollOffset
   }) : super(position: viewportPosition, size: viewportSize);
@@ -28,7 +30,7 @@ class CompletedWordsZoneUiControl<G extends FlameGame> extends RectangleComponen
         size: Vector2(viewportSize.x, bricksContainerHeight),
         position: Vector2(0, viewportSize.y + scrollOffset)
     );
-    _bricksContainer.anchor = Anchor.bottomLeft;
+    _bricksContainer.anchor = anchor;
     _bricksContainer.setColor(Colors.transparent);
     add(_bricksContainer);
 
