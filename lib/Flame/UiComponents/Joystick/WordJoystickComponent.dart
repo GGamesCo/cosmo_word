@@ -81,6 +81,9 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
   }
 
   void onDraggUpdate(SymbolPointerLocationArgs arg) {
+    if (navigator.isReseting)
+      return;
+
     if (navigator.points.isNotEmpty &&
         navigator.points.first.id != arg.symbolId) {
       reset();

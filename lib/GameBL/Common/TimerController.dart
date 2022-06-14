@@ -4,7 +4,7 @@ import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
 import 'package:event/event.dart';
 import 'package:injectable/injectable.dart';
 
-@Singleton(as: ITimerController)
+@Injectable(as: ITimerController)
 class TimerController extends ITimerController{
   late Timer timer;
   late Stopwatch stopwatch;
@@ -50,7 +50,7 @@ class TimerController extends ITimerController{
   }
 
   void handleTimeTick(Timer t){
-    timeLeftSec = timeLeftSec-- > 0 ? timeLeftSec-- : 0;
+    timeLeftSec = timeLeftSec-1 > 0 ? timeLeftSec-1 : 0;
 
     timerUpdatedEvent.broadcast(Value<int>(timeLeftSec));
 
