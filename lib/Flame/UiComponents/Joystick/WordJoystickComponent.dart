@@ -48,7 +48,6 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
 
     sprite = await gameRef.loadSprite('widget/joystickBg.png');
 
-
     var uiConfig = JoystickUiConfig(layoutData.size.x);
     anchor = layoutData.anchor;
     position = layoutData.position;
@@ -68,6 +67,11 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
 
     for (var symbol in symbols) {
       add(symbol);
+      symbol.tapDown + (arg) => {startCollectingWord(arg!)};
+      symbol.tapUp + (arg) {
+        reset();
+        userInputCompletedEvent.broadcast(InputCompletedEventArgs(""));
+      };
       symbol.draggUpdate +
           (arg) => {
                 if (arg != null) {onDraggUpdate(arg!)}
@@ -89,16 +93,8 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
       reset();
     }
 
-    var startSymbolLocation = symbols
-        .firstWhere((element) => element.symbolId == arg.symbolId)
-        .position
-        .toOffset();
-    if (!navigator.points.map((x) => x.id).contains(arg.symbolId)) {
-      navigator.points
-          .add(SymbolLocationModel(arg.symbolId, startSymbolLocation));
-      symbols.firstWhere((element) => element.symbolId == arg.symbolId).changeStateAnimated(true);
-      var addedSymbolEvent = SymbolInputAddedEventArgs(arg.symbolId, navigator.inputString);
-      symbolInputAddedEvent.broadcast(addedSymbolEvent);
+    if (!navigator.points.map((x) => x.id).contains(arg.symbolId)){
+      startCollectingWord(arg);
     }
 
     var lineEndPosition = arg.location;
@@ -129,11 +125,33 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
 
   }
 
+  void startCollectingWord(SymbolPointerLocationArgs arg){
+    if (navigator.isReseting)
+      return;
+
+    var startSymbolLocation = symbols
+        .firstWhere((element) => element.symbolId == arg.symbolId)
+        .position
+        .toOffset();
+    if (!navigator.points.map((x) => x.id).contains(arg.symbolId)) {
+      navigator.points
+          .add(SymbolLocationModel(arg.symbolId, startSymbolLocation));
+      symbols.firstWhere((element) => element.symbolId == arg.symbolId).changeStateAnimated(true);
+      var addedSymbolEvent = SymbolInputAddedEventArgs(arg.symbolId, navigator.inputString);
+      symbolInputAddedEvent.broadcast(addedSymbolEvent);
+    }
+
+    navigator.lastCursorPoint = Offset(arg.location.x, arg.location.y);
+  }
+
+  void resetForcely(){
+    navigator.reset();
+    symbols.where((element) => element.isActive).forEach((element) {element.changeStateAnimated(false);});
+  }
+
   void reset() {
     navigator.resetAnimated();
     symbols.where((element) => element.isActive).forEach((element) {element.changeStateAnimated(false);});
-
-    print("Reset Joystick.");
   }
 
   @override
