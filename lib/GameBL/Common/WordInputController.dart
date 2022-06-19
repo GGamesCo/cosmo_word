@@ -28,6 +28,7 @@ class WordInputController extends IWordInputController  {
 
   @override
   Future initializeAsync(int flowId) async {
+    _completedWords.clear();
     _currentFlow = await flowRepository.getFlowByIdAsync(flowId);
     flowState = _calculateFlowState();
 
@@ -43,7 +44,7 @@ class WordInputController extends IWordInputController  {
       throw Exception("Word set is empty.");
 
     bool wasWordAccepted = false;
-    if(currentWordSet.words.contains(word)){
+    if(currentWordSet.words.contains(word) && !_completedWords.contains(word)){
       _completedWords.add(word);
       var oldState = flowState;
       var newState = _calculateFlowState();
@@ -58,7 +59,11 @@ class WordInputController extends IWordInputController  {
         acceptedWord: word,
         flowState: newState
       ));
-    }else{
+
+      if(newState.completedWordsInFlow == newState.totalWordsInFlow)
+        onFlowCompleted.broadcast();
+
+    } else {
       onInputRejected.broadcast(Value<String>(word));
     }
 

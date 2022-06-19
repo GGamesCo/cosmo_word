@@ -1,12 +1,14 @@
 import 'package:cosmo_word/GameBL/Story/LevelProgressBarState.dart';
 import 'package:event/event.dart';
 import 'package:injectable/injectable.dart';
+import '../../Screens/GameScreen/Layers/Popups/PopupManager.dart';
 import '../Common/Abstract/IFlowRepository.dart';
 import '../Common/Abstract/IWordInputController.dart';
 import '../Common/Models/WordFlowState.dart';
 import '../Services/StoryLevelsService/StoryLevelsService.dart';
 import '../Services/StoryStateService/StoryStateModel.dart';
 import '../Services/StoryStateService/StoryStateService.dart';
+import 'StoryLevelCompleteResult.dart';
 
 @singleton
 class StoryStateController {
@@ -31,15 +33,27 @@ class StoryStateController {
     var level = await levelsService.getLevelConfigById(_storyState.currentLevelId);
 
     wordInputController.initializeAsync(level.flowId);
-    wordInputController.onInputAccepted.subscribe((args) {
-      handleNewInput(args!.flowState);
+    wordInputController.onFlowCompleted.subscribe((args) {
+      handleFlowCompleted();
     });
   }
 
-  void handleNewInput(WordFlowState newFlowState) async {
-    if(newFlowState.completedWordsInFlow == newFlowState.totalWordsInFlow){
-      //show popup
-    }
+  void handleFlowCompleted() async {
+    var completedLevel = await levelsService.getLevelConfigById(_storyState.currentLevelId);
+    _storyState = await storyStateService.updateStoryProgress(
+      StoryStateModel(
+        storyLevelsIdList: _storyState.storyLevelsIdList,
+        currentLevelId: _storyState.currentLevelId + 1
+      )
+    );
+
+    var level = await levelsService.getLevelConfigById(_storyState.currentLevelId);
+    wordInputController.initializeAsync(level.flowId);
+
+    await PopupManager.ShowLevelCompletePopup(StoryLevelCompleteResult(
+      levelNumber: _storyState.currentLevelNumber,
+      coinReward: completedLevel.coinReward
+    ));
   }
 
   LevelProgressBarState getLevelProgressBarState(){
@@ -52,18 +66,5 @@ class StoryStateController {
 
   Future<StoryStateModel> getStoryState(){
     return storyStateService.getStoryState();
-  }
-
-  Future<StoryStateModel> increaseLevel() async {
-    var currentState = await getStoryState();
-    var currentLevelIdIndex = currentState.storyLevelsIdList.indexOf(currentState.currentLevelId);
-
-    var newState = StoryStateModel(
-        storyLevelsIdList: currentState.storyLevelsIdList,
-        currentLevelId: currentState.storyLevelsIdList[currentLevelIdIndex+1]
-    );
-
-    var updatedState = await storyStateService.updateStoryProgress(newState);
-    return updatedState;
   }
 }

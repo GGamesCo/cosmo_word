@@ -3,15 +3,12 @@ import 'dart:math';
 import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
-import 'package:cosmo_word/GameBL/TimeChallenge/TimeAtackStage.dart';
-import 'package:cosmo_word/GameBL/TimeChallenge/TimeChallengeResults.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:event/event.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import '../GameBL/TimeChallenge/RocketChallengeConfig.dart';
-import 'Common/Mixins.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';
 import 'Controllers/RocketGame/RocketZoneController.dart';
@@ -19,12 +16,10 @@ import 'Controllers/StaticBackgroundController.dart';
 import 'Controllers/SeparateBricksInputDisplayController.dart';
 import 'ElementsLayoutBuilder.dart';
 import 'Models/CompletedBrickData.dart';
-import 'Models/Events/GameCompletedEventArgs.dart';
-import 'Models/Events/InputCompletedEventArgs.dart';
 import 'Models/GameTypes.dart';
 import 'Models/GameUiElement.dart';
 
-class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection, HasGameCompletedEvent {
+class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection {
 
   final RocketChallengeConfig challengeConfig;
   final IWordInputController wordInputController;
@@ -102,25 +97,15 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
   void setupSubscriptions() {
     wordInputController.onInputAccepted.subscribe(handleInputAccepted);
     timerController.timerUpdatedEvent.subscribe(onTimerUpdated);
-    timerController.timeIsOverEvent.subscribe(onGameCompleted);
   }
 
   void unsubscribeAll(){
     wordInputController.onInputAccepted.unsubscribe(handleInputAccepted);
     timerController.timerUpdatedEvent.unsubscribe(onTimerUpdated);
-    timerController.timeIsOverEvent.unsubscribe(onGameCompleted);
   }
 
   void onTimerUpdated(Value<int>? args){
     _rocketZoneController.onCountDownUpdated(timerController.timeLeftSec, challengeConfig.totalTimeSec);
-  }
-
-  void onGameCompleted(Value<int>? args){
-    gameCompletedEvent.broadcast(
-        TimeChallengeGameCompletedEventArgs(
-            results: TimeChallengeResults(completedWordsCount: args!.value)
-        )
-    );
   }
 
   void handleInputAccepted(InputAcceptedEventArgs? wordInput) async {

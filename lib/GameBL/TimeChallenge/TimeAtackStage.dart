@@ -5,7 +5,9 @@ import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Models/GameState.dart';
 import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
 import 'package:cosmo_word/GameBL/TimeChallenge/RocketChallengeConfig.dart';
+import 'package:cosmo_word/GameBL/TimeChallenge/TimeChallengeResults.dart';
 import 'package:cosmo_word/Screens/GameScreen/GameScreen.dart';
+import 'package:cosmo_word/Screens/GameScreen/Layers/Popups/PopupManager.dart';
 import 'package:event/event.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:injectable/injectable.dart';
@@ -60,14 +62,6 @@ class TimeAtackStage extends IGameStage {
     wordInputController.reset();
   }
 
-  Future handleGameCompletionAsync(int timeSpent) async{
-    print("handleGameCompletion..");
-    isActive = false;
-    timerController.stop();
-    var rewardCoins = wordInputController.flowState.completedWordsInFlow * 5;
-    balanceController.addBalanceAsync(rewardCoins);
-  }
-
   void onInputCompleted(InputAcceptedEventArgs? args){
     if(isActive)
       timerController.addStep(challengeConfig.wordCompletionTimeRewardSec);
@@ -76,7 +70,12 @@ class TimeAtackStage extends IGameStage {
   }
 
   void onTimeIsOver(Value<int>? args){
-    handleGameCompletionAsync(args!.value);
+    print("handleGameCompletion..");
+    isActive = false;
+    timerController.stop();
+    var rewardCoins = wordInputController.flowState.completedWordsInFlow * 5;
+    PopupManager.ShowTimeChallengeCompletePopup(TimeChallengeResults(completedWordsCount: args!.value, coinReward: rewardCoins));
+    balanceController.addBalanceAsync(rewardCoins);
   }
 
   void onDispose(){
