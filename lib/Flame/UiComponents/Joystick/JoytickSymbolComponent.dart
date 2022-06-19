@@ -12,6 +12,8 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
   bool isActive  = false;
   late JoystickSymbolSpriteComponent btn;
 
+  var tapDown = Event<SymbolPointerLocationArgs>();
+  var tapUp = Event();
   var draggUpdate = Event<SymbolPointerLocationArgs>();
   var dragEnd = Event<SymbolPointerLocationArgs>();
 
@@ -36,12 +38,21 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
   }
 
   @override
-  bool onDragUpdate(DragUpdateInfo event){
-    var parentComponent = (parent as PositionComponent);
-    var parentPosition = parentComponent.position + parentComponent.transform.offset;
-    var localEventPosition = event.eventPosition.game - parentPosition;
+  bool onTapDown(TapDownInfo event){
+    cursorPosition = wordToLocalPosition(event.eventPosition.game);
+    tapDown.broadcast(SymbolPointerLocationArgs(symbolId, cursorPosition));
+    return true;
+  }
 
-    cursorPosition = Vector2(localEventPosition.x > 0 ? localEventPosition.x : 0, localEventPosition.y > 0 ? localEventPosition.y : 0);
+  @override
+  bool onTapUp(TapUpInfo event){
+    tapUp.broadcast();
+    return true;
+  }
+
+  @override
+  bool onDragUpdate(DragUpdateInfo event){
+    cursorPosition = wordToLocalPosition(event.eventPosition.game);
     draggUpdate.broadcast(SymbolPointerLocationArgs(symbolId, cursorPosition));
     return false;
   }
@@ -79,5 +90,14 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
       }
 
       btn.scale = Vector2(1, 1);
+  }
+
+  Vector2 wordToLocalPosition(Vector2 positionInGame){
+    var parentComponent = (parent as PositionComponent);
+    var parentPosition = parentComponent.position + parentComponent.transform.offset;
+    var localEventPosition = positionInGame - parentPosition;
+
+    cursorPosition = Vector2(localEventPosition.x > 0 ? localEventPosition.x : 0, localEventPosition.y > 0 ? localEventPosition.y : 0);
+    return cursorPosition;
   }
 }
