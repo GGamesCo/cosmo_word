@@ -136,7 +136,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
       navigator.points
           .add(SymbolLocationModel(arg.symbolId, startSymbolLocation));
       symbols.firstWhere((element) => element.symbolId == arg.symbolId).changeStateAnimated(true);
-      var addedSymbolEvent = SymbolInputAddedEventArgs(arg.symbolId, navigator.inputString);
+      var addedSymbolEvent = SymbolInputAddedEventArgs(lastInputSymbol: arg.symbolId, inputString: navigator.inputString);
       symbolInputAddedEvent.broadcast(addedSymbolEvent);
     }
 
