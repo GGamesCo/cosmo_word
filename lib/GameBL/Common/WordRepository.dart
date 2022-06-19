@@ -2,25 +2,28 @@ import 'dart:async';
 
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordRepository.dart';
 import 'package:injectable/injectable.dart';
-import 'package:uuid/uuid.dart';
 
 @Injectable(as: IWordRepository)
-class WordRepository extends IWordRepository{
+class WordRepository implements IWordRepository {
 
   List<WordSet> sets = [
-    WordSet(id: Uuid().v1(), size: 3, chars: ["A", "D", "S"], words: ["ADS", "SAD"]),
-    WordSet(id: Uuid().v1(), size: 4, chars: ["C", "A", "R", "E"], words: ["CARE", "CAR", "RACE", "EAR", "ERA"]),
-    WordSet(id: Uuid().v1(), size: 5, chars: ["C", "L", "O", "U", "D"], words: ["CLOUD", "LOUD", "COLD", "DOC"]),
-    WordSet(id: Uuid().v1(), size: 5, chars: ["T", "H", "U", "M", "B"], words: ["THUMB", "BUT", "HUM", "BUM", "HUB", "TUB", "HUT"]),
-    WordSet(id: Uuid().v1(), size: 5, chars: ["S", "I", "G", "H", "T"], words: ["SIGHT", "HIS", "SIT", "HIT", "HITS", "TUB", "HUT"]),
-    WordSet(id: Uuid().v1(), size: 5, chars: ["F", "D", "L", "O", "O"], words: ["FLOOD", "FOOD", "FOLD", "FOOL", "OLD"])
+    WordSet(id: 1, words: ["ADS", "SAD"]),
+    WordSet(id: 2, words: ["CARE", "CAR", "RACE", "EAR", "ERA"]),
+    WordSet(id: 3, words: ["CLOUD", "LOUD", "COLD", "DOC"]),
+    WordSet(id: 4, words: ["THUMB", "BUT", "HUM", "BUM", "HUB", "TUB", "HUT"]),
+    WordSet(id: 5, words: ["SIGHT", "HIS", "SIT", "HIT", "HITS", "TUB", "HUT"]),
+    WordSet(id: 6, words: ["FLOOD", "FOOD", "FOLD", "FOOL", "OLD"])
   ];
 
-  Future<WordSet> getSetAsync(int setSize, List<String> excludeIds) async {
+  Future<WordSet> getSetAsync(int setSize, List<int> excludeIds) async {
     Completer completerLoadingStub = Completer();
     completerLoadingStub.complete();
     await completerLoadingStub.future;
 
     return sets.firstWhere((element) => element.size == setSize && !excludeIds.contains(element.id));
+  }
+
+  Future<WordSet> getSetByIdAsync(int setId) async {
+    return sets.firstWhere((element) => element.id == setId);
   }
 }

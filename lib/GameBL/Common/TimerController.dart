@@ -5,7 +5,7 @@ import 'package:event/event.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: ITimerController)
-class TimerController extends ITimerController{
+class TimerController extends ITimerController {
   late Timer timer;
   late Stopwatch stopwatch;
 

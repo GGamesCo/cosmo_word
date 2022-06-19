@@ -1,11 +1,11 @@
 import 'dart:math';
+import 'package:cosmo_word/GameBL/Story/StoryStateController.dart';
 import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
 import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/GameUiElement.dart';
 import 'package:event/event.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
-import '../GameBL/Story/StoryLevelConfig.dart';
 import 'Common/Mixins.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
 import 'Controllers/Abstract/InputDisplayController.dart';
@@ -19,7 +19,7 @@ import 'Models/GameTypes.dart';
 
 class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompletedEvent {
 
-  final StoryLevelConfig storyLevelConfig;
+  final StoryStateController storyStateController;
 
   late GameElementsLayout _layoutData;
 
@@ -31,9 +31,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompl
   List<String> _colorCodes = ['y', 'g', 'r'];
   Random _random = new Random();
 
-  late int _completedWordsCount = 0;
-
-  StoryGame({required this.storyLevelConfig});
+  StoryGame({required this.storyStateController});
 
   // Uncomment to see components outlines
   // @override
@@ -48,14 +46,13 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompl
       'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3'
     ]);
 
-    var userInputReceivedEvent = Event<InputCompletedEventArgs>();
-
     _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
     await _backgroundController.initAsync();
 
     _inputDisplayController = SeparateBricksInputDisplayController(
       previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
       joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
+      wordInputController: storyStateController.wordInputController,
       game: this,
       wordSize: 3
     );
@@ -76,32 +73,28 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompl
 
     _levelProgressBarController = LevelProgressBarController(
         layoutData: _layoutData.elementsData[GameUiElement.LevelProgressBar]!,
-        levelConfig: storyLevelConfig
+        barState: storyStateController.getLevelProgressBarState()
     );
     await _levelProgressBarController.initAsync();
 
-    userInputReceivedEvent.subscribe((userInput) {
-      handleInputCompleted(userInput);
+    storyStateController.wordInputController.onInputAccepted.subscribe((userInput) {
+      handleInputCompleted(userInput!.acceptedWord);
     });
 
     add(_backgroundController.rootUiControl);
     add(_inputDisplayController.rootUiControl);
     add(_completedWordsZoneController.rootUiControl);
     add(_levelProgressBarController.rootUiControl);
+
+    _levelProgressBarController.rootUiControl.loaded.then((value) {
+      _levelProgressBarController.setProgress(storyStateController.getLevelProgressBarState());
+    });
   }
 
-  Future<void> handleInputCompleted(InputCompletedEventArgs? wordInput) async {
-    if (Random().nextBool()){ // If word accepted
-      var pickedWord = wordInput!.inputString;
-      var pickedColor = _pickRandomListElement(_colorCodes);
-      _completedWordsCount++;
-
-      _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
-      _inputDisplayController.handleInputCompleted(wordInput);
-      _levelProgressBarController.setProgress(_completedWordsCount/storyLevelConfig.totalWords);    }
-    else{
-      _inputDisplayController.handleInputRejected();
-    }
+  Future<void> handleInputCompleted(String pickedWord) async {
+    var pickedColor = _pickRandomListElement(_colorCodes);
+    _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
+    _levelProgressBarController.setProgress(storyStateController.getLevelProgressBarState());
   }
 
   String _pickRandomListElement(List<String> list){

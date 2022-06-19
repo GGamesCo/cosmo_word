@@ -1,19 +1,21 @@
 import 'dart:async';
 
 abstract class IWordRepository{
-  Future<WordSet> getSetAsync(int size, List<String> excludeIds);
+  Future<WordSet> getSetAsync(int size, List<int> excludeIds);
+  Future<WordSet> getSetByIdAsync(int setId);
 }
 
 class WordSet
 {
-  final String id;
-  final int size;
-  final List<String> chars;
+  final int id;
   final List<String> words;
 
-  WordSet({required this.id, required this.size, required this.chars, required this.words});
+  int get size => words.length;
+  List<String> get chars => words.join().split('').toSet().toList();
+
+  WordSet({required this.id, required this.words});
 
   WordSet copy(){
-    return WordSet(id: id, size: size, chars: List<String>.from(chars), words: List<String>.from(words));
+    return WordSet(id: id, words: List<String>.from(words));
   }
 }

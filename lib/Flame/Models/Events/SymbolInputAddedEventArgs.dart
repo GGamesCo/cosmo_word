@@ -1,8 +1,8 @@
 import 'package:event/event.dart';
 
-class SymbolInputAddedEventArgs extends EventArgs{
-  String lastInputSymbol;
-  String inputString;
+class SymbolInputAddedEventArgs extends EventArgs {
+  final String lastInputSymbol;
+  final String inputString;
 
-  SymbolInputAddedEventArgs(this.lastInputSymbol, this.inputString);
+  SymbolInputAddedEventArgs({required this.lastInputSymbol, required this.inputString});
 }

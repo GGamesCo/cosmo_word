@@ -56,6 +56,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     _inputDisplayController = SeparateBricksInputDisplayController(
         previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
         joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
+        wordInputController: gameController.wordInputController,
         game: this,
         wordSize: gameController.challengeConfig.wordSize
     );
@@ -96,7 +97,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
 
   void setupSubscriptions() {
     gameController.wordInputController.onInputAccepted.subscribe((args) => {
-      handleInputAccepted(InputCompletedEventArgs(args!.value))
+      handleInputAccepted(InputCompletedEventArgs(args!.acceptedWord))
     });
 
     _rocketZoneController.initRocketPosition(gameController.timerController.timeLeftSec, gameController.challengeConfig.totalTimeSec);
