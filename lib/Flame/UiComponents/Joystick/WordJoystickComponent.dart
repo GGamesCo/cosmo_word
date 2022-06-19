@@ -28,7 +28,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
   double sideLength = 0;
 
   final Event<InputCompletedEventArgs> userInputCompletedEvent = Event<InputCompletedEventArgs>();
-  late Event<SymbolInputAddedEventArgs> symbolInputAddedEvent = Event<SymbolInputAddedEventArgs>();
+  final Event<SymbolInputAddedEventArgs> symbolInputAddedEvent = Event<SymbolInputAddedEventArgs>();
 
   WordJoystickComponent({
     required this.layoutData,
@@ -38,7 +38,6 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
 
     this.sideLength = sideLength;
     this.alph = alph;
-    this.symbolInputAddedEvent = Event<SymbolInputAddedEventArgs>();
     this.wordInputController = getIt.get<IWordInputController>();
   }
 
@@ -74,12 +73,12 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
       };
       symbol.draggUpdate +
           (arg) => {
-                if (arg != null) {onDraggUpdate(arg!)}
+                if (arg != null) {onDraggUpdate(arg)}
               };
 
       symbol.dragEnd +
           (arg) => {
-                if (arg != null) {onDragEnd(arg!)}
+                if (arg != null) {onDragEnd(arg)}
               };
     }
   }
@@ -106,7 +105,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
       if (symbol.isPointInsideSymbol(lineEndPosition)) {
         if (!navigator.points.map((x) => x.id).contains(symbol.symbolId)) {
           navigator.points.add(SymbolLocationModel(symbol.symbolId, Offset(symbol.x, symbol.y)));
-          var addedSymbolEvent = SymbolInputAddedEventArgs(symbol.symbolId, navigator.inputString);
+          var addedSymbolEvent = SymbolInputAddedEventArgs(lastInputSymbol: symbol.symbolId, inputString: navigator.inputString);
           symbolInputAddedEvent.broadcast(addedSymbolEvent);
           symbol.changeStateAnimated(true);
         }
@@ -137,7 +136,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
       navigator.points
           .add(SymbolLocationModel(arg.symbolId, startSymbolLocation));
       symbols.firstWhere((element) => element.symbolId == arg.symbolId).changeStateAnimated(true);
-      var addedSymbolEvent = SymbolInputAddedEventArgs(arg.symbolId, navigator.inputString);
+      var addedSymbolEvent = SymbolInputAddedEventArgs(lastInputSymbol: arg.symbolId, inputString: navigator.inputString);
       symbolInputAddedEvent.broadcast(addedSymbolEvent);
     }
 

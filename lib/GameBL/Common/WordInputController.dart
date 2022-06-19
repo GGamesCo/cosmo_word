@@ -4,65 +4,90 @@ import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:event/event.dart';
 import 'package:injectable/injectable.dart';
 
+import 'Abstract/IFlowRepository.dart';
 import 'Abstract/IWordRepository.dart';
+import 'Models/InputAcceptedEventArgs.dart';
+import 'Models/WordFlowState.dart';
 
 @Singleton(as: IWordInputController)
 class WordInputController extends IWordInputController {
 
+  final IFlowRepository flowRepository;
   final IWordRepository wordRepository;
 
-  late int setSize;
-  WordSet? currentWordSet = null;
-  List<String> usedWordSetIds = List<String>.empty(growable: true);
-  List<String> completedWords = List<String>.empty(growable: true);
-  int get completedWordsCount => completedWords.length;
+  late WordSetFlow _currentFlow;
+  late WordFlowState flowState;
 
-  WordInputController({required this.wordRepository}){
+  List<String> _completedWords = List<String>.empty(growable: true);
 
-  }
-
-  @override
-  Future initializeAsync(int size) async {
-    this.setSize = size;
-    refreshSetAsync(size);
-  }
+  WordInputController({
+    required this.flowRepository,
+    required this.wordRepository,
+  });
 
   @override
-  Future refreshSetAsync(int size) async {
-    currentWordSet = (await wordRepository.getSetAsync(size, usedWordSetIds)).copy();
-    usedWordSetIds.add(currentWordSet!.id);
-    onSetRefreshed.broadcast(Value<WordSet>(currentWordSet!));
+  Future initializeAsync(int flowId) async {
+    _currentFlow = await flowRepository.getFlowByIdAsync(flowId);
+    flowState = _calculateFlowState();
+
+    var currentWordSet = (await wordRepository.getSetByIdAsync(flowState.setId)).copy();
+    onSetRefreshed.broadcast(Value<WordSet>(currentWordSet));
   }
 
   @override
   Future<bool> tryAcceptWordAsync(String word) async {
-    if (currentWordSet == null)
-      await refreshSetAsync(setSize);
+    var currentWordSet = (await wordRepository.getSetByIdAsync(flowState.setId)).copy();
 
-    if (currentWordSet!.words.isEmpty)
+    if (currentWordSet.words.isEmpty)
       throw Exception("Word set is empty.");
 
     bool wasWordAccepted = false;
-    if(currentWordSet!.words.contains(word)){
-      completedWords.add(word);
-      currentWordSet!.words.remove(word);
-      onInputAccepted.broadcast(Value<String>(word));
-
+    if(currentWordSet.words.contains(word)){
+      _completedWords.add(word);
+      var oldState = flowState;
+      var newState = _calculateFlowState();
+      flowState = newState;
       wasWordAccepted = true;
+
+      if(oldState.setId != newState.setId){
+        var newWordSet = (await wordRepository.getSetByIdAsync(flowState.setId)).copy();
+        onSetRefreshed.broadcast(Value<WordSet>(newWordSet));
+      }
+      onInputAccepted.broadcast(InputAcceptedEventArgs(
+        acceptedWord: word,
+        flowState: newState
+      ));
     }else{
       onInputRejected.broadcast(Value<String>(word));
-    }
-
-    if (currentWordSet!.words.isEmpty){
-      await refreshSetAsync(setSize);
     }
 
     return wasWordAccepted;
   }
 
+  WordFlowState _calculateFlowState(){
+    var currentSetId = _currentFlow.sets.first.setId;
+    var wordsLeft = _completedWords.length;
+    for(final set in _currentFlow.sets){
+      if(wordsLeft < set.requiredWordsCount) {
+        currentSetId = set.setId;
+        break;
+      }
+
+      wordsLeft = wordsLeft - set.requiredWordsCount;
+    };
+
+    var totalWords = _currentFlow.sets.fold(0, (int previousValue, WordSetFlowItem element) => previousValue + element.requiredWordsCount);
+
+    return WordFlowState(
+        flowId: _currentFlow.id,
+        setId: currentSetId,
+        completedWordsInFlow: _completedWords.length,
+        totalWordsInFlow: totalWords,
+        wordsInSetLeft: wordsLeft
+    );
+  }
+
   void reset() {
-    currentWordSet = null;
-    completedWords.clear();
-    usedWordSetIds.clear();
+    _completedWords.clear();
   }
 }

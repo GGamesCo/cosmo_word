@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:cosmo_word/Flame/UiComponents/Scene.dart';
+import 'package:cosmo_word/GameBL/Story/StoryStateController.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Screens/LobbyScreen/LobbyScreen.dart';
@@ -25,6 +26,7 @@ void main() async {
   }
 
   initializeAppsflyer();
+  await initDiInstances();
 
   runApp(
     Sizer(
@@ -36,6 +38,10 @@ void main() async {
       }
     ),
   );
+}
+
+Future initDiInstances() async {
+  await (getIt.get<StoryStateController>()).initAsync();
 }
 
 void initializeAppsflyer(){

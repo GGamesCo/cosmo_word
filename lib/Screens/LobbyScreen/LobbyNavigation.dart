@@ -7,7 +7,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../Flame/StoryGame.dart';
 import '../../Flame/TimeChallengeGame.dart';
-import '../../GameBL/Story/StoryLevelConfig.dart';
+import '../../GameBL/Story/StoryStateController.dart';
 import '../../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import '../GameScreen/GameScreen.dart';
 import 'LobbyNavigationButton.dart';
@@ -53,12 +53,7 @@ class LobbyNavigation extends StatelessWidget{
       MaterialPageRoute(builder: (context) =>
           GameScreen(
           gameScreenKey: GlobalKey(),
-          game: StoryGame(
-              storyLevelConfig: StoryLevelConfig(
-                levelNumber: 4,
-                totalWords: 10
-              )
-          )
+          game: StoryGame(storyStateController: getIt.get<StoryStateController>())
       )
       ),
     );

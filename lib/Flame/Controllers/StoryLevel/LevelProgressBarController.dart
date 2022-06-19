@@ -1,34 +1,39 @@
+import 'dart:async';
+
 import 'package:cosmo_word/Flame/Controllers/Abstract/UiControllerBase.dart';
-import 'package:cosmo_word/GameBL/Story/StoryLevelConfig.dart';
+import 'package:cosmo_word/Flame/Utils/CompleterExtensions.dart';
+import 'package:cosmo_word/GameBL/Story/LevelProgressBarState.dart';
 import '../../ElementsLayoutBuilder.dart';
 import '../../UiComponents/Story/StoryLevelProgressBarUiControl.dart';
 
 class LevelProgressBarController implements UiControllerBase{
 
   final ElementLayoutData layoutData;
-  final StoryLevelConfig levelConfig;
+  final LevelProgressBarState barState;
 
   late StoryLevelProgressBarUiControl rootUiControl;
 
   LevelProgressBarController({
     required this.layoutData,
-    required this.levelConfig
+    required this.barState
   });
 
   @override
   Future initAsync() async {
-    rootUiControl = StoryLevelProgressBarUiControl(
+    var bar = StoryLevelProgressBarUiControl(
       requiredWidth: layoutData.size.x,
-      levelNumber: levelConfig.levelNumber
+      levelNumber: barState.levelNumber
     );
 
-    await rootUiControl.loaded;
-    rootUiControl.position = layoutData.position;
-    rootUiControl.anchor = layoutData.anchor;
-    rootUiControl.setProgress(0);
+    bar.position = layoutData.position;
+    bar.anchor = layoutData.anchor;
+    rootUiControl = bar;
+
+    return Completer().completeAndReturnFuture();
   }
 
-  void setProgress(double p){
+  void setProgress(LevelProgressBarState barState){
+    var p = barState.currentValue/barState.targetValue;
     rootUiControl.setProgress(p);
   }
 

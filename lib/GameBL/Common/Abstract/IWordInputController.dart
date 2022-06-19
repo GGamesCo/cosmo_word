@@ -1,17 +1,17 @@
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordRepository.dart';
 import 'package:event/event.dart';
 
+import '../Models/InputAcceptedEventArgs.dart';
+import '../Models/WordFlowState.dart';
+
 abstract class IWordInputController{
   final Event<Value<String>> onInputRejected = Event<Value<String>>();
-  final Event<Value<String>> onInputAccepted = Event<Value<String>>();
+  final Event<InputAcceptedEventArgs> onInputAccepted = Event<InputAcceptedEventArgs>();
   final Event<Value<WordSet>> onSetRefreshed = Event<Value<WordSet>>();
 
-  late WordSet? currentWordSet;
-  int get completedWordsCount;
+  late WordFlowState flowState;
 
-  Future initializeAsync(int size);
-
-  Future refreshSetAsync(int size);
+  Future initializeAsync(int flowId);
 
   Future<bool> tryAcceptWordAsync(String word);
 

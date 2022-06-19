@@ -6,7 +6,7 @@ import 'package:event/event.dart';
 import 'package:injectable/injectable.dart';
 
 @Singleton()
-class TimeGameController{
+class TimeGameController {
   final RocketChallengeConfig challengeConfig;
   final IWordInputController wordInputController;
   final ITimerController timerController;
@@ -18,6 +18,7 @@ class TimeGameController{
   required this.challengeConfig, required this.balanceController});
 
   Future initAsync() async {
+    wordInputController.initializeAsync(3);
     wordInputController.onInputAccepted.subscribe((args) {
       if(isActive)
         timerController.addStep(challengeConfig.wordCompletionTimeRewardSec);
@@ -26,8 +27,7 @@ class TimeGameController{
   }
 
   void startGame() {
-    timerController.start(challengeConfig.totalTimeSec,
-        challengeConfig.wordCompletionTimeRewardSec);
+    timerController.start(challengeConfig.totalTimeSec, challengeConfig.wordCompletionTimeRewardSec);
     isActive = true;
   }
 
@@ -51,7 +51,7 @@ class TimeGameController{
     print("handleGameCompletion..");
     isActive = false;
     timerController.stop();
-    var rewardCoins = wordInputController.completedWordsCount * 5;
+    var rewardCoins = wordInputController.flowState.completedWordsInFlow * 5;
     balanceController.addBalanceAsync(rewardCoins);
   }
 }
