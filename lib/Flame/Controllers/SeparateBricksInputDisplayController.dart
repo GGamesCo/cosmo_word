@@ -2,8 +2,8 @@ import 'package:cosmo_word/Flame/UiComponents/InputDisplayZone/ShakeBtnComponent
 import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordRepository.dart';
-import 'package:cosmo_word/GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import 'package:cosmo_word/di.dart';
+import 'package:event/event.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
@@ -11,11 +11,11 @@ import '../ElementsLayoutBuilder.dart';
 import '../Models/Events/InputCompletedEventArgs.dart';
 import 'Abstract/InputDisplayController.dart';
 import '../UiComponents/Joystick/WordJoystickComponent.dart';
-import 'package:event/event.dart';
 
 class SeparateBricksInputDisplayController implements InputDisplayController {
   final ElementLayoutData previewLayoutData;
   final ElementLayoutData joystickLayoutData;
+  final ElementLayoutData rotateBtnLayoutData;
   final IWordInputController wordInputController;
 
   final FlameGame game;
@@ -23,7 +23,7 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 
   late IWordRepository wordRepository;
   late PreviewZoneComponent previewZone;
-  late ShakeBtnComponent shakeBtnComponent;
+  late ShakeBtnComponent shuffleBtnComponent;
 
   WordJoystickComponent? wordJoystickComponent = null;
 
@@ -33,8 +33,10 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
   SeparateBricksInputDisplayController({
     required this.previewLayoutData,
     required this.joystickLayoutData,
+    required this.rotateBtnLayoutData,
     required this.wordInputController,
-    required this.game, required this.wordSize
+    required this.game,
+    required this.wordSize
   }){
     wordRepository = getIt.get<IWordRepository>();
   }
@@ -63,9 +65,13 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 
     rectangle.position = Vector2(0, 0);
 
-    shakeBtnComponent = ShakeBtnComponent();
-    shakeBtnComponent.position = Vector2(100, 50);
-    rectangle.add(shakeBtnComponent);
+    shuffleBtnComponent = ShakeBtnComponent()
+    ..size = rotateBtnLayoutData.size
+    ..anchor = rotateBtnLayoutData.anchor
+    ..position = rotateBtnLayoutData.position;
+
+    rectangle.add(shuffleBtnComponent);
+    shuffleBtnComponent.tap.subscribe(onShuffleBtnClicked);
 
     rootUiControl = rectangle;
 
@@ -101,4 +107,8 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 
     rootUiControl.add(wordJoystickComponent!);
 	}
+
+  void onShuffleBtnClicked(EventArgs? _){
+    wordJoystickComponent!.shuffle();
+  }
 }

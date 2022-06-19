@@ -3,5 +3,6 @@ enum GameUiElement {
   Joystick,
   CompletedWordsZone,
   Rocket,
-  LevelProgressBar
+  LevelProgressBar,
+  RotateBtn
 }

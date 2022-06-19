@@ -53,6 +53,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     _inputDisplayController = SeparateBricksInputDisplayController(
         previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
         joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
+        rotateBtnLayoutData: _layoutData.elementsData[GameUiElement.RotateBtn]!,
         wordInputController: wordInputController,
         game: this,
         wordSize: challengeConfig.wordSize

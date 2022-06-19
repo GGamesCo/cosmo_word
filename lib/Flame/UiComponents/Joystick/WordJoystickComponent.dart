@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:cosmo_word/Flame/UiComponents/Joystick/JoystickUiConfig.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/di.dart';
+import 'package:flame/effects.dart';
 import 'package:get_it/get_it.dart';
 import '../../ElementsLayoutBuilder.dart';
 import '../../Models/Events/SymbolInputAddedEventArgs.dart';
@@ -12,9 +13,10 @@ import '../../UiComponents/Joystick/JoytickSymbolComponent.dart';
 import '../../UiComponents/Joystick/SymbolLocationModel.dart';
 import 'package:flame/components.dart';
 import '../../UiComponents/Joystick/JoytickLineTrackerComponent.dart';
-import 'package:flutter/material.dart' show Offset;
+import 'package:flutter/material.dart' show Curves, Offset;
 import 'package:event/event.dart';
 import '../../../../Flame/Models/Events/InputCompletedEventArgs.dart';
+import 'dart:math';
 
 class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable  {
 
@@ -146,6 +148,32 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
   void resetForcely(){
     navigator.reset();
     symbols.where((element) => element.isActive).forEach((element) {element.changeStateAnimated(false);});
+  }
+
+  void shuffle(){
+    var rotateEffect = RotateEffect.by(20*pi, EffectController(duration: 0.5));
+    var shuffledPositions = shufflePositions(symbols.length);
+    add(rotateEffect);
+
+    var oldPositions = symbols.map((x) => Vector2(x.position.x, x.position.y)).toList();
+    for (int i = 0; i < symbols.length; i++){
+      symbols[i].position = oldPositions[shuffledPositions[i]];
+    }
+  }
+
+  List<int> shufflePositions(int arrayLength){
+    List<int> shuffledPositions = List<int>.empty(growable: true);
+    var rnd = Random();
+    for(int i = 0; i < arrayLength; i++){
+      var newPos = rnd.nextInt(arrayLength);
+      while(shuffledPositions.contains(newPos)){
+        newPos = rnd.nextInt(arrayLength);
+      }
+
+      shuffledPositions.add(newPos);
+    }
+
+    return shuffledPositions;
   }
 
   void reset() {
