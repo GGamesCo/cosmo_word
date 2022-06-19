@@ -17,12 +17,11 @@ import 'Controllers/StaticBackgroundController.dart';
 import 'Controllers/SeparateBricksInputDisplayController.dart';
 import 'ElementsLayoutBuilder.dart';
 import 'Models/CompletedBrickData.dart';
-import 'Models/Events/GameCompletedEventArgs.dart';
 import 'Models/Events/InputCompletedEventArgs.dart';
 import 'Models/GameTypes.dart';
 import 'Models/GameUiElement.dart';
 
-class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection, HasGameCompletedEvent {
+class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection {
   final TimeGameController gameController;
 
   late GameElementsLayout _layoutData;
@@ -106,11 +105,13 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     });
 
     gameController.timerController.timeIsOverEvent.subscribe((args) {
+      /* Check PopupManager to find how show popup implemented
       gameCompletedEvent.broadcast(
           TimeChallengeGameCompletedEventArgs(
-              results: TimeChallengeResults(completedWordsCount: 10)
+            results: TimeChallengeResults(completedWordsCount: 10, coinReward: 100),
           )
       );
+       */
     });
   }
 

@@ -1,12 +1,9 @@
 import 'dart:math';
 import 'package:cosmo_word/GameBL/Story/StoryStateController.dart';
-import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
 import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/GameUiElement.dart';
-import 'package:event/event.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'Common/Mixins.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
 import 'Controllers/Abstract/InputDisplayController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';
@@ -14,10 +11,9 @@ import 'Controllers/StaticBackgroundController.dart';
 import 'Controllers/StoryLevel/LevelProgressBarController.dart';
 import 'Controllers/SeparateBricksInputDisplayController.dart';
 import 'Models/CompletedBrickData.dart';
-import 'Models/Events/InputCompletedEventArgs.dart';
 import 'Models/GameTypes.dart';
 
-class StoryGame extends FlameGame with HasTappables, HasDraggables, HasGameCompletedEvent {
+class StoryGame extends FlameGame with HasTappables, HasDraggables {
 
   final StoryStateController storyStateController;
 
