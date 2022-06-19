@@ -2,7 +2,25 @@ import 'package:cosmo_word/Screens/Common/Story/MyStoryProgress.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../Flame/StoryGame.dart';
+import '../../../../GameBL/Services/StoryStateService/StoryStateModel.dart';
+import '../../../../GameBL/Services/StoryStateService/StoryStateService.dart';
+import '../../../../GameBL/Story/StoryStateController.dart';
+import '../../../../di.dart';
+import '../../../../main.dart';
+import '../../GameScreen.dart';
+
 class GameCompletePopup extends StatelessWidget{
+
+  final popupType;
+  final StoryStateModel storyStateModel;
+  final double coinReward;
+
+  GameCompletePopup({
+    required this.popupType,
+    required this.storyStateModel,
+    required this.coinReward
+  });
 
   @override
   Widget build(BuildContext context){
@@ -28,8 +46,12 @@ class GameCompletePopup extends StatelessWidget{
                               child: Column(
                                 children: [
                                   _getCoinReward(),
-                                  _getStoryData(),
-                                  //_getTimeChallengeData(),
+                                  if(popupType == 1) ...[
+                                    _getStoryData(),
+                                  ],
+                                  if(popupType == 2) ...[
+                                    _getTimeChallengeData(),
+                                  ],
                                   Expanded(child: _getControls())
                                 ],
                               ),
@@ -60,7 +82,7 @@ class GameCompletePopup extends StatelessWidget{
                 ),
                 Center(
                   child: Text(
-                    "+1500",
+                    "+${coinReward.round()}",
                     style: TextStyle(
                       fontFamily: 'Roboto',
                       color: Color.fromRGBO(131, 135, 125, 1),
@@ -87,8 +109,8 @@ class GameCompletePopup extends StatelessWidget{
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: MyStoryProgress(
-                      progressCurrent: 2,
-                      progressTotal: 3
+                      progressCurrent: storyStateModel.currentLevelNumber,
+                      progressTotal: storyStateModel.nextMilestoneTargetLevel
                   ),
                 )
             )
@@ -157,7 +179,19 @@ class GameCompletePopup extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () => {},
+              onTap: () {
+                if(popupType == 1) {
+                  Navigator.push(
+                    navigatorKey.currentContext!,
+                    MaterialPageRoute(builder: (context) =>
+                        GameScreen(
+                            gameScreenKey: GlobalKey(),
+                            game: StoryGame(storyStateController: getIt.get<StoryStateController>())
+                        )
+                    ),
+                  );
+                }
+              },
               child: Image.asset("assets/images/popups/proceed-btn.png"),
             )
           ],

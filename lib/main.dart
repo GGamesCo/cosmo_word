@@ -9,6 +9,8 @@ import 'di.dart';
 import 'firebase_options.dart';
 import 'package:sizer/sizer.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
 void main() async {
 
   configureDependencies();
@@ -32,6 +34,7 @@ void main() async {
     Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
+          navigatorKey: navigatorKey,
           title: 'Navigation Basics',
           home: LobbyScreen(),
         );

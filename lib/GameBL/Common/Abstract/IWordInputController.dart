@@ -7,6 +7,7 @@ import '../Models/WordFlowState.dart';
 abstract class IWordInputController{
   final Event<Value<String>> onInputRejected = Event<Value<String>>();
   final Event<InputAcceptedEventArgs> onInputAccepted = Event<InputAcceptedEventArgs>();
+  final Event onFlowCompleted = Event();
   final Event<Value<WordSet>> onSetRefreshed = Event<Value<WordSet>>();
 
   late WordFlowState flowState;
