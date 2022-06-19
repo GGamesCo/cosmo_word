@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 
-class WordJoystickComponent extends SpriteComponent with HasGameRef {
+class ShakeBtnComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();

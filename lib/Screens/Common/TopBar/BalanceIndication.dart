@@ -1,6 +1,7 @@
 import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:flutter/material.dart';
+import 'package:event/event.dart';
 
 class BalanceIndication extends StatefulWidget{
 
@@ -13,11 +14,9 @@ class BalanceIndication extends StatefulWidget{
 }
 
 class _BalanceIndicationState extends State<BalanceIndication> {
-
-  _BalanceIndicationState(){
-    getIt.get<IBalanceController>().balanceUpdatedEvent.subscribe((args) {
-      setState(() {widget.coinsAmount = args!.value;});
-    });
+  void initState(){
+    super.initState();
+    getIt.get<IBalanceController>().balanceUpdatedEvent.subscribe(updateBalance);
   }
 
 
@@ -66,5 +65,23 @@ class _BalanceIndicationState extends State<BalanceIndication> {
     var balance = await getIt.get<IBalanceController>().getBalanceAsync();
     setState(() {widget.coinsAmount = balance;});
     return balance;
+  }
+
+  void updateBalance(Value<int>? args){
+    if (!mounted){
+      print("BalanceIndication umounted!");
+      return;
+    }
+
+
+    setState(() {
+      widget.coinsAmount = args!.value;
+      });
+  }
+
+  void dispose(){
+    super.dispose();
+    getIt.get<IBalanceController>().balanceUpdatedEvent.unsubscribe(updateBalance);
+    print("BalanceIndication disposed.");
   }
 }

@@ -1,7 +1,9 @@
 import 'dart:async' as DartAsync;
 import 'dart:math';
 import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
-import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
+import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
+import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
+import 'package:cosmo_word/GameBL/TimeChallenge/TimeAtackStage.dart';
 import 'package:cosmo_word/GameBL/TimeChallenge/TimeChallengeResults.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:event/event.dart';
@@ -23,7 +25,10 @@ import 'Models/GameTypes.dart';
 import 'Models/GameUiElement.dart';
 
 class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection, HasGameCompletedEvent {
-  final TimeGameController gameController;
+
+  final RocketChallengeConfig challengeConfig;
+  final IWordInputController wordInputController;
+  final ITimerController timerController;
 
   late GameElementsLayout _layoutData;
   late BackgroundController _backgroundController;
@@ -34,15 +39,12 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
   List<String> _colorCodes = ['y', 'g', 'r'];
   Random _random = new Random();
 
-  TimeChallengeGame({required this.gameController});
-
-  // Uncomment to see components outlines
-  // @override
-  // bool debugMode = true;
+  TimeChallengeGame({required this.challengeConfig, required this.wordInputController,
+  required this.timerController});
 
   @override
   Future<void> onLoad() async {
-    await gameController.initAsync();
+  //  await gameController.initAsync();
     
     var layoutBuilder = ElementsLayoutBuilder(screenWidth: this.size.x, screenHeight: this.size.y);
     _layoutData = layoutBuilder.calculateElementsLayout(GameType.TimeChallengeGame);
@@ -56,9 +58,9 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     _inputDisplayController = SeparateBricksInputDisplayController(
         previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
         joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
-        wordInputController: gameController.wordInputController,
+        wordInputController: wordInputController,
         game: this,
-        wordSize: gameController.challengeConfig.wordSize
+        wordSize: challengeConfig.wordSize
     );
 
     _completedWordsZoneController = CompletedWordsZoneController(
@@ -89,33 +91,40 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
 
     // ?? ?? ? hack to wait until rocket inited and fly zone bounds calculated
     _rocketZoneController.uiComponentLoadedFuture.then((value) {
-      gameController.startGame();
+   //   gameController.start();
+
+      _rocketZoneController.initRocketPosition(timerController.timeLeftSec, challengeConfig.totalTimeSec);
       setupSubscriptions();
       //setupCountdown();
   });
   }
 
   void setupSubscriptions() {
-    gameController.wordInputController.onInputAccepted.subscribe((args) => {
-      handleInputAccepted(InputCompletedEventArgs(args!.acceptedWord))
-    });
-
-    _rocketZoneController.initRocketPosition(gameController.timerController.timeLeftSec, gameController.challengeConfig.totalTimeSec);
-    gameController.timerController.timerUpdatedEvent.subscribe((args) {
-      _rocketZoneController.onCountDownUpdated(gameController.timerController.timeLeftSec, gameController.challengeConfig.totalTimeSec);
-    });
-
-    gameController.timerController.timeIsOverEvent.subscribe((args) {
-      gameCompletedEvent.broadcast(
-          TimeChallengeGameCompletedEventArgs(
-              results: TimeChallengeResults(completedWordsCount: 10)
-          )
-      );
-    });
+    wordInputController.onInputAccepted.subscribe(handleInputAccepted);
+    timerController.timerUpdatedEvent.subscribe(onTimerUpdated);
+    timerController.timeIsOverEvent.subscribe(onGameCompleted);
   }
 
-  Future<void> handleInputAccepted(InputCompletedEventArgs? wordInput) async {
-      var pickedWord = wordInput!.inputString;
+  void unsubscribeAll(){
+    wordInputController.onInputAccepted.unsubscribe(handleInputAccepted);
+    timerController.timerUpdatedEvent.unsubscribe(onTimerUpdated);
+    timerController.timeIsOverEvent.unsubscribe(onGameCompleted);
+  }
+
+  void onTimerUpdated(Value<int>? args){
+    _rocketZoneController.onCountDownUpdated(timerController.timeLeftSec, challengeConfig.totalTimeSec);
+  }
+
+  void onGameCompleted(Value<int>? args){
+    gameCompletedEvent.broadcast(
+        TimeChallengeGameCompletedEventArgs(
+            results: TimeChallengeResults(completedWordsCount: args!.value)
+        )
+    );
+  }
+
+  void handleInputAccepted(InputAcceptedEventArgs? wordInput) async {
+      var pickedWord = wordInput!.acceptedWord;
       var pickedColor = _pickRandomListElement(_colorCodes);
 
       _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
@@ -125,5 +134,9 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     var index = _random.nextInt(list.length);
     var element = list[index];
     return element;
+  }
+
+  void dispose(){
+    unsubscribeAll();
   }
 }

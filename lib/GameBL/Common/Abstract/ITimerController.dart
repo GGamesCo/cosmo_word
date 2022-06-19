@@ -1,6 +1,7 @@
 import 'package:event/event.dart';
+import 'package:get_it/get_it.dart';
 
-abstract class ITimerController{
+abstract class ITimerController with Disposable{
   // Int - amount of sec user played
   final Event<Value<int>> timeIsOverEvent = new Event<Value<int>>();
 

@@ -1,4 +1,6 @@
-import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
+import 'package:cosmo_word/GameBL/Common/Models/GameState.dart';
+import 'package:cosmo_word/GameBL/Common/StageManager.dart';
+import 'package:cosmo_word/GameBL/TimeChallenge/TimeAtackStage.dart';
 import 'package:cosmo_word/Screens/GameScreen/Layers/Popups/GameCompletePopup.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:flutter/material.dart';
@@ -48,25 +50,10 @@ class LobbyNavigation extends StatelessWidget{
   }
 
   void _navigateToStoryGame(BuildContext context){
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) =>
-          GameScreen(
-          gameScreenKey: GlobalKey(),
-          game: StoryGame(storyStateController: getIt.get<StoryStateController>())
-      )
-      ),
-    );
+    getIt.get<StageManager>().navigateToStage(GameStage.Story, context);
   }
 
   void _navigateToChallengeGame(BuildContext context){
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => GameScreen(
-          gameScreenKey: GlobalKey(),
-          game: TimeChallengeGame(gameController: getIt.get<TimeGameController>())
-      )
-      ),
-    );
+    getIt.get<StageManager>().navigateToStage(GameStage.TimeAtack, context);
   }
 }

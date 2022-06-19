@@ -1,3 +1,4 @@
+import 'package:cosmo_word/Flame/UiComponents/InputDisplayZone/ShakeBtnComponent.dart';
 import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordRepository.dart';
@@ -22,6 +23,7 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 
   late IWordRepository wordRepository;
   late PreviewZoneComponent previewZone;
+  late ShakeBtnComponent shakeBtnComponent;
 
   WordJoystickComponent? wordJoystickComponent = null;
 
@@ -60,6 +62,10 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
     rectangle.add(previewZone);
 
     rectangle.position = Vector2(0, 0);
+
+    shakeBtnComponent = ShakeBtnComponent();
+    shakeBtnComponent.position = Vector2(100, 50);
+    rectangle.add(shakeBtnComponent);
 
     rootUiControl = rectangle;
 

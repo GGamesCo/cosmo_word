@@ -50,7 +50,7 @@ class TimerController extends ITimerController {
   }
 
   void handleTimeTick(Timer t){
-    timeLeftSec = timeLeftSec-1 > 0 ? timeLeftSec-1 : 0;
+    timeLeftSec = timeLeftSec-1;// > 0 ? timeLeftSec-1 : 0;
 
     timerUpdatedEvent.broadcast(Value<int>(timeLeftSec));
 
@@ -58,5 +58,12 @@ class TimerController extends ITimerController {
       var elapsedSec = stop();
       timeIsOverEvent.broadcast(Value<int>(elapsedSec));
     }
+  }
+
+  @override
+  FutureOr onDispose() {
+    timeIsOverEvent.unsubscribeAll();
+    timerUpdatedEvent.unsubscribeAll();
+    stop();
   }
 }

@@ -59,7 +59,7 @@ class RocketZoneController implements UiControllerBase {
   void onCountDownUpdated(int secondsLeft, int totalTime){
     _rocketBoxUiControl.updateTimerState(secondsLeft);
     updateRocketPosition(secondsLeft, totalTime);
-    if (secondsLeft == 0) {
+    if (secondsLeft == 0 && _rocketUiControl.parent == null) {
       rootUiControl.remove(_rocketUiControl);
     }
   }

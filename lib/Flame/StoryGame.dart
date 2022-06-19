@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:cosmo_word/GameBL/Story/StoryStateController.dart';
-import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
+import 'package:cosmo_word/GameBL/TimeChallenge/TimeAtackStage.dart';
 import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/GameUiElement.dart';
 import 'package:event/event.dart';

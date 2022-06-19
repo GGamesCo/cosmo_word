@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:event/event.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import 'Abstract/IFlowRepository.dart';
@@ -9,8 +10,8 @@ import 'Abstract/IWordRepository.dart';
 import 'Models/InputAcceptedEventArgs.dart';
 import 'Models/WordFlowState.dart';
 
-@Singleton(as: IWordInputController)
-class WordInputController extends IWordInputController {
+@Injectable(as: IWordInputController)
+class WordInputController extends IWordInputController  {
 
   final IFlowRepository flowRepository;
   final IWordRepository wordRepository;
@@ -89,5 +90,12 @@ class WordInputController extends IWordInputController {
 
   void reset() {
     _completedWords.clear();
+  }
+
+  @override
+  FutureOr onDispose() {
+    onInputAccepted.unsubscribeAll();
+    onInputRejected.unsubscribeAll();
+    onSetRefreshed.unsubscribeAll();
   }
 }

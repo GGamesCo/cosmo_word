@@ -1,4 +1,6 @@
-import 'package:cosmo_word/GameBL/TimeChallenge/TimeGameController.dart';
+import 'package:cosmo_word/GameBL/Common/Models/GameState.dart';
+import 'package:cosmo_word/GameBL/Common/StageManager.dart';
+import 'package:cosmo_word/GameBL/TimeChallenge/TimeAtackStage.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:flutter/material.dart';
 
@@ -31,13 +33,7 @@ class TopBarLayer extends StatelessWidget{
                 if(showBack) ...[
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          getIt.get<TimeGameController>().terminateGame();
-                          return LobbyScreen();
-                        }),
-                      );
+                      getIt.get<StageManager>().navigateToStage(GameStage.Lobby, context);
                     },
                     child: Image.asset('assets/images/common_controls/backBtn.png'),
                   )
