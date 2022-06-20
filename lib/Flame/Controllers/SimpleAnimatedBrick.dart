@@ -21,6 +21,7 @@ class SimpleAnimatedBrick {
   late Component uiElement;
 
   late WordSprite _wordSprite;
+  late MoveToEffect fallEffect;
 
   SimpleAnimatedBrick({
     required this.word,
@@ -44,10 +45,8 @@ class SimpleAnimatedBrick {
     uiElement = _wordSprite;
   }
 
-  late MoveToEffect _fallEffect;
-
   void _setupAnimationsEffects(){
-    _fallEffect = MoveToEffect(
+    fallEffect = MoveToEffect(
       Vector2(spawnX, fallToY),
       CurvedEffectController(brickFallDuration, CustomBounceCurve._())
     );
@@ -55,7 +54,7 @@ class SimpleAnimatedBrick {
     //var turnSign = _random.nextBool() ? 1 : -1;
     //final flyRotateEffect = RotateEffect.to(turnSign * pi * 2/40, EffectController(duration: 2));
 
-    _wordSprite.add(_fallEffect);
+    _wordSprite.add(fallEffect);
     //_wordSprite.add(flyRotateEffect);
   }
 }

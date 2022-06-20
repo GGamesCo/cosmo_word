@@ -32,9 +32,9 @@ class LevelProgressBarController implements UiControllerBase{
     return Completer().completeAndReturnFuture();
   }
 
-  void setProgress(LevelProgressBarState barState){
+  Future setProgressAnimated(LevelProgressBarState barState){
     var p = barState.currentValue/barState.targetValue;
-    rootUiControl.setProgress(p);
+    return rootUiControl.setProgress(p);
   }
 
 }

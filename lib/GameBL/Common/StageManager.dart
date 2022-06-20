@@ -13,15 +13,10 @@ import 'Abstract/IGameState.dart';
 import 'Models/GameState.dart';
 
 @singleton
-class StageManager{
+class StageManager {
   late IGameStage currentStage = LobbyStage();
 
   Future navigateToStage(GameStage state, BuildContext flutterBuildContext) async {
-    if (state == currentStage.state){
-      print("Attempt to navigate to current state is invalid.");
-      return currentStage.root;
-    }
-
     print("Termination game state ${currentStage.state.toString()}).");
     currentStage.terminate();
 

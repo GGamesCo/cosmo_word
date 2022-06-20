@@ -30,7 +30,7 @@ class PopupManager {
       context: navigatorKey.currentContext!,
       builder: (BuildContext context){
         return GameCompletePopup(
-          popupType: 1,
+          popupType: 2,
           storyStateModel: storyState,
           coinReward: resultsData.coinReward,
         );

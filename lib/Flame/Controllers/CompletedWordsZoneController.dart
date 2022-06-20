@@ -50,7 +50,7 @@ class CompletedWordsZoneController extends UiControllerBase {
     return Completer().completeAndReturnFuture();
   }
 
-  void renderNewBrick(CompletedBrickData newBrickData){
+  Future renderNewBrick(CompletedBrickData newBrickData){
 
     var normalizedSpawnHeight = fullContainerHeight > layoutData.size.y ? fullContainerHeight - layoutData.size.y - rootUiControl.scrollOffset : 0;
 
@@ -68,6 +68,11 @@ class CompletedWordsZoneController extends UiControllerBase {
 
     rootUiControl.attachNewBrick(brickInstance.uiElement);
     validateScrollOffset();
+
+    var animationCompleter = Completer();
+    brickInstance.fallEffect.onComplete = animationCompleter.complete;
+    
+    return animationCompleter.future;
   }
 
   void validateScrollOffset(){

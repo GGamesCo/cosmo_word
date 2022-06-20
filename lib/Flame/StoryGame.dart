@@ -1,10 +1,16 @@
 import 'dart:math';
+import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
+import 'package:cosmo_word/GameBL/Services/StoryStateService/StoryStateModel.dart';
+import 'package:cosmo_word/GameBL/Services/StoryStateService/StoryStateService.dart';
 import 'package:cosmo_word/GameBL/Story/StoryStateController.dart';
 import 'package:cosmo_word/GameBL/TimeChallenge/TimeAtackStage.dart';
 import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/GameUiElement.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
+import '../GameBL/Common/Abstract/IWordInputController.dart';
+import '../GameBL/Services/StoryLevelsService/StoryLevelsService.dart';
+import '../GameBL/Story/LevelProgressBarState.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
 import 'Controllers/Abstract/InputDisplayController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';
@@ -17,8 +23,12 @@ import 'Models/GameTypes.dart';
 class StoryGame extends FlameGame with HasTappables, HasDraggables {
 
   final StoryStateController storyStateController;
+  final IWordInputController wordInputController;
+  final StoryLevelsService levelsService;
 
   late GameElementsLayout _layoutData;
+
+  late StoryStateModel _storyState;
 
   late BackgroundController _backgroundController;
   late InputDisplayController _inputDisplayController;
@@ -28,7 +38,11 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
   List<String> _colorCodes = ['y', 'g', 'r'];
   Random _random = new Random();
 
-  StoryGame({required this.storyStateController});
+  StoryGame({
+    required this.storyStateController,
+    required this.wordInputController,
+    required this.levelsService,
+  });
 
   // Uncomment to see components outlines
   // @override
@@ -38,6 +52,10 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
   Future<void> onLoad() async {
     var layoutBuilder = ElementsLayoutBuilder(screenWidth: this.size.x, screenHeight: this.size.y);
     _layoutData = layoutBuilder.calculateElementsLayout(GameType.StoryGame);
+
+    _storyState = await storyStateController.getStoryState();
+    var level = await levelsService.getLevelConfigById(_storyState.currentLevelId);
+    await wordInputController.initializeAsync(level.flowId);
 
     await FlameAudio.audioCache.loadAll([
       'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3'
@@ -50,7 +68,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
       previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
       joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
       rotateBtnLayoutData: _layoutData.elementsData[GameUiElement.RotateBtn]!,
-      wordInputController: storyStateController.wordInputController,
+      wordInputController: wordInputController,
       game: this,
       wordSize: 3
     );
@@ -71,12 +89,12 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
 
     _levelProgressBarController = LevelProgressBarController(
         layoutData: _layoutData.elementsData[GameUiElement.LevelProgressBar]!,
-        barState: storyStateController.getLevelProgressBarState()
+        barState: getLevelProgressBarState()
     );
     await _levelProgressBarController.initAsync();
 
-    storyStateController.wordInputController.onInputAccepted.subscribe((userInput) {
-      handleInputCompleted(userInput!.acceptedWord);
+    wordInputController.onInputAccepted.subscribe((userInput) {
+      handleInputCompleted(userInput!);
     });
 
     add(_backgroundController.rootUiControl);
@@ -85,14 +103,29 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
     add(_levelProgressBarController.rootUiControl);
 
     _levelProgressBarController.rootUiControl.loaded.then((value) {
-      _levelProgressBarController.setProgress(storyStateController.getLevelProgressBarState());
+      _levelProgressBarController.setProgressAnimated(getLevelProgressBarState());
     });
   }
 
-  Future<void> handleInputCompleted(String pickedWord) async {
+  Future<void> handleInputCompleted(InputAcceptedEventArgs inputAcceptedEventArgs) async {
     var pickedColor = _pickRandomListElement(_colorCodes);
-    _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
-    _levelProgressBarController.setProgress(storyStateController.getLevelProgressBarState());
+
+    await Future.wait([
+      _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: inputAcceptedEventArgs.acceptedWord, colorCode: pickedColor)),
+      _levelProgressBarController.setProgressAnimated(getLevelProgressBarState())
+    ]);
+
+    if(inputAcceptedEventArgs.flowState.totalWordsInFlow == inputAcceptedEventArgs.flowState.completedWordsInFlow){
+      storyStateController.processLevelCompleted();
+    }
+  }
+
+  LevelProgressBarState getLevelProgressBarState(){
+    return new LevelProgressBarState(
+        currentValue: wordInputController.flowState.completedWordsInFlow,
+        targetValue: wordInputController.flowState.totalWordsInFlow,
+        levelNumber: _storyState.currentLevelNumber
+    );
   }
 
   String _pickRandomListElement(List<String> list){

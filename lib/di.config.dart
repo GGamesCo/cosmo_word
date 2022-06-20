@@ -48,8 +48,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.singleton<_i18.StoryStateController>(_i18.StoryStateController(
       storyStateService: get<_i15.StoryStateService>(),
       levelsService: get<_i14.StoryLevelsService>(),
-      flowRepository: get<_i5.IFlowRepository>(),
-      wordInputController: get<_i16.IWordInputController>()));
+      flowRepository: get<_i5.IFlowRepository>()));
   gh.factory<_i19.TimeAtackStage>(() => _i19.TimeAtackStage(
       wordInputController: get<_i16.IWordInputController>(),
       timerController: get<_i7.ITimerController>(),

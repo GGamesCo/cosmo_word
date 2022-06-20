@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/flame.dart';
@@ -16,7 +18,7 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
 
   StoryLevelProgressBarUiControl({required this.requiredWidth, required this.levelNumber});
 
-  void setProgress(double p){
+  Future setProgress(double p) {
 
     final effect = SizeEffect.to(
         Vector2(_fillerControl.size.x, _fillerFullSize*p),
@@ -27,6 +29,10 @@ class StoryLevelProgressBarUiControl extends RectangleComponent {
     );
 
     _fillerControl.add(effect);
+
+    var animationCompleter = Completer();
+    effect.onComplete = animationCompleter.complete;
+    return animationCompleter.future;
   }
 
   @override

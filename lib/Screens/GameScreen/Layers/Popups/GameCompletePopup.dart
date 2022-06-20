@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../Flame/StoryGame.dart';
+import '../../../../GameBL/Common/Models/GameState.dart';
+import '../../../../GameBL/Common/StageManager.dart';
 import '../../../../GameBL/Services/StoryStateService/StoryStateModel.dart';
 import '../../../../GameBL/Services/StoryStateService/StoryStateService.dart';
 import '../../../../GameBL/Story/StoryStateController.dart';
@@ -52,7 +54,7 @@ class GameCompletePopup extends StatelessWidget{
                                   if(popupType == 2) ...[
                                     _getTimeChallengeData(),
                                   ],
-                                  Expanded(child: _getControls())
+                                  Expanded(child: _getControls(context))
                                 ],
                               ),
                             ),
@@ -171,7 +173,7 @@ class GameCompletePopup extends StatelessWidget{
     );
   }
 
-  Widget _getControls(){
+  Widget _getControls(BuildContext context){
     return Center(
       child: SizedBox(
         height: 90,
@@ -181,15 +183,10 @@ class GameCompletePopup extends StatelessWidget{
             GestureDetector(
               onTap: () {
                 if(popupType == 1) {
-                  Navigator.push(
-                    navigatorKey.currentContext!,
-                    MaterialPageRoute(builder: (context) =>
-                        GameScreen(
-                            gameScreenKey: GlobalKey(),
-                            game: StoryGame(storyStateController: getIt.get<StoryStateController>())
-                        )
-                    ),
-                  );
+                  getIt.get<StageManager>().navigateToStage(GameStage.Story, context);
+                }
+                if(popupType == 2) {
+                  getIt.get<StageManager>().navigateToStage(GameStage.TimeAtack, context);
                 }
               },
               child: Image.asset("assets/images/popups/proceed-btn.png"),
