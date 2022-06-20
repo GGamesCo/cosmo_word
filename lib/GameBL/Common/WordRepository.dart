@@ -11,7 +11,7 @@ class WordRepository implements IWordRepository {
     WordSet(id: 2, words: ["CARE", "CAR", "RACE", "EAR", "ERA"]),
     WordSet(id: 3, words: ["CLOUD", "LOUD", "COLD", "DOC"]),
     WordSet(id: 4, words: ["THUMB", "BUT", "HUM", "BUM", "HUB", "TUB", "HUT"]),
-    WordSet(id: 5, words: ["SIGHT", "HIS", "SIT", "HIT", "HITS", "TUB", "HUT"]),
+    WordSet(id: 5, words: ["SIGHT", "HIS", "SIT", "HIT", "HITS"]),
     WordSet(id: 6, words: ["FLOOD", "FOOD", "FOLD", "FOOL", "OLD"])
   ];
 
