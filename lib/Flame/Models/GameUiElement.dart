@@ -4,5 +4,6 @@ enum GameUiElement {
   CompletedWordsZone,
   Rocket,
   LevelProgressBar,
-  RotateBtn
+  RotateBtn,
+  HintBtn
 }

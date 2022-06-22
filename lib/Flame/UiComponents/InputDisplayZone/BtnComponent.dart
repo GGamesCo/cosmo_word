@@ -2,14 +2,17 @@ import 'package:flame/components.dart';
 import 'package:event/event.dart';
 import 'package:flame/events.dart';
 
-class ShakeBtnComponent extends SpriteComponent with HasGameRef, Tappable {
+class RoundBtnComponent extends SpriteComponent with HasGameRef, Tappable {
   Event tap = Event();
+  final String spriteName;
+
+  RoundBtnComponent({required this.spriteName});
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     anchor = Anchor.topCenter;
-    sprite = await gameRef.loadSprite('widget/shakeBtn.png');
+    sprite = await gameRef.loadSprite(this.spriteName);
   }
 
   @override

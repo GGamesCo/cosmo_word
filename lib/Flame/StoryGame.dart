@@ -68,6 +68,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
       previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
       joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
       rotateBtnLayoutData: _layoutData.elementsData[GameUiElement.RotateBtn]!,
+      hintBtnLayoutData: _layoutData.elementsData[GameUiElement.HintBtn]!,
       wordInputController: wordInputController,
       game: this,
       wordSize: 3

@@ -57,6 +57,14 @@ class ElementsLayoutBuilder {
         anchor: Anchor.center,
         position: Vector2(screenWidth-(shuffleBtnWidth/1.5), _topPartAvailableHeight + inputZoneRealHeight + shuffleBtnWidth/5));
     _layout.pushNewElement(GameUiElement.RotateBtn, rotateBtnData);
+
+    // Layout for Shuffle button
+    var hintBtnSideLength = bottomPartAvailableHeight*.2;
+    var hintBtnData = ElementLayoutData(
+        size: Vector2(hintBtnSideLength,hintBtnSideLength),
+        anchor: Anchor.center,
+        position: Vector2(screenWidth*0.1, screenHeight*0.9));
+    _layout.pushNewElement(GameUiElement.HintBtn, hintBtnData);
   }
 
   void _calculateCompletedWordsZone(GameType gameType){

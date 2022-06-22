@@ -54,6 +54,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
         previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
         joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
         rotateBtnLayoutData: _layoutData.elementsData[GameUiElement.RotateBtn]!,
+        hintBtnLayoutData: _layoutData.elementsData[GameUiElement.HintBtn]!,
         wordInputController: wordInputController,
         game: this,
         wordSize: challengeConfig.wordSize
@@ -98,11 +99,15 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
   void setupSubscriptions() {
     wordInputController.onInputAccepted.subscribe(handleInputAccepted);
     timerController.timerUpdatedEvent.subscribe(onTimerUpdated);
+    _inputDisplayController.requestPauseGame.subscribe(onRequestPauseGame);
+    _inputDisplayController.requestResumeGame.subscribe(onRequestResumeGame);
   }
 
   void unsubscribeAll(){
     wordInputController.onInputAccepted.unsubscribe(handleInputAccepted);
     timerController.timerUpdatedEvent.unsubscribe(onTimerUpdated);
+    _inputDisplayController.requestPauseGame.unsubscribe(onRequestPauseGame);
+    _inputDisplayController.requestResumeGame.unsubscribe(onRequestResumeGame);
   }
 
   void onTimerUpdated(Value<int>? args){
@@ -114,6 +119,14 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
       var pickedColor = _pickRandomListElement(_colorCodes);
 
       _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
+  }
+
+  void onRequestPauseGame(EventArgs? _){
+    timerController.pause();
+  }
+
+  void onRequestResumeGame(EventArgs? _){
+    timerController.resume();
   }
 
   String _pickRandomListElement(List<String> list){

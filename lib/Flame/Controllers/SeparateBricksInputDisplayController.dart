@@ -1,29 +1,40 @@
-import 'package:cosmo_word/Flame/UiComponents/InputDisplayZone/ShakeBtnComponent.dart';
+import 'package:cosmo_word/Flame/UiComponents/InputDisplayZone/BtnComponent.dart';
+import 'package:cosmo_word/Flame/UiComponents/InputDisplayZone/HintBtnComponent.dart';
 import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dart';
+import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordRepository.dart';
+import 'package:cosmo_word/GameBL/Configs/PriceListConfig.dart';
+import 'package:cosmo_word/Screens/GameScreen/Layers/Popups/PopupManager.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:event/event.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/widgets.dart';
 import '../ElementsLayoutBuilder.dart';
 import '../Models/Events/InputCompletedEventArgs.dart';
 import 'Abstract/InputDisplayController.dart';
 import '../UiComponents/Joystick/WordJoystickComponent.dart';
 
 class SeparateBricksInputDisplayController implements InputDisplayController {
+  final Event requestPauseGame = Event();
+  final Event requestResumeGame = Event();
+
   final ElementLayoutData previewLayoutData;
   final ElementLayoutData joystickLayoutData;
   final ElementLayoutData rotateBtnLayoutData;
+  final ElementLayoutData hintBtnLayoutData;
   final IWordInputController wordInputController;
+  late IBalanceController balanceController;
 
   final FlameGame game;
   final int wordSize;
 
   late IWordRepository wordRepository;
   late PreviewZoneComponent previewZone;
-  late ShakeBtnComponent shuffleBtnComponent;
+  late RoundBtnComponent shuffleBtnComponent;
+  late HintBtnComponent hintBtnComponent;
 
   WordJoystickComponent? wordJoystickComponent = null;
 
@@ -34,11 +45,13 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
     required this.previewLayoutData,
     required this.joystickLayoutData,
     required this.rotateBtnLayoutData,
+    required this.hintBtnLayoutData,
     required this.wordInputController,
     required this.game,
     required this.wordSize
   }){
     wordRepository = getIt.get<IWordRepository>();
+    balanceController = getIt.get<IBalanceController>();
   }
 
   @override
@@ -65,13 +78,21 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 
     rectangle.position = Vector2(0, 0);
 
-    shuffleBtnComponent = ShakeBtnComponent()
+    shuffleBtnComponent = RoundBtnComponent(spriteName: 'widget/shakeBtn.png')
     ..size = rotateBtnLayoutData.size
     ..anchor = rotateBtnLayoutData.anchor
     ..position = rotateBtnLayoutData.position;
 
     rectangle.add(shuffleBtnComponent);
     shuffleBtnComponent.tap.subscribe(onShuffleBtnClicked);
+
+    hintBtnComponent = HintBtnComponent(spriteName: 'widget/hintBtn.png')
+      ..size = hintBtnLayoutData.size
+      ..anchor = hintBtnLayoutData.anchor
+      ..position = hintBtnLayoutData.position;
+
+    rectangle.add(hintBtnComponent);
+    hintBtnComponent.tap.subscribe(onHintBtnClicked);
 
     rootUiControl = rectangle;
 
@@ -110,5 +131,24 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 
   void onShuffleBtnClicked(EventArgs? _){
     wordJoystickComponent!.shuffle();
+  }
+
+  bool hintingInProgress = false;
+  void onHintBtnClicked(EventArgs? _) async{
+    if (hintingInProgress){
+      print("Hint in progress. Click ignored.");
+      return;
+    }
+
+    hintingInProgress = true;
+    if (await balanceController.isEnoughAsync(PriceListConfig.HINT_PRICE)){
+      var hintWord = await wordInputController.getHintAsync();
+      await wordJoystickComponent!.autoSelectAsync(hintWord);
+      await balanceController.spendBalanceAsync(PriceListConfig.HINT_PRICE);
+    }else{
+      await PopupManager.NotEnoughMoneyPopup();
+    }
+
+    hintingInProgress = false;
   }
 }

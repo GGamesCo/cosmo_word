@@ -5,6 +5,7 @@ import 'package:cosmo_word/Flame/UiComponents/Joystick/JoystickUiConfig.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:flame/effects.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import '../../ElementsLayoutBuilder.dart';
 import '../../Models/Events/SymbolInputAddedEventArgs.dart';
@@ -120,10 +121,13 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
       throw Exception(
           "Wrong end event. Expected drag end for symbol ${navigator.points.first.id} but occured for ${arg.symbolId}");
 
+    completeWordInput();
+  }
+
+  void completeWordInput(){
     userInputCompletedEvent.broadcast(InputCompletedEventArgs(navigator.inputString));
     // #Usage: Remove from here and Call outside Reset if Word accepted and ResetAnimated if declined
     reset();
-
   }
 
   void startCollectingWord(SymbolPointerLocationArgs arg){
@@ -174,6 +178,37 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
     }
 
     return shuffledPositions;
+  }
+
+  Future autoSelectAsync(String word) async{
+    if (navigator.isReseting)
+    {
+      throw Exception("Unable autoselect while navigator is reseting.");
+    }
+
+    var firstWordSymbol = word[0];
+    var firstSymbolComponent = symbols.firstWhere((x) => x.symbolId == firstWordSymbol);
+    var startPosition = firstSymbolComponent.position;
+    startCollectingWord(SymbolPointerLocationArgs(firstWordSymbol, startPosition));
+
+    var xStep = -1;
+    for (var i = 1; i < word.length; i++){
+      var currentSymbolComponent = symbols.firstWhere((element) => element.symbolId == word[i]);
+      var finalDrawPosition = currentSymbolComponent.position;
+      var startDrawPosition = navigator.points.last.position;
+
+      var currentSymbolLocation = SymbolLocationModel(word[i], Offset(startDrawPosition.dx, startDrawPosition.dy));
+
+      while ((currentSymbolLocation.position.dx.abs() - finalDrawPosition.x.abs()).abs() > xStep.abs()){
+        await Future.delayed(const Duration(milliseconds: 1), () {
+          currentSymbolLocation.position = navigator.getPointOnLineWithOffset(Offset(finalDrawPosition.x, finalDrawPosition.y), currentSymbolLocation.position, xStep);
+        });
+      }
+
+      onDraggUpdate(SymbolPointerLocationArgs(firstWordSymbol, finalDrawPosition));
+    }
+
+    await Future.delayed(const Duration(milliseconds: 500), completeWordInput);
   }
 
   void reset() {

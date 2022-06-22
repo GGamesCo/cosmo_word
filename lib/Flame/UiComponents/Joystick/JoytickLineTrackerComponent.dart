@@ -77,12 +77,19 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
     isReseting = false;
   }
 
-  // Line formula: (x-x1)/(x2-x1) = (y-y1)/(y2-y1)
-  // y = (x-x1)(y2-y1)/(x2-x1) + y1
   void cutLastPoint(){
     var startPos = points[points.length-2].position;
     var endPos = points.last.position;
 
+    points.last.position = getPointOnLineWithOffset(startPos, endPos, 2);
+
+    if (startPos.dx == endPos.dx)
+      points.removeLast();
+  }
+
+  // Line formula: (x-x1)/(x2-x1) = (y-y1)/(y2-y1)
+  // y = (x-x1)(y2-y1)/(x2-x1) + y1
+  Offset getPointOnLineWithOffset(Offset startPos, Offset endPos, int p1Xoffset){
     double x = 0;
     double y = 0;
 
@@ -96,13 +103,14 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
         x = startPos.dx;
     } else if (startPos.dx == endPos.dx){
       x = endPos.dx;
+      return Offset(endPos.dx, endPos.dy);
     }
 
     y = ((x-startPos.dx) / (endPos.dx-startPos.dx)) * (endPos.dy -startPos.dy) + startPos.dy;
+    return Offset(x, y);
+  }
 
-    points.last.position = Offset(x, y);
+  Future autoSelectAsync(List<Offset> pointsToSelect) async {
 
-    if (startPos.dx == endPos.dx)
-      points.removeLast();
   }
 }

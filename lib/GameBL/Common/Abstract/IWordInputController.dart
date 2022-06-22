@@ -17,5 +17,7 @@ abstract class IWordInputController with Disposable {
 
   Future<bool> tryAcceptWordAsync(String word);
 
+  Future<String> getHintAsync();
+
   void reset();
 }

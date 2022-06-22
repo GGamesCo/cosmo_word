@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
+import 'package:cosmo_word/GameBL/Configs/PriceListConfig.dart';
 import 'package:event/event.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -15,6 +17,7 @@ class WordInputController extends IWordInputController  {
 
   final IFlowRepository flowRepository;
   final IWordRepository wordRepository;
+  final IBalanceController balanceController;
 
   late WordSetFlow _currentFlow;
   late WordFlowState flowState;
@@ -24,6 +27,7 @@ class WordInputController extends IWordInputController  {
   WordInputController({
     required this.flowRepository,
     required this.wordRepository,
+    required this.balanceController
   });
 
   @override
@@ -91,6 +95,18 @@ class WordInputController extends IWordInputController  {
         totalWordsInFlow: totalWords,
         wordsInSetLeft: wordsLeft
     );
+  }
+
+  Future<String> getHintAsync() async
+  {
+    var currentWordSet = (await wordRepository.getSetByIdAsync(flowState.setId)).copy();
+
+    var substraction = currentWordSet.words.toSet().difference(_completedWords.toSet());
+
+    if(substraction.isEmpty)
+      throw Exception("Can't get a hint from completed word set. Logical error.");
+
+    return substraction.first;
   }
 
   void reset() {

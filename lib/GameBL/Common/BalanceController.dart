@@ -33,6 +33,7 @@ class BalanceController extends IBalanceController{
     if (newBalance < 0)
       throw Exception("Not enough money on balance");
 
+    (await getIt.getAsync<SharedPreferences>()).setInt(key, newBalance);
     balanceUpdatedEvent.broadcast(Value<int>(newBalance));
   }
 
