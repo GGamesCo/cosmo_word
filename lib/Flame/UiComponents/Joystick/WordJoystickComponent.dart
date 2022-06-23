@@ -5,6 +5,7 @@ import 'package:cosmo_word/Flame/UiComponents/Joystick/JoystickUiConfig.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:flame/effects.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import '../../ElementsLayoutBuilder.dart';
@@ -110,6 +111,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
           navigator.points.add(SymbolLocationModel(symbol.symbolId, Offset(symbol.x, symbol.y)));
           var addedSymbolEvent = SymbolInputAddedEventArgs(lastInputSymbol: symbol.symbolId, inputString: navigator.inputString);
           symbolInputAddedEvent.broadcast(addedSymbolEvent);
+          HapticFeedback.heavyImpact();
           symbol.changeStateAnimated(true);
         }
       }
@@ -144,6 +146,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
       symbols.firstWhere((element) => element.symbolId == arg.symbolId).changeStateAnimated(true);
       var addedSymbolEvent = SymbolInputAddedEventArgs(lastInputSymbol: arg.symbolId, inputString: navigator.inputString);
       symbolInputAddedEvent.broadcast(addedSymbolEvent);
+      HapticFeedback.heavyImpact();
     }
 
     navigator.lastCursorPoint = Offset(arg.location.x, arg.location.y);

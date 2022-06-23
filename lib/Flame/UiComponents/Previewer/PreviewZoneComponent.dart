@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/Events/SymbolInputAddedEventArgs.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/components.dart';
+import 'package:flame/flame.dart';
+import 'package:flame/particles.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/animation.dart';
 import '../../../../Flame/Models/Events/InputCompletedEventArgs.dart';
 import '../Joystick/JoystickSymbolSpriteComponent.dart';
 
