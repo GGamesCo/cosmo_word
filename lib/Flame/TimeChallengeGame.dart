@@ -11,6 +11,7 @@ import 'package:flame_audio/flame_audio.dart';
 import '../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';
+import 'Controllers/InputWordParticlesController.dart';
 import 'Controllers/RocketGame/RocketZoneController.dart';
 import 'Controllers/StaticBackgroundController.dart';
 import 'Controllers/SeparateBricksInputDisplayController.dart';
@@ -18,6 +19,7 @@ import 'ElementsLayoutBuilder.dart';
 import 'Models/CompletedBrickData.dart';
 import 'Models/GameTypes.dart';
 import 'Models/GameUiElement.dart';
+import 'UiComponents/ResultOverlay/ResultOverlayUiControl.dart';
 
 class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasCollisionDetection {
 
@@ -30,6 +32,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
   late SeparateBricksInputDisplayController _inputDisplayController;
   late CompletedWordsZoneController _completedWordsZoneController;
   late RocketZoneController _rocketZoneController;
+  late InputWordParticlesController _inputWordParticlesController;
 
   List<String> _colorCodes = ['y', 'g', 'r'];
   Random _random = new Random();
@@ -78,12 +81,23 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     );
     await _rocketZoneController.initAsync();
 
+    _inputWordParticlesController = InputWordParticlesController(
+        layoutData: _layoutData.elementsData[GameUiElement.InputWordParticles]!,
+        directionVector: Vector2(1, -1),
+        particlesCount: 15,
+        particleSize: Vector2(20, 20),
+        durationSec: 1,
+        wordAxisDistributionFactor: 100
+    );
+    await _inputWordParticlesController.initAsync();
+
     await _backgroundController.initAsync();
     await _inputDisplayController.initAsync();
 
     add(_backgroundController.rootUiControl);
     add(_inputDisplayController.rootUiControl);
     add(_completedWordsZoneController.rootUiControl);
+    add(_inputWordParticlesController.rootUiControl);
     add(_rocketZoneController.rootUiControl);
 
     // ?? ?? ? hack to wait until rocket inited and fly zone bounds calculated
@@ -98,6 +112,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
 
   void setupSubscriptions() {
     wordInputController.onInputAccepted.subscribe(handleInputAccepted);
+    wordInputController.onInputRejected.subscribe(handleInputRejected);
     timerController.timerUpdatedEvent.subscribe(onTimerUpdated);
     _inputDisplayController.requestPauseGame.subscribe(onRequestPauseGame);
     _inputDisplayController.requestResumeGame.subscribe(onRequestResumeGame);
@@ -118,7 +133,14 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
       var pickedWord = wordInput!.acceptedWord;
       var pickedColor = _pickRandomListElement(_colorCodes);
 
+      add(ResultOverlayUiControl(isSuccess: true));
+      _inputWordParticlesController.showParticles(wordInput.acceptedWord.length);
+
       _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
+  }
+
+  Future<void> handleInputRejected(Value<String>? input) async {
+    add(ResultOverlayUiControl(isSuccess: false));
   }
 
   void onRequestPauseGame(EventArgs? _){

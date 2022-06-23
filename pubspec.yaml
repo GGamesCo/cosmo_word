@@ -78,6 +78,7 @@ flutter:
     - assets/images/common_controls/
     - assets/images/popups/
     - assets/images/level_progress_bar/
+    - assets/images/overlays/
     - assets/audio/fail.mp3
     - assets/audio/fall.mp3
     - assets/audio/success.mp3

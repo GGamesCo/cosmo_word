@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cosmo_word/Flame/UiComponents/InputWordParticles/InputWordParticles.dart';
 import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
 import 'package:cosmo_word/GameBL/Services/StoryStateService/StoryStateModel.dart';
 import 'package:cosmo_word/GameBL/Services/StoryStateService/StoryStateService.dart';
@@ -14,11 +15,13 @@ import '../GameBL/Story/LevelProgressBarState.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
 import 'Controllers/Abstract/InputDisplayController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';
+import 'Controllers/InputWordParticlesController.dart';
 import 'Controllers/StaticBackgroundController.dart';
 import 'Controllers/StoryLevel/LevelProgressBarController.dart';
 import 'Controllers/SeparateBricksInputDisplayController.dart';
 import 'Models/CompletedBrickData.dart';
 import 'Models/GameTypes.dart';
+import 'UiComponents/ResultOverlay/ResultOverlayUiControl.dart';
 
 class StoryGame extends FlameGame with HasTappables, HasDraggables {
 
@@ -34,6 +37,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
   late InputDisplayController _inputDisplayController;
   late CompletedWordsZoneController _completedWordsZoneController;
   late LevelProgressBarController _levelProgressBarController;
+  late InputWordParticlesController _inputWordParticlesController;
 
   List<String> _colorCodes = ['y', 'g', 'r'];
   Random _random = new Random();
@@ -94,13 +98,28 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
     );
     await _levelProgressBarController.initAsync();
 
+    _inputWordParticlesController = InputWordParticlesController(
+        layoutData: _layoutData.elementsData[GameUiElement.InputWordParticles]!,
+        directionVector: Vector2(-1, -1),
+        particlesCount: 15,
+        particleSize: Vector2(20, 20),
+        durationSec: 1,
+        wordAxisDistributionFactor: 100
+    );
+    await _inputWordParticlesController.initAsync();
+
     wordInputController.onInputAccepted.subscribe((userInput) {
       handleInputCompleted(userInput!);
+    });
+
+    wordInputController.onInputRejected.subscribe((args) {
+      handleInputRejected();
     });
 
     add(_backgroundController.rootUiControl);
     add(_inputDisplayController.rootUiControl);
     add(_completedWordsZoneController.rootUiControl);
+    add(_inputWordParticlesController.rootUiControl);
     add(_levelProgressBarController.rootUiControl);
 
     _levelProgressBarController.rootUiControl.loaded.then((value) {
@@ -110,7 +129,8 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
 
   Future<void> handleInputCompleted(InputAcceptedEventArgs inputAcceptedEventArgs) async {
     var pickedColor = _pickRandomListElement(_colorCodes);
-
+    add(ResultOverlayUiControl(isSuccess: true));
+    _inputWordParticlesController.showParticles(inputAcceptedEventArgs.acceptedWord.length);
     await Future.wait([
       _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: inputAcceptedEventArgs.acceptedWord, colorCode: pickedColor)),
       _levelProgressBarController.setProgressAnimated(getLevelProgressBarState())
@@ -119,6 +139,10 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
     if(inputAcceptedEventArgs.flowState.totalWordsInFlow == inputAcceptedEventArgs.flowState.completedWordsInFlow){
       storyStateController.processLevelCompleted();
     }
+  }
+
+  Future<void> handleInputRejected() async {
+    add(ResultOverlayUiControl(isSuccess: false));
   }
 
   LevelProgressBarState getLevelProgressBarState(){
