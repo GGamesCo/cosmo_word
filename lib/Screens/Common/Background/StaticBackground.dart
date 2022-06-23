@@ -18,7 +18,7 @@ class _StaticBackground extends State<StaticBackground> with TickerProviderState
   void initState() {
     super.initState();
 
-    animationController = AnimationController(vsync: this, duration: Duration(seconds: 30));
+    animationController = AnimationController(vsync: this, duration: Duration(seconds: 20));
     animation = Tween<Offset>(begin: Offset(0, 0), end: Offset(0.4, 0)).animate(animationController);
     WidgetsBinding.instance
         .addPostFrameCallback((_) { animationController.repeat(reverse: true);});
