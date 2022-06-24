@@ -65,7 +65,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
       'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3'
     ]);
 
-    _backgroundController = StaticBackgroundController(bgImageFile: "green.jpg");
+    _backgroundController = StaticBackgroundController(bgImageFile: level.backgroundFileName);
     await _backgroundController.initAsync();
 
     _inputDisplayController = SeparateBricksInputDisplayController(

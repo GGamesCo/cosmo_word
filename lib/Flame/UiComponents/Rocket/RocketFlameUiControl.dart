@@ -23,7 +23,7 @@ class RocketFlameUiControl extends RectangleComponent{
       srcSize: spriteSheetSize,
     );
 
-    final animation = spritesheet.createAnimation(row: 0, stepTime: 0.09);
+    final animation = spritesheet.createAnimation(row: 0, stepTime: 0.03);
 
     final animComponent = SpriteAnimationComponent(
       animation: animation,
