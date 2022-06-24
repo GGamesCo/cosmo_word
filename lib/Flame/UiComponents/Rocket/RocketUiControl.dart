@@ -2,7 +2,9 @@ import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/flame.dart';
 
-class RocketUiControl extends SpriteComponent {
+import 'RocketFlameUiControl.dart';
+
+class RocketUiControl extends RectangleComponent {
 
   final double requiredHeight;
 
@@ -11,12 +13,19 @@ class RocketUiControl extends SpriteComponent {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+
     final image = await Flame.images.load("rocket/rocket.png");
-    sprite = Sprite(image);
 
     anchor = Anchor.topCenter;
-
     var scale = requiredHeight/image.size.y;
     size = Vector2(image.size.x*scale, image.size.y*scale);
+
+    var sprite = SpriteComponent(sprite: Sprite(image));
+    sprite.size = size;
+
+    var flame = RocketFlameUiControl(requiredFlameWidth: size.x*3);
+    flame.position = Vector2(sprite.size.x/2, requiredHeight*0.75);
+    add(flame);
+    add(sprite);
   }
 }
