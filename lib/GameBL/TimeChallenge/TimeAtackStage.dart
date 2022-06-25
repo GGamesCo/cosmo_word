@@ -73,7 +73,7 @@ class TimeAtackStage extends IGameStage {
     print("handleGameCompletion..");
     isActive = false;
     timerController.stop();
-    var rewardCoins = wordInputController.flowState.completedWordsInFlow * 5;
+    var rewardCoins = wordInputController.flowState.completedWordsInFlow * 500;
     PopupManager.ShowTimeChallengeCompletePopup(TimeChallengeResults(completedWordsCount: args!.value, coinReward: rewardCoins));
     balanceController.addBalanceAsync(rewardCoins);
   }
