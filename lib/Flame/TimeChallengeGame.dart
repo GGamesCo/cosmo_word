@@ -51,7 +51,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
       'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3'
     ]);
 
-    _backgroundController = StaticBackgroundController(bgImageFile: "mountains_night.jpg");
+    _backgroundController = StaticBackgroundController(bgImageFile: "cosmo.png");
 
     _inputDisplayController = SeparateBricksInputDisplayController(
         previewLayoutData: _layoutData.elementsData[GameUiElement.Preview]!,
