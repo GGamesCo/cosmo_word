@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:cosmo_word/Flame/UiComponents/Scene.dart';
 import 'package:cosmo_word/GameBL/Story/StoryStateController.dart';
+import 'package:cosmo_word/MyAppWidget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Screens/LobbyScreen/LobbyScreen.dart';
@@ -33,10 +34,11 @@ void main() async {
   runApp(
     Sizer(
       builder: (context, orientation, deviceType) {
-        return MaterialApp(
+        return MyAppWidget(child: MaterialApp(
           navigatorKey: navigatorKey,
           title: 'Navigation Basics',
           home: LobbyScreen(),
+        )
         );
       }
     ),
