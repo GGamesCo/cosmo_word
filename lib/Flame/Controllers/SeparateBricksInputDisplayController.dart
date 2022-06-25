@@ -141,14 +141,20 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
     }
 
     hintingInProgress = true;
-    if (await balanceController.isEnoughAsync(PriceListConfig.HINT_PRICE)){
-      var hintWord = await wordInputController.getHintAsync();
-      await wordJoystickComponent!.autoSelectAsync(hintWord);
-      await balanceController.spendBalanceAsync(PriceListConfig.HINT_PRICE);
-    }else{
-      await PopupManager.NotEnoughMoneyPopup();
-    }
 
-    hintingInProgress = false;
+    try{
+      if (await balanceController.isEnoughAsync(PriceListConfig.HINT_PRICE)){
+        var hintWord = await wordInputController.getHintAsync();
+        await wordJoystickComponent!.autoSelectAsync(hintWord);
+        await balanceController.spendBalanceAsync(PriceListConfig.HINT_PRICE);
+      }else{
+        await PopupManager.NotEnoughMoneyPopup();
+      }
+    }catch(e){
+      print("Hint error: ${e}");
+    }
+    finally{
+      hintingInProgress = false;
+    }
   }
 }

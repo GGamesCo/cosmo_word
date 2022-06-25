@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:cosmo_word/Flame/TimeChallengeGame.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
+import 'package:cosmo_word/GameBL/Common/Abstract/IFlowRepository.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
+import 'package:cosmo_word/GameBL/Common/Abstract/IWordRepository.dart';
 import 'package:cosmo_word/GameBL/Common/Models/GameState.dart';
 import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
 import 'package:cosmo_word/GameBL/TimeChallenge/RocketChallengeConfig.dart';
@@ -19,6 +23,7 @@ class TimeAtackStage extends IGameStage {
   final IWordInputController wordInputController;
   final ITimerController timerController;
   final IBalanceController balanceController;
+  final IWordRepository wordRepository;
   late TimeChallengeGame gameUi;
 
   bool isActive = false;
@@ -29,12 +34,15 @@ class TimeAtackStage extends IGameStage {
   @override
   Widget get root => GameScreen(game: gameUi, gameScreenKey: GlobalKey());
 
-  TimeAtackStage({required this.wordInputController, required this.timerController,
+  TimeAtackStage({required this.wordRepository, required this.wordInputController, required this.timerController,
   required this.challengeConfig, required this.balanceController});
 
   @override
   Future initAsync() async {
-    wordInputController.initializeAsync(3);
+    var flowSets = wordRepository.sets.map((e) => WordSetFlowItem(setId: e.id, requiredWordsCount: Random().nextInt(1 + (e.words.length - 1)))).toList();
+
+    var flow = WordSetFlow(id: 99999, title: "Time Challenge", sets: flowSets);
+    wordInputController.initializeAsync(flow);
     wordInputController.onInputAccepted.subscribe(onInputCompleted);
     timerController.timeIsOverEvent.subscribe(onTimeIsOver);
 

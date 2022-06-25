@@ -3,8 +3,9 @@ import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 
 class SymbolPointerLocationArgs extends EventArgs{
-  String symbolId;
+  int id;
+  String symbol;
   Vector2 location;
 
-  SymbolPointerLocationArgs(this.symbolId, this.location);
+  SymbolPointerLocationArgs({required this.id, required this.symbol, required this.location});
 }

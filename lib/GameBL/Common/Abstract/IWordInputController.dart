@@ -1,3 +1,4 @@
+import 'package:cosmo_word/GameBL/Common/Abstract/IFlowRepository.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordRepository.dart';
 import 'package:event/event.dart';
 import 'package:get_it/get_it.dart';
@@ -13,7 +14,7 @@ abstract class IWordInputController with Disposable {
 
   late WordFlowState flowState;
 
-  Future initializeAsync(int flowId);
+  Future initializeAsync(WordSetFlow flow);
 
   Future<bool> tryAcceptWordAsync(String word);
 

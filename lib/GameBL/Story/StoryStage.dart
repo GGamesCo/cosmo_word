@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cosmo_word/Flame/StoryGame.dart';
 
 import 'package:cosmo_word/Flame/Utils/CompleterExtensions.dart';
+import 'package:cosmo_word/GameBL/Common/Abstract/IFlowRepository.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IGameState.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Models/GameState.dart';
@@ -25,6 +26,7 @@ class StoryStage extends IGameStage{
   @override
   Future initAsync() {
     storyGame = StoryGame(
+      flowRepository: getIt.get<IFlowRepository>(),
       storyStateController: getIt.get<StoryStateController>(),
       levelsService: getIt.get<StoryLevelsService>(),
       wordInputController: getIt.get<IWordInputController>()
