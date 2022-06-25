@@ -23,6 +23,7 @@ class ElementsLayoutBuilder {
     _calculateCompletedWordsZone(gameType);
     _calculateLevelProgressBar();
     _calculateRocket(_layout.elementsData[GameUiElement.CompletedWordsZone]!.size.x);
+    _calculateParticlesZone(gameType);
 
     return _layout;
   }
@@ -109,6 +110,49 @@ class ElementsLayoutBuilder {
         position: Vector2(screenWidth, _topPartAvailableHeight)
     );
     _layout.pushNewElement(GameUiElement.Rocket, rocketZoneData);
+  }
+
+  void _calculateParticlesZone(GameType gameType){
+    if(gameType == GameType.StoryGame) {
+      var previewLayout = _layout.elementsData[GameUiElement.Preview];
+      var progressBarLayout = _layout.elementsData[GameUiElement
+          .LevelProgressBar];
+
+      var particlesDestinationX = progressBarLayout!.position.x +
+          progressBarLayout.size.x / 2;
+      var particlesDestinationY = progressBarLayout!.position.y +
+          progressBarLayout.size.y * 0.8;
+
+      var particlesStartX = previewLayout!.position.x +
+          previewLayout.size.x / 2;
+      var particlesStartY = previewLayout!.position.y +
+          previewLayout.size.y / 2;
+
+      var particlesData = ElementLayoutData(
+          size: Vector2(particlesStartX - particlesDestinationX,
+              particlesStartY - particlesDestinationY),
+          anchor: Anchor.topLeft,
+          position: Vector2(particlesDestinationX, particlesDestinationY)
+      );
+      _layout.pushNewElement(GameUiElement.InputWordParticles, particlesData);
+    }
+    else{
+      var previewLayout = _layout.elementsData[GameUiElement.Preview];
+      var rocketLayout = _layout.elementsData[GameUiElement.Rocket];
+
+      var particlesDestinationX = rocketLayout!.position.x - rocketLayout.size.x / 2;
+      var particlesDestinationY = rocketLayout!.position.y + rocketLayout.size.y + previewLayout!.size.y/2;
+
+      var particlesStartX = previewLayout!.position.x + previewLayout.size.x / 2;
+      var particlesStartY = previewLayout!.position.y + previewLayout.size.y / 2;
+
+      var particlesData = ElementLayoutData(
+          size: Vector2(particlesDestinationX - particlesStartX, particlesDestinationY - particlesStartY),
+          anchor: Anchor.bottomLeft,
+          position: Vector2(particlesStartX, particlesStartY)
+      );
+      _layout.pushNewElement(GameUiElement.InputWordParticles, particlesData);
+    }
   }
 }
 
