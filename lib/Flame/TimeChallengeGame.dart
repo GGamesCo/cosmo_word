@@ -1,5 +1,6 @@
 import 'dart:async' as DartAsync;
 import 'dart:math';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
@@ -48,7 +49,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     _layoutData = layoutBuilder.calculateElementsLayout(GameType.TimeChallengeGame);
 
     await FlameAudio.audioCache.loadAll([
-      'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3'
+      'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3', 'shuffle-joystick.mp3', 'clock.mp3'
     ]);
 
     _backgroundController = StaticBackgroundController(bgImageFile: "cosmo.png");
@@ -125,7 +126,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     _inputDisplayController.requestResumeGame.unsubscribe(onRequestResumeGame);
   }
 
-  void onTimerUpdated(Value<int>? args){
+  void onTimerUpdated(Value<int>? args) async {
     _rocketZoneController.onCountDownUpdated(timerController.timeLeftSec, challengeConfig.totalTimeSec);
   }
 

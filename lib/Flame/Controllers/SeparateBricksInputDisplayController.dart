@@ -130,6 +130,7 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 	}
 
   void onShuffleBtnClicked(EventArgs? _){
+    FlameAudio.play('shuffle-joystick.mp3', volume: 0.5);
     wordJoystickComponent!.shuffle();
   }
 
