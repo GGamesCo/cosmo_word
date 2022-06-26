@@ -39,24 +39,36 @@ class StoryItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: IntrinsicHeight(
-            child: Column(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  child: Image.asset(imageFile)
+      child: IntrinsicHeight(
+        child: Stack(
+          children: [
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IntrinsicHeight(
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        child: Image.asset(imageFile)
+                      ),
+                      SizedBox(height: 5),
+                      Container(
+                        child: Text(title, style: TextStyle(color: Color.fromRGBO(116, 126, 126, 1), fontFamily: 'Roboto'), textAlign: TextAlign.center)
+                      )
+                    ],
+                  ),
                 ),
-                SizedBox(height: 5),
-                Container(
-                  child: Text(title, style: TextStyle(color: Color.fromRGBO(116, 126, 126, 1), fontFamily: 'Roboto'), textAlign: TextAlign.center)
-                )
-              ],
-            ),
-          ),
-        )
+              )
+            ),/*
+            Center(
+              child: SizedBox(
+                width: 25,
+                child: Image.asset('assets/images/widget/lock.png')
+              )
+            )*/
+          ]
+        ),
       )
     );
   }
