@@ -29,6 +29,12 @@ class PopupManager {
   }
 
   static Future ShowTimeChallengeCompletePopup(TimeChallengeResults resultsData) async {
+    if (resultsData.coinReward > 0){
+      await FlameAudio.play(SoundsController.WIN_APPLAUSE);
+    }else{
+      await FlameAudio.play(SoundsController.WIN_SIMPLE);
+    }
+
     var storyState = await storyStateService.getStoryState();
     showDialog(
       context: navigatorKey.currentContext!,
