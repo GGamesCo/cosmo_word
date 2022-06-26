@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/Flame/StoryGame.dart';
 
 import 'package:cosmo_word/Flame/Utils/CompleterExtensions.dart';
@@ -29,7 +30,8 @@ class StoryStage extends IGameStage{
       flowRepository: getIt.get<IFlowRepository>(),
       storyStateController: getIt.get<StoryStateController>(),
       levelsService: getIt.get<StoryLevelsService>(),
-      wordInputController: getIt.get<IWordInputController>()
+      wordInputController: getIt.get<IWordInputController>(),
+      soundsController: getIt.get<SoundsController>()
     );
     return Completer().completeAndReturnFuture();
   }

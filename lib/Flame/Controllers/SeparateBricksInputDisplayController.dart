@@ -1,3 +1,4 @@
+import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/Flame/UiComponents/InputDisplayZone/BtnComponent.dart';
 import 'package:cosmo_word/Flame/UiComponents/InputDisplayZone/HintBtnComponent.dart';
 import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dart';
@@ -130,7 +131,7 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 	}
 
   void onShuffleBtnClicked(EventArgs? _){
-    FlameAudio.play('shuffle-joystick.mp3', volume: 0.5);
+    FlameAudio.play(SoundsController.SHUFFLE_JOYSTICK, volume: 0.5);
     wordJoystickComponent!.shuffle();
   }
 

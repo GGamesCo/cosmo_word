@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/Flame/UiComponents/InputWordParticles/InputWordParticles.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IFlowRepository.dart';
 import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
@@ -30,6 +31,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
   final IWordInputController wordInputController;
   final StoryLevelsService levelsService;
   final IFlowRepository flowRepository;
+  final SoundsController soundsController;
   late GameElementsLayout _layoutData;
 
   late StoryStateModel _storyState;
@@ -48,6 +50,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
     required this.storyStateController,
     required this.wordInputController,
     required this.levelsService,
+    required this.soundsController
   });
 
   // Uncomment to see components outlines
@@ -64,9 +67,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
     final flow = await flowRepository.getFlowByIdAsync(level.flowId);
     await wordInputController.initializeAsync(flow);
 
-    await FlameAudio.audioCache.loadAll([
-      'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3', 'shuffle-joystick.mp3', 'clock.mp3'
-    ]);
+    await soundsController.initAsync();
 
     _backgroundController = StaticBackgroundController(bgImageFile: level.backgroundFileName);
     await _backgroundController.initAsync();

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/Events/SymbolInputAddedEventArgs.dart';
 import 'package:flame/effects.dart';
@@ -63,7 +64,7 @@ class PreviewZoneComponent extends SpriteComponent with HasGameRef {
 
   void onInputCompleted(InputCompletedEventArgs eventArgs){
     print("Input accepted");
-    FlameAudio.play('success.mp3');
+    FlameAudio.play(SoundsController.INPUT_SUCCESS);
     reset((x) => {
       x.add(MoveEffect.to(Vector2(-gameRef.size.x - btnSize.x, 0), EffectController(duration: 0.5)))
     });
@@ -71,7 +72,7 @@ class PreviewZoneComponent extends SpriteComponent with HasGameRef {
 
   void onInputRejected(){
     print("Input rejected");
-    FlameAudio.play('fail.mp3');
+    FlameAudio.play(SoundsController.FAIL);
     reset((x) => {
       x.add(MoveEffect.to(Vector2(gameRef.size.x, 0), EffectController(duration: 0.5)))
     });

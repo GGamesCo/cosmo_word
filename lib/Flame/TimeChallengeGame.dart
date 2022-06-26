@@ -1,6 +1,7 @@
 import 'dart:async' as DartAsync;
 import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
@@ -27,6 +28,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
   final RocketChallengeConfig challengeConfig;
   final IWordInputController wordInputController;
   final ITimerController timerController;
+  final SoundsController soundsController;
 
   late GameElementsLayout _layoutData;
   late BackgroundController _backgroundController;
@@ -39,7 +41,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
   Random _random = new Random();
 
   TimeChallengeGame({required this.challengeConfig, required this.wordInputController,
-  required this.timerController});
+  required this.timerController, required this.soundsController});
 
   @override
   Future<void> onLoad() async {
@@ -48,9 +50,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     var layoutBuilder = ElementsLayoutBuilder(screenWidth: this.size.x, screenHeight: this.size.y);
     _layoutData = layoutBuilder.calculateElementsLayout(GameType.TimeChallengeGame);
 
-    await FlameAudio.audioCache.loadAll([
-      'btn-press-1.mp3', 'btn-press-2.mp3', 'btn-press-3.mp3', 'btn-press-4.mp3', 'btn-press-5.mp3', 'fail.mp3', 'fall.mp3', 'success.mp3', 'shuffle-joystick.mp3', 'clock.mp3'
-    ]);
+    await soundsController.initAsync();
 
     _backgroundController = StaticBackgroundController(bgImageFile: "cosmo.png");
 

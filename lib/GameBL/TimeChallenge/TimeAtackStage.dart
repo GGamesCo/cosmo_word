@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/Flame/TimeChallengeGame.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IFlowRepository.dart';
@@ -27,6 +28,7 @@ class TimeAtackStage extends IGameStage {
   final ITimerController timerController;
   final IBalanceController balanceController;
   final IWordRepository wordRepository;
+  final SoundsController soundsController;
   late TimeChallengeGame gameUi;
 
   bool isActive = false;
@@ -38,7 +40,7 @@ class TimeAtackStage extends IGameStage {
   Widget get root => GameScreen(game: gameUi, gameScreenKey: GlobalKey());
 
   TimeAtackStage({required this.wordRepository, required this.wordInputController, required this.timerController,
-  required this.challengeConfig, required this.balanceController});
+  required this.challengeConfig, required this.balanceController, required this.soundsController});
 
   late AudioPlayer player;
 
@@ -52,7 +54,7 @@ class TimeAtackStage extends IGameStage {
     timerController.timeIsOverEvent.subscribe(onTimeIsOver);
     timerController.timerUpdatedEvent.subscribe(onTimeTick);
 
-    gameUi = TimeChallengeGame(challengeConfig: challengeConfig, timerController: timerController, wordInputController: wordInputController);
+    gameUi = TimeChallengeGame(challengeConfig: challengeConfig, timerController: timerController, wordInputController: wordInputController, soundsController: soundsController);
     player = AudioPlayer();
   }
 
@@ -101,7 +103,7 @@ class TimeAtackStage extends IGameStage {
 
   void playSoundIfHurry() async {
     if (timerController.timeLeftSec <= 5 && player.state != PlayerState.PLAYING){
-      var uri = await AudioCache().load("audio/clock.mp3");
+      var uri = await AudioCache().load("audio/"+SoundsController.CLOCK);
       player.play(uri.toString(), volume: 0.3);
     }else if(timerController.timeLeftSec > 5){
       player.stop();

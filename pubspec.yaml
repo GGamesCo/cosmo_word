@@ -90,6 +90,8 @@ flutter:
     - assets/audio/btn-press-5.mp3
     - assets/audio/shuffle-joystick.mp3
     - assets/audio/clock.mp3
+    - assets/audio/win-simple.mp3
+    - assets/audio/win-applause.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
