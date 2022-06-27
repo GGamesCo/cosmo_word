@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SymbolLocationModel{
-  String id;
+  int id;
+  String symbol;
   Offset position;
 
-  SymbolLocationModel(this.id, this.position);
+  SymbolLocationModel({required this.id, required this.symbol, required this.position});
 }

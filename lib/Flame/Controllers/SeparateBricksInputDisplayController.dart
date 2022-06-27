@@ -1,3 +1,4 @@
+import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/Flame/UiComponents/InputDisplayZone/BtnComponent.dart';
 import 'package:cosmo_word/Flame/UiComponents/InputDisplayZone/HintBtnComponent.dart';
 import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dart';
@@ -130,6 +131,7 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 	}
 
   void onShuffleBtnClicked(EventArgs? _){
+    FlameAudio.play(SoundsController.SHUFFLE_JOYSTICK, volume: 0.5);
     wordJoystickComponent!.shuffle();
   }
 
@@ -141,14 +143,20 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
     }
 
     hintingInProgress = true;
-    if (await balanceController.isEnoughAsync(PriceListConfig.HINT_PRICE)){
-      var hintWord = await wordInputController.getHintAsync();
-      await wordJoystickComponent!.autoSelectAsync(hintWord);
-      await balanceController.spendBalanceAsync(PriceListConfig.HINT_PRICE);
-    }else{
-      await PopupManager.NotEnoughMoneyPopup();
-    }
 
-    hintingInProgress = false;
+    try{
+      if (await balanceController.isEnoughAsync(PriceListConfig.HINT_PRICE)){
+        var hintWord = await wordInputController.getHintAsync();
+        await wordJoystickComponent!.autoSelectAsync(hintWord);
+        await balanceController.spendBalanceAsync(PriceListConfig.HINT_PRICE);
+      }else{
+        await PopupManager.NotEnoughMoneyPopup();
+      }
+    }catch(e){
+      print("Hint error: ${e}");
+    }
+    finally{
+      hintingInProgress = false;
+    }
   }
 }

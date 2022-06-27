@@ -16,7 +16,7 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
 
   String get inputString {
     String inputResult = "";
-    points.forEach((element) { inputResult += element.id;});
+    points.forEach((element) { inputResult += element.symbol;});
     return inputResult;
   }
 

@@ -1,4 +1,7 @@
+import 'package:cosmo_word/Flame/Common/SoundsController.dart';
+import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:event/event.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:injectable/injectable.dart';
 import '../../Screens/GameScreen/Layers/Popups/PopupManager.dart';
 import '../Common/Abstract/IFlowRepository.dart';
@@ -13,6 +16,7 @@ class StoryStateController {
   final StoryStateService storyStateService;
   final StoryLevelsService levelsService;
   final IFlowRepository flowRepository;
+  final IBalanceController balanceController;
 
   late StoryStateModel _storyState;
 
@@ -22,6 +26,7 @@ class StoryStateController {
     required this.storyStateService,
     required this.levelsService,
     required this.flowRepository,
+    required this.balanceController
   });
 
   Future initAsync() async {
@@ -37,9 +42,10 @@ class StoryStateController {
       )
     );
 
+    await balanceController.addBalanceAsync(completedLevel.coinReward);
     await PopupManager.ShowLevelCompletePopup(StoryLevelCompleteResult(
-      levelNumber: _storyState.currentLevelNumber,
-      coinReward: completedLevel.coinReward
+        levelNumber: _storyState.currentLevelNumber,
+        coinReward: completedLevel.coinReward
     ));
   }
 

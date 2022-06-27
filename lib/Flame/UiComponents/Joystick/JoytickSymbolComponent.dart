@@ -8,6 +8,7 @@ import 'package:flutter/material.dart' show Paint, Colors, Canvas;
 import 'package:event/event.dart';
 
 class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable{
+  int id;
   String symbolId;
 
   Vector2 cursorPosition = new Vector2(0, 0);
@@ -19,7 +20,7 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
   var draggUpdate = Event<SymbolPointerLocationArgs>();
   var dragEnd = Event<SymbolPointerLocationArgs>();
 
-  JoystickSymbolComponent(this.symbolId);
+  JoystickSymbolComponent({required this.id, required this.symbolId});
 
   @override
   Future<void> onLoad() async {
@@ -42,7 +43,7 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
   @override
   bool onTapDown(TapDownInfo event){
     cursorPosition = wordToLocalPosition(event.eventPosition.game);
-    tapDown.broadcast(SymbolPointerLocationArgs(symbolId, cursorPosition));
+    tapDown.broadcast(SymbolPointerLocationArgs(id: id, symbol: symbolId, location: cursorPosition));
     return true;
   }
 
@@ -55,14 +56,14 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
   @override
   bool onDragUpdate(DragUpdateInfo event){
     cursorPosition = wordToLocalPosition(event.eventPosition.game);
-    draggUpdate.broadcast(SymbolPointerLocationArgs(symbolId, cursorPosition));
+    draggUpdate.broadcast(SymbolPointerLocationArgs(id: id, symbol: symbolId, location: cursorPosition));
     return false;
   }
 
   @override
   bool onDragEnd(DragEndInfo event){
     print("Symbol drag end.");
-    dragEnd.broadcast(SymbolPointerLocationArgs(symbolId, event.velocity));
+    dragEnd.broadcast(SymbolPointerLocationArgs(id: id, symbol: symbolId, location: event.velocity));
     return false;
   }
 

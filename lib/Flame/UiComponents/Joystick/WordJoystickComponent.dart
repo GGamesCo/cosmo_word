@@ -63,7 +63,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
 
     var btnsConfig = uiConfig.configs[alph.length]!;
     for (var i = 0; i < alph.length; i++){
-      symbols.add(JoystickSymbolComponent(alph[i])
+      symbols.add(JoystickSymbolComponent(id: i, symbolId: alph[i])
         ..position = btnsConfig[i].position
         ..size = btnsConfig[i].size);
     }
@@ -92,11 +92,11 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
       return;
 
     if (navigator.points.isNotEmpty &&
-        navigator.points.first.id != arg.symbolId) {
+        navigator.points.first.id != arg.id) {
       reset();
     }
 
-    if (!navigator.points.map((x) => x.id).contains(arg.symbolId)){
+    if (!navigator.points.map((x) => x.id).contains(arg.id)){
       startCollectingWord(arg);
     }
 
@@ -107,9 +107,9 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
 
     for (var symbol in symbols) {
       if (symbol.isPointInsideSymbol(lineEndPosition)) {
-        if (!navigator.points.map((x) => x.id).contains(symbol.symbolId)) {
-          navigator.points.add(SymbolLocationModel(symbol.symbolId, Offset(symbol.x, symbol.y)));
-          var addedSymbolEvent = SymbolInputAddedEventArgs(lastInputSymbol: symbol.symbolId, inputString: navigator.inputString);
+        if (!navigator.points.map((x) => x.id).contains(symbol.id)) {
+          navigator.points.add(SymbolLocationModel(id: symbol.id, symbol: symbol.symbolId, position:  Offset(symbol.x, symbol.y)));
+          var addedSymbolEvent = SymbolInputAddedEventArgs(id: symbol.id,lastInputSymbol: symbol.symbolId, inputString: navigator.inputString);
           symbolInputAddedEvent.broadcast(addedSymbolEvent);
           HapticFeedback.heavyImpact();
           symbol.changeStateAnimated(true);
@@ -119,9 +119,9 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
   }
 
   void onDragEnd(SymbolPointerLocationArgs arg) {
-    if (navigator.points.first.id != arg.symbolId)
+    if (navigator.points.first.id != arg.id)
       throw Exception(
-          "Wrong end event. Expected drag end for symbol ${navigator.points.first.id} but occured for ${arg.symbolId}");
+          "Wrong end event. Expected drag end for symbol ${navigator.points.first.id} but occured for ${arg.id}");
 
     completeWordInput();
   }
@@ -137,14 +137,14 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
       return;
 
     var startSymbolLocation = symbols
-        .firstWhere((element) => element.symbolId == arg.symbolId)
+        .firstWhere((element) => element.id == arg.id)
         .position
         .toOffset();
-    if (!navigator.points.map((x) => x.id).contains(arg.symbolId)) {
+    if (!navigator.points.map((x) => x.id).contains(arg.id)) {
       navigator.points
-          .add(SymbolLocationModel(arg.symbolId, startSymbolLocation));
-      symbols.firstWhere((element) => element.symbolId == arg.symbolId).changeStateAnimated(true);
-      var addedSymbolEvent = SymbolInputAddedEventArgs(lastInputSymbol: arg.symbolId, inputString: navigator.inputString);
+          .add(SymbolLocationModel(id: arg.id, symbol: arg.symbol, position: startSymbolLocation));
+      symbols.firstWhere((element) => element.id == arg.id).changeStateAnimated(true);
+      var addedSymbolEvent = SymbolInputAddedEventArgs(id: arg.id, lastInputSymbol: arg.symbol, inputString: navigator.inputString);
       symbolInputAddedEvent.broadcast(addedSymbolEvent);
       HapticFeedback.heavyImpact();
     }
@@ -189,18 +189,21 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
       throw Exception("Unable autoselect while navigator is reseting.");
     }
 
+    var selectedSymbols = List<JoystickSymbolComponent>.empty(growable: true);
     var firstWordSymbol = word[0];
     var firstSymbolComponent = symbols.firstWhere((x) => x.symbolId == firstWordSymbol);
+    selectedSymbols.add(firstSymbolComponent);
     var startPosition = firstSymbolComponent.position;
-    startCollectingWord(SymbolPointerLocationArgs(firstWordSymbol, startPosition));
+    startCollectingWord(SymbolPointerLocationArgs(id: firstSymbolComponent.id, symbol: firstSymbolComponent.symbolId, location: startPosition));
 
     var xStep = -1;
     for (var i = 1; i < word.length; i++){
-      var currentSymbolComponent = symbols.firstWhere((element) => element.symbolId == word[i]);
+      var currentSymbolComponent = symbols.firstWhere((element) => element.symbolId == word[i] && !selectedSymbols.map((x) => x.id).contains(element.id));
+      selectedSymbols.add(currentSymbolComponent);
       var finalDrawPosition = currentSymbolComponent.position;
       var startDrawPosition = navigator.points.last.position;
 
-      var currentSymbolLocation = SymbolLocationModel(word[i], Offset(startDrawPosition.dx, startDrawPosition.dy));
+      var currentSymbolLocation = SymbolLocationModel(id: currentSymbolComponent.id, symbol: currentSymbolComponent.symbolId, position: Offset(startDrawPosition.dx, startDrawPosition.dy));
 
       while ((currentSymbolLocation.position.dx.abs() - finalDrawPosition.x.abs()).abs() > xStep.abs()){
         await Future.delayed(const Duration(milliseconds: 1), () {
@@ -208,7 +211,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
         });
       }
 
-      onDraggUpdate(SymbolPointerLocationArgs(firstWordSymbol, finalDrawPosition));
+      onDraggUpdate(SymbolPointerLocationArgs(id: selectedSymbols[0].id, symbol: selectedSymbols[0].symbolId, location: finalDrawPosition));
     }
 
     await Future.delayed(const Duration(milliseconds: 500), completeWordInput);

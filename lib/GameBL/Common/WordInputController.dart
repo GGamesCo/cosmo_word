@@ -15,7 +15,6 @@ import 'Models/WordFlowState.dart';
 @Injectable(as: IWordInputController)
 class WordInputController extends IWordInputController  {
 
-  final IFlowRepository flowRepository;
   final IWordRepository wordRepository;
   final IBalanceController balanceController;
 
@@ -25,15 +24,14 @@ class WordInputController extends IWordInputController  {
   List<String> _completedWords = List<String>.empty(growable: true);
 
   WordInputController({
-    required this.flowRepository,
     required this.wordRepository,
     required this.balanceController
   });
 
   @override
-  Future initializeAsync(int flowId) async {
+  Future initializeAsync(WordSetFlow flow) async {
     _completedWords.clear();
-    _currentFlow = await flowRepository.getFlowByIdAsync(flowId);
+    _currentFlow = flow;
     flowState = _calculateFlowState();
 
     var currentWordSet = (await wordRepository.getSetByIdAsync(flowState.setId)).copy();

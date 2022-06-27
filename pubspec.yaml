@@ -33,6 +33,7 @@ dependencies:
   # add get_it
   get_it: ^7.2.0
   uuid: 3.0.6
+  audioplayers: 0.20.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -87,6 +88,10 @@ flutter:
     - assets/audio/btn-press-3.mp3
     - assets/audio/btn-press-4.mp3
     - assets/audio/btn-press-5.mp3
+    - assets/audio/shuffle-joystick.mp3
+    - assets/audio/clock.mp3
+    - assets/audio/win-simple.mp3
+    - assets/audio/win-applause.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
