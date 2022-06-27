@@ -1,10 +1,36 @@
 import 'package:flutter/material.dart';
 
-import '../Common/Story/MyStoryProgress.dart';
+import '../../GameBL/Services/StoryLocationsService/StoryLocationModel.dart';
+import '../../GameBL/Services/StoryLocationsService/StoryLocationsService.dart';
+import '../../GameBL/Services/StoryStateService/StoryStateService.dart';
+import '../../di.dart';
 
-class LobbyMyStory extends StatelessWidget{
+class LobbyMyStory extends StatefulWidget{
 
-  LobbyMyStory();
+  late List<StoryLocationModel> locations = [];
+
+  late StoryLocationsService locationsService;
+  late StoryStateService storyStateService;
+
+  LobbyMyStory(){
+    locationsService = getIt.get<StoryLocationsService>();
+    storyStateService = getIt.get<StoryStateService>();
+  }
+
+  @override
+  State<LobbyMyStory> createState() => _LobbyMyStoryState();
+}
+
+class _LobbyMyStoryState extends State<LobbyMyStory> {
+
+  @override
+  void initState(){
+    super.initState();
+
+    setState(() {
+      widget.locations = widget.locationsService.allLocations;
+    });
+  }
 
   @override
   Widget build(BuildContext context){
@@ -18,10 +44,9 @@ class LobbyMyStory extends StatelessWidget{
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            StoryItemCard(imageFile: 'assets/images/backgrounds/green_tile.jpg', title: "Welcome party"),
-            StoryItemCard(imageFile: 'assets/images/backgrounds/beach_with_boat_tile.jpg', title: "Mystery iceland"),
-            StoryItemCard(imageFile: 'assets/images/backgrounds/jungles_tile.jpg', title: "Wild jungle"),
-            StoryItemCard(imageFile: 'assets/images/backgrounds/blue_tile.jpg', title: "Windy voyage")
+            for(var loc in widget.locations.take(4)) ...[
+              StoryItemCard(imageFile: "assets/images/backgrounds/${loc.backgroundFileName.replaceAll(".jpg", "_tile.jpg")}", title: loc.title),
+            ]
           ],
         ),
       ),
@@ -48,9 +73,22 @@ class StoryItemCard extends StatelessWidget {
                 child: IntrinsicHeight(
                   child: Column(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        child: Image.asset(imageFile)
+                      Container(/*
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
+                        ),*/
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          child: Image.asset(imageFile)
+                        ),
                       ),
                       SizedBox(height: 5),
                       Container(
