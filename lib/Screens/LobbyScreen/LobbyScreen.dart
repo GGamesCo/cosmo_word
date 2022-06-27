@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import '../Common/Background/StaticBackground.dart';
@@ -22,28 +23,29 @@ class LobbyScreen extends StatelessWidget {
       );
     });
    */
+
+    var lobbyWidth = min(MediaQuery.of(context).size.width, 650);
+
     return Scaffold(
       body: Stack(
         children: [
           StaticBackground(fileName: 'green.jpg'),
-          Padding(
-            padding: EdgeInsets.only(top: 10.h),
+          Center(
             child: Container(
               //color: Colors.blue,
               alignment: Alignment.center,
-              width: double.infinity,
-              child: AspectRatio(
-                aspectRatio: 8 / 16,
-                child: Container(
-                  //color: Colors.green,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        LobbyLogo(),
-                        LobbyNavigation(),
-                        LobbyMyStory()
-                      ]
-                  ),
+              width: lobbyWidth*1,
+              height: MediaQuery.of(context).size.height,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(height: 60),
+                      LobbyLogo(),
+                      LobbyNavigation(),
+                      LobbyMyStory()
+                    ]
                 ),
               ),
             ),

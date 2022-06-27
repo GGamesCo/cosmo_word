@@ -1,14 +1,42 @@
 import 'package:flutter/material.dart';
 
-class MyStoryProgress extends StatelessWidget {
+import '../../../GameBL/Services/StoryLocationsService/StoryLocationModel.dart';
+import '../../../GameBL/Services/StoryLocationsService/StoryLocationsService.dart';
+import '../../../GameBL/Services/StoryStateService/StoryStateService.dart';
+import '../../../di.dart';
+
+class MyStoryProgress extends StatefulWidget {
 
   final int progressCurrent;
   final int progressTotal;
 
+  late List<StoryLocationModel> locations;
+
+  late StoryLocationsService locationsService;
+  late StoryStateService storyStateService;
+
   MyStoryProgress({
     required this.progressCurrent,
     required this.progressTotal
-  });
+  }){
+    locationsService = getIt.get<StoryLocationsService>();
+    storyStateService = getIt.get<StoryStateService>();
+  }
+
+  @override
+  State<MyStoryProgress> createState() => _MyStoryProgressState();
+}
+
+class _MyStoryProgressState extends State<MyStoryProgress> {
+
+  @override
+  void initState(){
+    super.initState();
+
+    setState(() {
+      widget.locations = widget.locationsService.allLocations;
+    });
+  }
 
   @override
   Widget build(BuildContext context){
@@ -21,7 +49,7 @@ class MyStoryProgress extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 child: LinearProgressIndicator(
-                  value: progressCurrent/progressTotal,
+                  value: widget.progressCurrent/widget.progressTotal,
                   minHeight: 30,
                   backgroundColor: Color.fromRGBO(116, 126, 126, 1),
                   color: Color.fromRGBO(255, 207, 123, 1),
@@ -31,7 +59,7 @@ class MyStoryProgress extends StatelessWidget {
             ),
             Center(
               child: Text(
-                "${progressCurrent}/${progressTotal}",
+                "${widget.progressCurrent}/${widget.progressTotal}",
                 style: TextStyle(
                   color: Color.fromRGBO(209, 129, 30, 1),
                   fontSize: 18,
