@@ -1,3 +1,5 @@
+import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
+import 'package:cosmo_word/GameBL/Configs/PriceListConfig.dart';
 import 'package:cosmo_word/Screens/Common/Story/MyStoryProgress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -56,7 +58,7 @@ class OutOfCoinsPopup extends StatelessWidget{
                                         ),
                                         onPressed: () {
 
-
+                                          _onLoading(context);
 
                                           print("TODO: Add analytics on buy btn click");
                                         },
@@ -106,35 +108,43 @@ class OutOfCoinsPopup extends StatelessWidget{
       barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
-          child: new Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              new CircularProgressIndicator(),
-              new Text("Initialize payment..."),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                new CircularProgressIndicator(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: new Text("Initialize payment..."),
+                ),
+              ],
+            ),
           ),
         );
       },
     );
     new Future.delayed(new Duration(seconds: 1), () async {
       Navigator.pop(context); //pop dialog
-      var storage = getIt.get<SharedPreferences>();
-
+      var storage = await getIt.getAsync<SharedPreferences>();
+      final String compensationStringKey = "LastFreeHintsTime";
       var shouldFreeReward = true;
-      if(storage.containsKey("LastFreeHintsTime")){
+      if(storage.containsKey(compensationStringKey)){
         // One day left from last free reward.
          shouldFreeReward = DateTime.now().millisecondsSinceEpoch - storage.getInt("LastFreeHintsTime")! > 86400000;
       }
 
       if (shouldFreeReward){
         try {
-          await NativeDialog.alert("Sorry, payments error occurred! 10 hints reward compensation provided!");
+          await getIt.get<IBalanceController>().addBalanceAsync(10 * PriceListConfig.HINT_PRICE);
+          await NativeDialog.alert("Sorry, payments error occurred!\n10 hints reward COMPENSATION provided!");
+          storage.setInt(compensationStringKey, DateTime.now().millisecondsSinceEpoch);
         } on PlatformException catch (error) {
           print(error.message);
         }
       }else{
         try {
-          await NativeDialog.alert("Sorry, payments error occurred! Try again letter!");
+          await NativeDialog.alert("Sorry, payments error occurred! Try again later!");
         } on PlatformException catch (error) {
           print(error.message);
         }

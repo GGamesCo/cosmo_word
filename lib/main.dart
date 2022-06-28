@@ -58,7 +58,7 @@ Future initDiInstances() async {
   await stageManager.initAsync();
 
   var userController = getIt.get<UserController>();
-  userController.init();
+  await userController.initAsync();
 }
 
 void initializeAppsflyer(){

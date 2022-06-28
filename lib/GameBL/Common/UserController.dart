@@ -10,8 +10,8 @@ class UserController{
   late String userId;
   late String sessionId;
 
-  init(){
-      var storage = getIt.get<SharedPreferences>();
+  Future<void> initAsync() async{
+      var storage = await getIt.getAsync<SharedPreferences>();
 
       if (!storage.containsKey(UserIdKey)){
         print("User not found. Creating new user");
