@@ -63,7 +63,7 @@ class ElementsLayoutBuilder {
     var hintBtnData = ElementLayoutData(
         size: Vector2(roundBtnWidth,roundBtnWidth),
         anchor: Anchor.center,
-        position: Vector2(screenWidth*0.1, screenHeight*0.9));
+        position: Vector2(screenWidth*0.1, _topPartAvailableHeight + inputZoneRealHeight + roundBtnWidth/5));
     _layout.pushNewElement(GameUiElement.HintBtn, hintBtnData);
 
     // Layout for Store button
