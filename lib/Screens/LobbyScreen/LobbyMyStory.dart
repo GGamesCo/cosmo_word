@@ -7,12 +7,13 @@ import '../../GameBL/Services/StoryLocationsService/StoryLocationsService.dart';
 import '../../GameBL/Services/StoryStateService/StoryStateService.dart';
 import '../../di.dart';
 
-class LobbyMyStory extends StatefulWidget{
+class LobbyMyStory extends StatelessWidget{
 
   late List<StoryLocationModel> locations = [];
 
   late StoryLocationsService locationsService;
   late StoryStateService storyStateService;
+
   late Map<int, LocationStatus> locationStatus = Map<int, LocationStatus>();
 
   LobbyMyStory(){
@@ -21,33 +22,18 @@ class LobbyMyStory extends StatefulWidget{
   }
 
   @override
-  State<LobbyMyStory> createState() => _LobbyMyStoryState();
-}
+  Widget build(BuildContext context){
 
-class _LobbyMyStoryState extends State<LobbyMyStory> {
-
-  @override
-  void initState(){
-    super.initState();
-
-    for(var loc in widget.locationsService.allLocations){
+    for(var loc in locationsService.allLocations){
       var locStatus = LocationStatus.opened;
-      if(loc.levels.reduce(max) < widget.storyStateService.currentLevelId){
+      if(loc.levels.reduce(max) < storyStateService.currentLevelId){
         locStatus = LocationStatus.completed;
       }
-      if(loc.levels.reduce(min) > widget.storyStateService.currentLevelId){
+      if(loc.levels.reduce(min) > storyStateService.currentLevelId){
         locStatus = LocationStatus.locked;
       }
-      widget.locationStatus[loc.id] = locStatus;
+      locationStatus[loc.id] = locStatus;
     }
-
-    setState(() {
-      widget.locations = widget.locationsService.allLocations;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context){
 
     return Container(
       decoration: BoxDecoration(
@@ -58,11 +44,11 @@ class _LobbyMyStoryState extends State<LobbyMyStory> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            for(var loc in widget.locations.take(4)) ...[
+            for(var loc in locationsService.allLocations.take(4)) ...[
               StoryItemCard(
                 imageFile: "assets/images/backgrounds/${loc.backgroundFileName.replaceAll(".jpg", "_tile.jpg")}",
                 title: loc.title,
-                locationStatus: widget.locationStatus[loc.id]!,
+                locationStatus: locationStatus[loc.id]!,
               ),
             ]
           ],

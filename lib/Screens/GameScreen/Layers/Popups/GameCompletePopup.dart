@@ -1,16 +1,9 @@
 import 'package:cosmo_word/Screens/Common/Story/MyStoryProgress.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-
-import '../../../../Flame/StoryGame.dart';
 import '../../../../GameBL/Common/Models/GameState.dart';
 import '../../../../GameBL/Common/StageManager.dart';
 import '../../../../GameBL/Services/StoryStateService/StoryStateModel.dart';
-import '../../../../GameBL/Services/StoryStateService/StoryStateService.dart';
-import '../../../../GameBL/Story/StoryStateController.dart';
 import '../../../../di.dart';
-import '../../../../main.dart';
-import '../../GameScreen.dart';
 
 class GameCompletePopup extends StatelessWidget{
 
