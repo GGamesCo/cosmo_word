@@ -13,3 +13,9 @@ class StoryLocationModel {
     required this.coinReward
   });
 }
+
+enum LocationStatus {
+  completed,
+  opened,
+  locked
+}
