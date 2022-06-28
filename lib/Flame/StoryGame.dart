@@ -13,6 +13,7 @@ import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import '../GameBL/Common/Abstract/IWordInputController.dart';
 import '../GameBL/Services/StoryLevelsService/StoryLevelsService.dart';
+import '../GameBL/Services/StoryLocationsService/StoryLocationsService.dart';
 import '../GameBL/Story/LevelProgressBarState.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
 import 'Controllers/Abstract/InputDisplayController.dart';
@@ -30,6 +31,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
   final StoryStateController storyStateController;
   final IWordInputController wordInputController;
   final StoryLevelsService levelsService;
+  final StoryLocationsService locationsService;
   final IFlowRepository flowRepository;
   final SoundsController soundsController;
   late GameElementsLayout _layoutData;
@@ -50,6 +52,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
     required this.storyStateController,
     required this.wordInputController,
     required this.levelsService,
+    required this.locationsService,
     required this.soundsController
   });
 
@@ -67,7 +70,10 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
     final flow = await flowRepository.getFlowByIdAsync(level.flowId);
     await wordInputController.initializeAsync(flow);
 
-    _backgroundController = StaticBackgroundController(bgImageFile: level.backgroundFileName);
+    var location = await locationsService.getLocationConfigByLevelId(level.levelId);
+
+    _backgroundController = StaticBackgroundController(bgImageFile: location.backgroundFileName);
+
     await _backgroundController.initAsync();
 
     _inputDisplayController = SeparateBricksInputDisplayController(

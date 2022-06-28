@@ -131,8 +131,8 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
       var pickedColor = _pickRandomListElement(_colorCodes);
 
       add(ResultOverlayUiControl(isSuccess: true));
+      _rocketZoneController.animateNewInput(_completedWordsZoneController.bricksStackHeight);
       _inputWordParticlesController.showParticles(wordInput.acceptedWord.length);
-
       _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
   }
 

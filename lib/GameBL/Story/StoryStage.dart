@@ -13,6 +13,7 @@ import 'package:cosmo_word/di.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import '../Services/StoryLevelsService/StoryLevelsService.dart';
+import '../Services/StoryLocationsService/StoryLocationsService.dart';
 
 class StoryStage extends IGameStage{
 
@@ -30,6 +31,7 @@ class StoryStage extends IGameStage{
       flowRepository: getIt.get<IFlowRepository>(),
       storyStateController: getIt.get<StoryStateController>(),
       levelsService: getIt.get<StoryLevelsService>(),
+      locationsService: getIt.get<StoryLocationsService>(),
       wordInputController: getIt.get<IWordInputController>(),
       soundsController: getIt.get<SoundsController>()
     );

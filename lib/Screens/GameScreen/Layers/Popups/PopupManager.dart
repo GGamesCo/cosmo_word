@@ -18,11 +18,15 @@ class PopupManager {
     var storyState = await storyStateService.getStoryState();
     return showDialog(
       context: navigatorKey.currentContext!,
+      barrierDismissible: false,
       builder: (BuildContext context){
-        return GameCompletePopup(
-          popupType: 1,
-          storyStateModel: storyState,
-          coinReward: resultsData.coinReward,
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: GameCompletePopup(
+            popupType: 1,
+            storyStateModel: storyState,
+            coinReward: resultsData.coinReward,
+          ),
         );
       }
     );
@@ -39,10 +43,13 @@ class PopupManager {
     showDialog(
       context: navigatorKey.currentContext!,
       builder: (BuildContext context){
-        return GameCompletePopup(
-          popupType: 2,
-          storyStateModel: storyState,
-          coinReward: resultsData.coinReward,
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: GameCompletePopup(
+            popupType: 2,
+            storyStateModel: storyState,
+            coinReward: resultsData.coinReward,
+          ),
         );
       }
     );

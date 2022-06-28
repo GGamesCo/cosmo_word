@@ -41,10 +41,10 @@ class StageManager {
     currentStage.onDispose();
     currentStage = newStage;
 
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       flutterBuildContext,
-        MaterialPageRoute(builder: (context) => currentStage.root
-        )
+      MaterialPageRoute(builder: (context) => currentStage.root),
+      ModalRoute.withName('/')
     );
 
     print("Start game state ${currentStage.state.toString()}).");
