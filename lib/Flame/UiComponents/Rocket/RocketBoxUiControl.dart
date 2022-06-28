@@ -101,6 +101,10 @@ class RocketBoxUiControl extends RectangleComponent {
     _timerTxt.text = intToTimeLeft(secondsLeft);
   }
 
+  void animateHeightTimer(double completedWordsHeight) {
+    
+  }
+
   @override
   void render(Canvas canvas) {
     super.render(canvas);

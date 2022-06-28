@@ -64,6 +64,11 @@ class RocketZoneController implements UiControllerBase {
     }
   }
 
+  void animateNewInput(double completedWordsHeight){
+    _rocketBoxUiControl.animateHeightTimer(completedWordsHeight);
+    _rocketUiControl.playFlameAnim();
+  }
+
   void updateRocketPosition(int secondsLeft, int totalTime){
     var rocketPosition = calculateRocketPosition(secondsLeft, totalTime);
     final effect = MoveToEffect(

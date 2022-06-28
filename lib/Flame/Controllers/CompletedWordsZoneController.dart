@@ -24,7 +24,7 @@ class CompletedWordsZoneController extends UiControllerBase {
 
   late CompletedWordsZoneUiControl rootUiControl;
   int _currentBrickNumber = 0;
-  double get _bricksStackHeight => _currentBrickNumber*requiredBrickHeight;
+  double get bricksStackHeight => _currentBrickNumber*requiredBrickHeight;
 
   CompletedWordsZoneController({
     required this.layoutData,
@@ -60,7 +60,7 @@ class CompletedWordsZoneController extends UiControllerBase {
       requiredBrickHeight: requiredBrickHeight,
       spawnY: normalizedSpawnHeight*1,
       spawnX: layoutData.size.x/2,
-      fallToY: fullContainerHeight - _bricksStackHeight - requiredBrickHeight,
+      fallToY: fullContainerHeight - bricksStackHeight - requiredBrickHeight,
       brickFallDuration: brickFallDuration
     );
     brickInstance.init();
@@ -77,7 +77,7 @@ class CompletedWordsZoneController extends UiControllerBase {
 
   void validateScrollOffset(){
     var viewportHeight = layoutData.size.y;
-    var alreadyFilledHeight = _bricksStackHeight - rootUiControl.scrollOffset;
+    var alreadyFilledHeight = bricksStackHeight - rootUiControl.scrollOffset;
 
     var filledPart = alreadyFilledHeight / viewportHeight;
     if(filledPart > containerScrollThreshold){
