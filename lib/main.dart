@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
+import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/GameBL/Common/StageManager.dart';
 import 'package:cosmo_word/GameBL/Common/UserController.dart';
 import 'package:cosmo_word/GameBL/Story/StoryStateController.dart';
 import 'package:cosmo_word/MyAppWidget.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'di.dart';
@@ -20,8 +22,8 @@ void main() async {
   if (Firebase.apps.isEmpty) {
     WidgetsFlutterBinding.ensureInitialized();
 
-    await Firebase.initializeApp(
-      name: "cosmo-word",
+    var firebaseApp = await Firebase.initializeApp(
+      name: "ggames-cosmo-word",
       options: DefaultFirebaseOptions.currentPlatform,
     ).whenComplete(() {
       print("completedAppInitialize");
@@ -56,6 +58,10 @@ Future initDiInstances() async {
 
   var userController = getIt.get<UserController>();
   await userController.initAsync();
+
+  var analytics = getIt.get<AnalyticsController>();
+  await analytics.initAsync();
+  analytics.logEventAsync("test_event");
 }
 
 void initializeAppsflyer(){
@@ -64,7 +70,6 @@ void initializeAppsflyer(){
       showDebug: true);
 
   AppsflyerSdk appsflyerSdk = AppsflyerSdk(appsFlyerOptions);
-
   appsflyerSdk.initSdk(
       registerConversionDataCallback: true,
       registerOnAppOpenAttributionCallback: true,
