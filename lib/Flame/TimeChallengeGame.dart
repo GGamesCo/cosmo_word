@@ -1,10 +1,13 @@
 import 'dart:async' as DartAsync;
+import 'dart:async';
 import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
+import 'package:cosmo_word/GameBL/Common/GameEventBus.dart';
 import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
+import 'package:cosmo_word/GameBL/Events/EventBusEvents.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:event/event.dart';
 import 'package:flame/components.dart';
@@ -36,6 +39,9 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
   late CompletedWordsZoneController _completedWordsZoneController;
   late RocketZoneController _rocketZoneController;
   late InputWordParticlesController _inputWordParticlesController;
+
+  late StreamSubscription outOfCoinsProcessing;
+  late StreamSubscription outOfCoinsProceedCompleted;
 
   List<String> _colorCodes = ['y', 'g', 'r'];
   Random _random = new Random();
@@ -111,15 +117,15 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     wordInputController.onInputAccepted.subscribe(handleInputAccepted);
     wordInputController.onInputRejected.subscribe(handleInputRejected);
     timerController.timerUpdatedEvent.subscribe(onTimerUpdated);
-    _inputDisplayController.requestPauseGame.subscribe(onRequestPauseGame);
-    _inputDisplayController.requestResumeGame.subscribe(onRequestResumeGame);
+    outOfCoinsProcessing = mainEventBus.on<OutOfCoinsPopupShowing>().listen(onRequestPauseGame);
+    outOfCoinsProceedCompleted = mainEventBus.on<OutOfCoinsPopupClosed>().listen(onRequestResumeGame);
   }
 
   void unsubscribeAll(){
     wordInputController.onInputAccepted.unsubscribe(handleInputAccepted);
     timerController.timerUpdatedEvent.unsubscribe(onTimerUpdated);
-    _inputDisplayController.requestPauseGame.unsubscribe(onRequestPauseGame);
-    _inputDisplayController.requestResumeGame.unsubscribe(onRequestResumeGame);
+    outOfCoinsProcessing.cancel();
+    outOfCoinsProceedCompleted.cancel();
   }
 
   void onTimerUpdated(Value<int>? args) async {
@@ -140,11 +146,11 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     add(ResultOverlayUiControl(isSuccess: false));
   }
 
-  void onRequestPauseGame(EventArgs? _){
+  void onRequestPauseGame(OutOfCoinsPopupShowing _){
     timerController.pause();
   }
 
-  void onRequestResumeGame(EventArgs? _){
+  void onRequestResumeGame(OutOfCoinsPopupClosed _){
     timerController.resume();
   }
 

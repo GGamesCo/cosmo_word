@@ -1,4 +1,6 @@
 import 'package:cosmo_word/Flame/Common/SoundsController.dart';
+import 'package:cosmo_word/GameBL/Common/GameEventBus.dart';
+import 'package:cosmo_word/GameBL/Events/EventBusEvents.dart';
 import 'package:cosmo_word/GameBL/Story/StoryLevelCompleteResult.dart';
 import 'package:cosmo_word/Screens/GameScreen/Layers/Popups/OutOfCoinsPopup.dart';
 import 'package:cosmo_word/di.dart';
@@ -40,7 +42,7 @@ class PopupManager {
     }
 
     var storyState = await storyStateService.getStoryState();
-    showDialog(
+    await showDialog(
       context: navigatorKey.currentContext!,
       builder: (BuildContext context){
         return WillPopScope(
@@ -56,12 +58,17 @@ class PopupManager {
   }
 
   static Future NotEnoughMoneyPopup() async {
-    showDialog(
-        context: navigatorKey.currentContext!,
-        builder: (BuildContext context){
-          return OutOfCoinsPopup();
-        }
-    );
+    mainEventBus.fire(OutOfCoinsPopupShowing());
+    try{
+      await showDialog(
+          context: navigatorKey.currentContext!,
+          builder: (BuildContext context){
+            return OutOfCoinsPopup();
+          }
+      );
+    }finally{
+      mainEventBus.fire(OutOfCoinsPopupClosed());
+    }
   }
 
 }

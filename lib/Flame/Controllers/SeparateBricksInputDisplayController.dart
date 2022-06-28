@@ -5,6 +5,7 @@ import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dar
 import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordRepository.dart';
+import 'package:cosmo_word/GameBL/Common/GameEventBus.dart';
 import 'package:cosmo_word/GameBL/Configs/PriceListConfig.dart';
 import 'package:cosmo_word/Screens/GameScreen/Layers/Popups/PopupManager.dart';
 import 'package:cosmo_word/di.dart';
@@ -20,9 +21,6 @@ import 'Abstract/InputDisplayController.dart';
 import '../UiComponents/Joystick/WordJoystickComponent.dart';
 
 class SeparateBricksInputDisplayController implements InputDisplayController {
-  final Event requestPauseGame = Event();
-  final Event requestResumeGame = Event();
-
   final ElementLayoutData previewLayoutData;
   final ElementLayoutData joystickLayoutData;
   final ElementLayoutData rotateBtnLayoutData;
