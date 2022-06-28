@@ -14,9 +14,17 @@ import 'package:injectable/injectable.dart';
 import 'Abstract/IGameState.dart';
 import 'Models/GameState.dart';
 
-@singleton
+@Singleton()
 class StageManager {
-  late IGameStage currentStage = LobbyStage();
+  late IGameStage currentStage;
+
+  Future<void> initAsync() async {
+    currentStage = getIt.get<LobbyStage>();
+    currentStage.initAsync();
+    currentStage.start();
+    var soundsController = getIt.get<SoundsController>();
+    await soundsController.initAsync();
+  }
 
   Future navigateToStage(GameStage state, BuildContext flutterBuildContext) async {
     print("Termination game state ${currentStage.state.toString()}).");
@@ -47,7 +55,7 @@ class StageManager {
     IGameStage? newStage = null;
     switch(stageMode) {
       case GameStage.Lobby:{
-        newStage = LobbyStage();
+        newStage = getIt.get<LobbyStage>();
       }
         break;
       case GameStage.Story:{
@@ -61,7 +69,7 @@ class StageManager {
             timerController: getIt.get<ITimerController>(),
             challengeConfig: getIt.get<RocketChallengeConfig>(),
             balanceController: getIt.get<IBalanceController>(),
-        soundsController: getIt.get<SoundsController>());
+            soundsController: getIt.get<SoundsController>());
       }
       break;
       default: {

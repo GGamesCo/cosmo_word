@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:cosmo_word/Flame/UiComponents/Scene.dart';
+import 'package:cosmo_word/GameBL/Common/Models/GameState.dart';
+import 'package:cosmo_word/GameBL/Common/StageManager.dart';
 import 'package:cosmo_word/GameBL/Story/StoryStateController.dart';
 import 'package:cosmo_word/MyAppWidget.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,13 +33,16 @@ void main() async {
   initializeAppsflyer();
   await initDiInstances();
 
+  var stageManager = getIt.get<StageManager>();
+  await stageManager.initAsync();
+
   runApp(
     Sizer(
       builder: (context, orientation, deviceType) {
         return MyAppWidget(child: MaterialApp(
           navigatorKey: navigatorKey,
           title: 'Navigation Basics',
-          home: LobbyScreen(),
+          home: stageManager.currentStage.root,
         )
         );
       }
@@ -47,6 +52,9 @@ void main() async {
 
 Future initDiInstances() async {
   await (getIt.get<StoryStateController>()).initAsync();
+
+  var stageManager = getIt.get<StageManager>();
+  await stageManager.initAsync();
 }
 
 void initializeAppsflyer(){

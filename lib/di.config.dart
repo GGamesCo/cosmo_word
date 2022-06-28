@@ -20,13 +20,14 @@ import 'GameBL/Common/StageManager.dart' as _i14;
 import 'GameBL/Common/TimerController.dart' as _i8;
 import 'GameBL/Common/WordInputController.dart' as _i18;
 import 'GameBL/Common/WordRepository.dart' as _i10;
-import 'GameBL/DI/Module.dart' as _i21;
+import 'GameBL/DI/Module.dart' as _i22;
+import 'GameBL/Lobby/LobbyStage.dart' as _i19;
 import 'GameBL/Services/StoryLevelsService/StoryLevelsService.dart' as _i15;
 import 'GameBL/Services/StoryStateService/StoryStateService.dart' as _i16;
-import 'GameBL/Story/StoryStateController.dart' as _i19;
+import 'GameBL/Story/StoryStateController.dart' as _i20;
 import 'GameBL/TimeChallenge/RocketChallengeConfig.dart' as _i11;
 import 'GameBL/TimeChallenge/TimeAtackStage.dart'
-    as _i20; // ignore_for_file: unnecessary_lambdas
+    as _i21; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -47,12 +48,14 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.factory<_i17.IWordInputController>(() => _i18.WordInputController(
       wordRepository: get<_i9.IWordRepository>(),
       balanceController: get<_i3.IBalanceController>()));
-  gh.singleton<_i19.StoryStateController>(_i19.StoryStateController(
+  gh.factory<_i19.LobbyStage>(
+      () => _i19.LobbyStage(soundsController: get<_i13.SoundsController>()));
+  gh.singleton<_i20.StoryStateController>(_i20.StoryStateController(
       storyStateService: get<_i16.StoryStateService>(),
       levelsService: get<_i15.StoryLevelsService>(),
       flowRepository: get<_i5.IFlowRepository>(),
       balanceController: get<_i3.IBalanceController>()));
-  gh.factory<_i20.TimeAtackStage>(() => _i20.TimeAtackStage(
+  gh.factory<_i21.TimeAtackStage>(() => _i21.TimeAtackStage(
       wordRepository: get<_i9.IWordRepository>(),
       wordInputController: get<_i17.IWordInputController>(),
       timerController: get<_i7.ITimerController>(),
@@ -62,4 +65,4 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   return get;
 }
 
-class _$RegisterModule extends _i21.RegisterModule {}
+class _$RegisterModule extends _i22.RegisterModule {}

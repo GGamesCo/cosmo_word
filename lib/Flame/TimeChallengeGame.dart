@@ -45,12 +45,8 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
 
   @override
   Future<void> onLoad() async {
-  //  await gameController.initAsync();
-    
     var layoutBuilder = ElementsLayoutBuilder(screenWidth: this.size.x, screenHeight: this.size.y);
     _layoutData = layoutBuilder.calculateElementsLayout(GameType.TimeChallengeGame);
-
-    await soundsController.initAsync();
 
     _backgroundController = StaticBackgroundController(bgImageFile: "cosmo.png");
 

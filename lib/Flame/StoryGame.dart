@@ -67,8 +67,6 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
     final flow = await flowRepository.getFlowByIdAsync(level.flowId);
     await wordInputController.initializeAsync(flow);
 
-    await soundsController.initAsync();
-
     _backgroundController = StaticBackgroundController(bgImageFile: level.backgroundFileName);
     await _backgroundController.initAsync();
 

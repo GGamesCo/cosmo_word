@@ -35,7 +35,6 @@ dependencies:
   uuid: 3.0.6
   audioplayers: 0.20.1
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.4
@@ -92,6 +91,7 @@ flutter:
     - assets/audio/clock.mp3
     - assets/audio/win-simple.mp3
     - assets/audio/win-applause.mp3
+    - assets/audio/lobby.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
