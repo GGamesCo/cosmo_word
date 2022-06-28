@@ -8,6 +8,8 @@ class RocketUiControl extends RectangleComponent {
 
   final double requiredHeight;
 
+  late RocketFlameUiControl _flameUiControl;
+
   RocketUiControl({required this.requiredHeight});
 
   @override
@@ -23,9 +25,13 @@ class RocketUiControl extends RectangleComponent {
     var sprite = SpriteComponent(sprite: Sprite(image));
     sprite.size = size;
 
-    var flame = RocketFlameUiControl(requiredFlameWidth: size.x*3);
-    flame.position = Vector2(sprite.size.x/2, requiredHeight*0.75);
-    add(flame);
+    _flameUiControl = RocketFlameUiControl(requiredFlameWidth: size.x*3);
+    _flameUiControl.position = Vector2(sprite.size.x/2, requiredHeight*0.75);
+    add(_flameUiControl);
     add(sprite);
+  }
+
+  void playFlameAnim(){
+    _flameUiControl.playFlameAnim();
   }
 }
