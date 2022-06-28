@@ -42,7 +42,7 @@ void main() async {
       builder: (context, orientation, deviceType) {
         return MyAppWidget(child: MaterialApp(
           navigatorKey: navigatorKey,
-          title: 'Navigation Basics',
+          title: 'Word Rambo',
           home: stageManager.currentStage.root,
         )
         );

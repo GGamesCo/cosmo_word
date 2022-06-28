@@ -73,25 +73,31 @@ class WordInputController extends IWordInputController  {
   }
 
   WordFlowState _calculateFlowState(){
-    var currentSetId = _currentFlow.sets.first.setId;
-    var wordsLeft = _completedWords.length;
-    for(final set in _currentFlow.sets){
-      if(wordsLeft < set.requiredWordsCount) {
-        currentSetId = set.setId;
-        break;
-      }
-
-      wordsLeft = wordsLeft - set.requiredWordsCount;
-    };
-
     var totalWords = _currentFlow.sets.fold(0, (int previousValue, WordSetFlowItem element) => previousValue + element.requiredWordsCount);
+    var currentSetId = _currentFlow.sets.first.setId;
+    var wordsInSetLeft = 0;
+
+    if(_completedWords.length != totalWords) {
+      wordsInSetLeft = _completedWords.length;
+      for (final set in _currentFlow.sets) {
+        if (wordsInSetLeft < set.requiredWordsCount) {
+          currentSetId = set.setId;
+          break;
+        }
+
+        wordsInSetLeft = wordsInSetLeft - set.requiredWordsCount;
+      };
+    }
+    else{
+      currentSetId = _currentFlow.sets.last.setId;
+    }
 
     return WordFlowState(
         flowId: _currentFlow.id,
         setId: currentSetId,
         completedWordsInFlow: _completedWords.length,
         totalWordsInFlow: totalWords,
-        wordsInSetLeft: wordsLeft
+        wordsInSetLeft: wordsInSetLeft
     );
   }
 
