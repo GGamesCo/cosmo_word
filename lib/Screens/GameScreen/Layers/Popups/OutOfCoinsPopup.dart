@@ -1,5 +1,8 @@
 import 'package:cosmo_word/Screens/Common/Story/MyStoryProgress.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:native_dialog/native_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../Flame/StoryGame.dart';
@@ -38,9 +41,9 @@ class OutOfCoinsPopup extends StatelessWidget{
                               child: Stack(
                                 children: [
                                   Positioned(
-                                        left: 70,
-                                        top: 280,
-                                        width: 150,
+                                        left: 90,
+                                        top: 250,
+                                        width: 130,
                                         height: 60,
                                         child:
                                     Container(
@@ -52,6 +55,9 @@ class OutOfCoinsPopup extends StatelessWidget{
                                           foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                                         ),
                                         onPressed: () {
+
+
+
                                           print("TODO: Add analytics on buy btn click");
                                         },
                                         child: Text(''),
@@ -60,9 +66,9 @@ class OutOfCoinsPopup extends StatelessWidget{
                                     ),
                                   Positioned(
                                       left: 0,
-                                      top: 350,
+                                      top: 320,
                                       width: 290,
-                                      height: 90,
+                                      height: 70,
                                       child:
                                       Container(
                                         // decoration: BoxDecoration(
@@ -94,104 +100,45 @@ class OutOfCoinsPopup extends StatelessWidget{
     );
   }
 
-  Widget _getTitle(){
-    return IntrinsicHeight(
-      child: Stack(
-        children: [
-        //  Image.asset("assets/images/popups/reward-bg.png"),
-          Positioned.fill(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                    child: SizedBox(height: 100, child: Image.asset("assets/images/popups/reward-coin.png"))
-                ),
-                Center(
-                    child: Text(
-                      "",
-                      style: TextStyle(
-                          fontFamily: 'Roboto',
-                          color: Color.fromRGBO(131, 135, 125, 1),
-                          fontSize: 50
-                      ),
-                    )
-                )
-              ],
-            ),
-          )
-        ],
-      ),
+  void _onLoading(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: new Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              new CircularProgressIndicator(),
+              new Text("Initialize payment..."),
+            ],
+          ),
+        );
+      },
     );
-  }
+    new Future.delayed(new Duration(seconds: 1), () async {
+      Navigator.pop(context); //pop dialog
+      var storage = getIt.get<SharedPreferences>();
 
-  Widget _getTimeChallengeData(){
+      var shouldFreeReward = true;
+      if(storage.containsKey("LastFreeHintsTime")){
+        // One day left from last free reward.
+         shouldFreeReward = DateTime.now().millisecondsSinceEpoch - storage.getInt("LastFreeHintsTime")! > 86400000;
+      }
 
-    var textStyle = TextStyle(
-        fontFamily: 'Agency',
-        fontSize: 30,
-        fontWeight: FontWeight.w400,
-        color: Color.fromRGBO(131, 135, 125, 1)
-    );
-
-    return IntrinsicHeight(
-      child: Stack(
-        children: [
-          Image.asset("assets/images/popups/time-challenge-bg.png"),
-          Positioned.fill(
-            child: Align(
-              alignment: Alignment(0.5, 0.3),
-              child: IntrinsicHeight(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Text("YOU REACHED ", style: textStyle),
-                              Text("1000m", style: textStyle.copyWith(color: Color.fromRGBO(107, 160, 22, 1))),
-                            ],
-                          )
-                        ]
-                    ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Text("YOUR RECORD IS ", style: textStyle),
-                              Text("1100m", style: textStyle.copyWith(color: Color.fromRGBO(107, 160, 22, 1))),
-                            ],
-                          )
-                        ]
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _getControls(BuildContext context){
-    return Center(
-      child: SizedBox(
-        height: 90,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Image.asset("assets/images/popups/proceed-btn.png"),
-            )
-          ],
-        ),
-      ),
-    );
+      if (shouldFreeReward){
+        try {
+          await NativeDialog.alert("Sorry, payments error occurred! 10 hints reward compensation provided!");
+        } on PlatformException catch (error) {
+          print(error.message);
+        }
+      }else{
+        try {
+          await NativeDialog.alert("Sorry, payments error occurred! Try again letter!");
+        } on PlatformException catch (error) {
+          print(error.message);
+        }
+      }
+    });
   }
 }

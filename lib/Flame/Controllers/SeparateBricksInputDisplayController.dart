@@ -10,6 +10,7 @@ import 'package:cosmo_word/Screens/GameScreen/Layers/Popups/PopupManager.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:event/event.dart';
 import 'package:flame/components.dart';
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/widgets.dart';
@@ -150,6 +151,7 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
         await wordJoystickComponent!.autoSelectAsync(hintWord);
         await balanceController.spendBalanceAsync(PriceListConfig.HINT_PRICE);
       }else{
+        FlameAudio.play("outOfCoins.wav");
         await PopupManager.NotEnoughMoneyPopup();
       }
     }catch(e){

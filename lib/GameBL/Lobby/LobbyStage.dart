@@ -48,8 +48,10 @@ class LobbyStage extends IGameStage{
 
   @override
   void start() async {
-    var uri = await AudioCache().load("audio/"+SoundsController.LOBBY);
-    player.play(uri.toString(), volume: 0.1);
+    // if (player.state != PlayerState.PLAYING){
+    //   var uri = await AudioCache().load("audio/"+SoundsController.LOBBY);
+    //   player.play(uri.toString(), volume: 0.1);
+    // }
   }
 
   @override

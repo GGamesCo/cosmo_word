@@ -16,6 +16,7 @@ class SoundsController{
   static const String WIN_APPLAUSE = 'win-applause.mp3';
   static const String WIN_SIMPLE = 'win-simple.mp3';
   static const String LOBBY = 'lobby.mp3';
+  static const String OUT_OF_COINS = 'outOfCoins.wav';
 
   Future initAsync() async{
     await FlameAudio.audioCache.loadAll([
