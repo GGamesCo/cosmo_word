@@ -15,6 +15,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/widgets.dart';
+import 'package:native_dialog/native_dialog.dart';
 import '../ElementsLayoutBuilder.dart';
 import '../Models/Events/InputCompletedEventArgs.dart';
 import 'Abstract/InputDisplayController.dart';
@@ -25,6 +26,8 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
   final ElementLayoutData joystickLayoutData;
   final ElementLayoutData rotateBtnLayoutData;
   final ElementLayoutData hintBtnLayoutData;
+  final ElementLayoutData storeBtnLayoutData;
+  final ElementLayoutData adsBtnLayoutData;
   final IWordInputController wordInputController;
   late IBalanceController balanceController;
 
@@ -35,6 +38,8 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
   late PreviewZoneComponent previewZone;
   late RoundBtnComponent shuffleBtnComponent;
   late HintBtnComponent hintBtnComponent;
+  late RoundBtnComponent storeBtnComponent;
+  late RoundBtnComponent adsBtnComponent;
 
   WordJoystickComponent? wordJoystickComponent = null;
 
@@ -46,6 +51,8 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
     required this.joystickLayoutData,
     required this.rotateBtnLayoutData,
     required this.hintBtnLayoutData,
+    required this.storeBtnLayoutData,
+    required this.adsBtnLayoutData,
     required this.wordInputController,
     required this.game,
     required this.wordSize
@@ -93,6 +100,22 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 
     rectangle.add(hintBtnComponent);
     hintBtnComponent.tap.subscribe(onHintBtnClicked);
+
+    storeBtnComponent = RoundBtnComponent(spriteName: 'widget/storeBtn.png')
+      ..size = storeBtnLayoutData.size
+      ..anchor = storeBtnLayoutData.anchor
+      ..position = storeBtnLayoutData.position;
+
+    rectangle.add(storeBtnComponent);
+    storeBtnComponent.tap.subscribe(onStoreBtnClicked);
+
+    adsBtnComponent = RoundBtnComponent(spriteName: 'widget/watchAdBtn.png')
+      ..size = adsBtnLayoutData.size
+      ..anchor = adsBtnLayoutData.anchor
+      ..position = adsBtnLayoutData.position;
+
+    rectangle.add(adsBtnComponent);
+    adsBtnComponent.tap.subscribe(onAdsBtnClicked);
 
     rootUiControl = rectangle;
 
@@ -158,5 +181,13 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
     finally{
       hintingInProgress = false;
     }
+  }
+
+  void onStoreBtnClicked(EventArgs? _) async {
+    await NativeDialog.alert("Store will be available in next app version!");
+  }
+
+  void onAdsBtnClicked(EventArgs? _) async {
+    await NativeDialog.alert("Ads reward will be available in next app version!");
   }
 }

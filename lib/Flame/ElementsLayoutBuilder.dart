@@ -52,24 +52,36 @@ class ElementsLayoutBuilder {
     _layout.pushNewElement(GameUiElement.Joystick, joystickData);
 
     // Layout for Shuffle button
-    var shuffleBtnWidth = bottomPartAvailableHeight*.2;
+    var roundBtnWidth = bottomPartAvailableHeight*.2;
     var rotateBtnData = ElementLayoutData(
-        size: Vector2(shuffleBtnWidth,shuffleBtnWidth),
+        size: Vector2(roundBtnWidth,roundBtnWidth),
         anchor: Anchor.center,
-        position: Vector2(screenWidth-(shuffleBtnWidth/1.5), _topPartAvailableHeight + inputZoneRealHeight + shuffleBtnWidth/5));
+        position: Vector2(screenWidth-(roundBtnWidth/1.5), _topPartAvailableHeight + inputZoneRealHeight + roundBtnWidth/5));
     _layout.pushNewElement(GameUiElement.RotateBtn, rotateBtnData);
 
-    // Layout for Shuffle button
-    var hintBtnSideLength = bottomPartAvailableHeight*.2;
+    // Layout for Hint button
     var hintBtnData = ElementLayoutData(
-        size: Vector2(hintBtnSideLength,hintBtnSideLength),
+        size: Vector2(roundBtnWidth,roundBtnWidth),
         anchor: Anchor.center,
         position: Vector2(screenWidth*0.1, screenHeight*0.9));
     _layout.pushNewElement(GameUiElement.HintBtn, hintBtnData);
+
+    // Layout for Store button
+    var storeBtnData = ElementLayoutData(
+        size: Vector2(roundBtnWidth,roundBtnWidth),
+        anchor: Anchor.center,
+        position: Vector2(screenWidth-(roundBtnWidth/1.5), screenHeight*0.9));
+    _layout.pushNewElement(GameUiElement.StoreBtn, storeBtnData);
+
+    // Layout for WatchAds button
+    var adsBtnData = ElementLayoutData(
+        size: Vector2(roundBtnWidth,roundBtnWidth),
+        anchor: Anchor.center,
+        position: Vector2(screenWidth*0.1,  _topPartAvailableHeight + inputZoneRealHeight + roundBtnWidth/5));
+    _layout.pushNewElement(GameUiElement.AdsBtn, adsBtnData);
   }
 
   void _calculateCompletedWordsZone(GameType gameType){
-
     var zoneWidth = screenWidth;
     if(gameType == GameType.TimeChallengeGame){
       //dimension taken from photoshop

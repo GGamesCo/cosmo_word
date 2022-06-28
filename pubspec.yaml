@@ -68,7 +68,6 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   assets:
-    - assets/bg.jpg
     - assets/
     - assets/images/
     - assets/images/backgrounds/
@@ -81,20 +80,7 @@ flutter:
     - assets/images/popups/
     - assets/images/level_progress_bar/
     - assets/images/overlays/
-    - assets/audio/fail.mp3
-    - assets/audio/fall.mp3
-    - assets/audio/success.mp3
-    - assets/audio/btn-press-1.mp3
-    - assets/audio/btn-press-2.mp3
-    - assets/audio/btn-press-3.mp3
-    - assets/audio/btn-press-4.mp3
-    - assets/audio/btn-press-5.mp3
-    - assets/audio/shuffle-joystick.mp3
-    - assets/audio/clock.mp3
-    - assets/audio/win-simple.mp3
-    - assets/audio/win-applause.mp3
-    - assets/audio/lobby.mp3
-    - assets/audio/outOfCoins.wav
+    - assets/audio/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

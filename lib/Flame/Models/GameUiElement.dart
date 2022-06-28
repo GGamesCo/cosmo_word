@@ -6,5 +6,7 @@ enum GameUiElement {
   LevelProgressBar,
   RotateBtn,
   HintBtn,
+  StoreBtn,
+  AdsBtn,
   InputWordParticles
 }

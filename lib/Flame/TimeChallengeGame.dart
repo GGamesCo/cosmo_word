@@ -61,6 +61,8 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
         joystickLayoutData: _layoutData.elementsData[GameUiElement.Joystick]!,
         rotateBtnLayoutData: _layoutData.elementsData[GameUiElement.RotateBtn]!,
         hintBtnLayoutData: _layoutData.elementsData[GameUiElement.HintBtn]!,
+        storeBtnLayoutData: _layoutData.elementsData[GameUiElement.StoreBtn]!,
+        adsBtnLayoutData: _layoutData.elementsData[GameUiElement.AdsBtn]!,
         wordInputController: wordInputController,
         game: this,
         wordSize: challengeConfig.wordSize
