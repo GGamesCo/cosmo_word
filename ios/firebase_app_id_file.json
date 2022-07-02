@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:85772246424:ios:e4e490176f9cdbf7861fed",
-  "FIREBASE_PROJECT_ID": "word-rambo",
-  "GCM_SENDER_ID": "85772246424"
+  "GOOGLE_APP_ID": "1:255893037221:ios:e5ee0b0bc1808495a5ad4c",
+  "FIREBASE_PROJECT_ID": "ggames-cosmo-word",
+  "GCM_SENDER_ID": "255893037221"
 }

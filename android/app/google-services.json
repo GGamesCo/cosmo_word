@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:255893037221:android:0b04612fb8852deca5ad4c",
+        "mobilesdk_app_id": "1:255893037221:android:e18b44324c983672a5ad4c",
         "android_client_info": {
           "package_name": "com.ggame.cosmo_word"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "255893037221-u8f4et940g12sm386dih3jihp109drub.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ggame.cosmo_word",
+            "certificate_hash": "9addac3d780a523ebb67837f2871664a56d8b3ac"
+          }
+        },
         {
           "client_id": "255893037221-geu71gfi7utpqq0ks95i5ogfhishh422.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +37,13 @@
             {
               "client_id": "255893037221-geu71gfi7utpqq0ks95i5ogfhishh422.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "255893037221-0oln20pfdi17j68063ap9gc771p85939.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterCompleteGuide"
+              }
             }
           ]
         }

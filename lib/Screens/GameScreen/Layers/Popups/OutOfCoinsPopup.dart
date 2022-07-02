@@ -1,8 +1,8 @@
 import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
+import 'package:cosmo_word/GameBL/Common/AlertDialog.dart';
 import 'package:cosmo_word/GameBL/Configs/PriceListConfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:native_dialog/native_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../di.dart';
@@ -127,14 +127,14 @@ class OutOfCoinsPopup extends StatelessWidget{
       if (shouldFreeReward){
         try {
           await getIt.get<IBalanceController>().addBalanceAsync(10 * PriceListConfig.HINT_PRICE);
-          await NativeDialog.alert("Sorry, payments error occurred!\n10 hints reward COMPENSATION provided!");
+          await showAlertDialog(context, "Error", "Sorry, payments error occurred!\n10 hints reward COMPENSATION provided!");
           storage.setInt(compensationStringKey, DateTime.now().millisecondsSinceEpoch);
         } on PlatformException catch (error) {
           print(error.message);
         }
       }else{
         try {
-          await NativeDialog.alert("Sorry, payments error occurred! Try again later!");
+          await showAlertDialog(context, "Error", "Sorry, payments error occurred! Try again later!");
         } on PlatformException catch (error) {
           print(error.message);
         }

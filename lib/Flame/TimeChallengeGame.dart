@@ -12,7 +12,6 @@ import 'package:cosmo_word/di.dart';
 import 'package:event/event.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame_audio/flame_audio.dart';
 import '../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
 import 'Controllers/CompletedWordsZoneController.dart';

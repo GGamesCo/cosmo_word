@@ -5,17 +5,13 @@ import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dar
 import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordRepository.dart';
-import 'package:cosmo_word/GameBL/Common/GameEventBus.dart';
 import 'package:cosmo_word/GameBL/Configs/PriceListConfig.dart';
 import 'package:cosmo_word/Screens/GameScreen/Layers/Popups/PopupManager.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:event/event.dart';
 import 'package:flame/components.dart';
-import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:flutter/widgets.dart';
-import 'package:native_dialog/native_dialog.dart';
 import '../ElementsLayoutBuilder.dart';
 import '../Models/Events/InputCompletedEventArgs.dart';
 import 'Abstract/InputDisplayController.dart';
@@ -101,21 +97,21 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
     rectangle.add(hintBtnComponent);
     hintBtnComponent.tap.subscribe(onHintBtnClicked);
 
-    storeBtnComponent = RoundBtnComponent(spriteName: 'widget/storeBtn.png')
-      ..size = storeBtnLayoutData.size
-      ..anchor = storeBtnLayoutData.anchor
-      ..position = storeBtnLayoutData.position;
+    // storeBtnComponent = RoundBtnComponent(spriteName: 'widget/storeBtn.png')
+    //   ..size = storeBtnLayoutData.size
+    //   ..anchor = storeBtnLayoutData.anchor
+    //   ..position = storeBtnLayoutData.position;
+    //
+    // rectangle.add(storeBtnComponent);
+    // storeBtnComponent.tap.subscribe(onStoreBtnClicked);
 
-    rectangle.add(storeBtnComponent);
-    storeBtnComponent.tap.subscribe(onStoreBtnClicked);
-
-    adsBtnComponent = RoundBtnComponent(spriteName: 'widget/watchAdBtn.png')
-      ..size = adsBtnLayoutData.size
-      ..anchor = adsBtnLayoutData.anchor
-      ..position = adsBtnLayoutData.position;
-
-    rectangle.add(adsBtnComponent);
-    adsBtnComponent.tap.subscribe(onAdsBtnClicked);
+    // adsBtnComponent = RoundBtnComponent(spriteName: 'widget/watchAdBtn.png')
+    //   ..size = adsBtnLayoutData.size
+    //   ..anchor = adsBtnLayoutData.anchor
+    //   ..position = adsBtnLayoutData.position;
+    //
+    // rectangle.add(adsBtnComponent);
+    // adsBtnComponent.tap.subscribe(onAdsBtnClicked);
 
     rootUiControl = rectangle;
 
@@ -184,10 +180,10 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
   }
 
   void onStoreBtnClicked(EventArgs? _) async {
-    await NativeDialog.alert("Store will be available in next app version!");
+    // TODO: Store btn click handler
   }
 
   void onAdsBtnClicked(EventArgs? _) async {
-    await NativeDialog.alert("Ads reward will be available in next app version!");
+    // TODO: Ads btn click handler
   }
 }
