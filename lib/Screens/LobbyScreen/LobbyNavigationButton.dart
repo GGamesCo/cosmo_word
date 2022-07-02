@@ -35,8 +35,8 @@ class _LobbyNavigationButtonState extends State<LobbyNavigationButton> {
   @override
   Widget build(BuildContext context) {
 
-    var fontSizeTop = !TabletDetector.isTablet() ? 35 : 55;
-    var fontSizeBottom = !TabletDetector.isTablet() ? 14 : 25;
+    var fontSizeTop = !TabletDetector.isTablet() ? 30 : 55;
+    var fontSizeBottom = !TabletDetector.isTablet() ? 12 : 25;
 
     return GestureDetector(
       onTapDown: (e) {
@@ -59,7 +59,7 @@ class _LobbyNavigationButtonState extends State<LobbyNavigationButton> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: !TabletDetector.isTablet() ? 50 : 80,
+                        height: !TabletDetector.isTablet() ? 45 : 80,
                         child: Image.asset(widget.buttonIcon)
                       ),
                       IntrinsicHeight(
