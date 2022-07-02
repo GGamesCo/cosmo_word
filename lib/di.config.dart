@@ -50,7 +50,8 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.singleton<_i15.StoryLevelsService>(_i15.StoryLevelsService());
   gh.singleton<_i16.StoryLocationsService>(_i16.StoryLocationsService());
   gh.singleton<_i17.UserController>(_i17.UserController());
-  gh.singleton<_i18.UserStateService>(_i18.UserStateService());
+  gh.singletonAsync<_i18.UserStateService>(() async => _i18.UserStateService(
+      sharedPreferences: await get.getAsync<_i12.SharedPreferences>()));
   gh.singleton<_i19.AnalyticsController>(
       _i19.AnalyticsController(userController: get<_i17.UserController>()));
   gh.factory<_i20.IWordInputController>(() => _i21.WordInputController(
@@ -58,13 +59,14 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       balanceController: get<_i3.IBalanceController>()));
   gh.factory<_i22.LobbyStage>(
       () => _i22.LobbyStage(soundsController: get<_i13.SoundsController>()));
-  gh.singleton<_i23.UserStateController>(_i23.UserStateController(
-      userStateService: get<_i18.UserStateService>(),
-      levelsService: get<_i15.StoryLevelsService>(),
-      flowRepository: get<_i5.IFlowRepository>(),
-      balanceController: get<_i3.IBalanceController>()));
-  gh.factory<_i24.TimeAtackStage>(() => _i24.TimeAtackStage(
-      userStateController: get<_i23.UserStateController>(),
+  gh.singletonAsync<_i23.UserStateController>(() async =>
+      _i23.UserStateController(
+          userStateService: await get.getAsync<_i18.UserStateService>(),
+          levelsService: get<_i15.StoryLevelsService>(),
+          flowRepository: get<_i5.IFlowRepository>(),
+          balanceController: get<_i3.IBalanceController>()));
+  gh.factoryAsync<_i24.TimeAtackStage>(() async => _i24.TimeAtackStage(
+      userStateController: await get.getAsync<_i23.UserStateController>(),
       wordRepository: get<_i9.IWordRepository>(),
       wordInputController: get<_i20.IWordInputController>(),
       timerController: get<_i7.ITimerController>(),
