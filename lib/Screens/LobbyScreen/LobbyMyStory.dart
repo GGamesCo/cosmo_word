@@ -1,10 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-
 import '../../GameBL/Services/StoryLocationsService/StoryLocationModel.dart';
 import '../../GameBL/Services/StoryLocationsService/StoryLocationsService.dart';
-import '../../GameBL/Services/StoryStateService/StoryStateService.dart';
+import '../../GameBL/Services/UserStateService/UserStateService.dart';
 import '../../di.dart';
 
 class LobbyMyStory extends StatelessWidget{
@@ -12,13 +11,13 @@ class LobbyMyStory extends StatelessWidget{
   late List<StoryLocationModel> locations = [];
 
   late StoryLocationsService locationsService;
-  late StoryStateService storyStateService;
+  late UserStateService storyStateService;
 
   late Map<int, LocationStatus> locationStatus = Map<int, LocationStatus>();
 
   LobbyMyStory(){
     locationsService = getIt.get<StoryLocationsService>();
-    storyStateService = getIt.get<StoryStateService>();
+    storyStateService = getIt.get<UserStateService>();
   }
 
   @override

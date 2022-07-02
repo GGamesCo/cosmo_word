@@ -7,22 +7,22 @@ import '../../Screens/GameScreen/Layers/Popups/PopupManager.dart';
 import '../Common/Abstract/IFlowRepository.dart';
 import '../Common/Models/WordFlowState.dart';
 import '../Services/StoryLevelsService/StoryLevelsService.dart';
-import '../Services/StoryStateService/StoryStateModel.dart';
-import '../Services/StoryStateService/StoryStateService.dart';
+import '../Services/UserStateService/UserStateModel.dart';
+import '../Services/UserStateService/UserStateService.dart';
 import 'StoryLevelCompleteResult.dart';
 
 @singleton
-class StoryStateController {
-  final StoryStateService storyStateService;
+class UserStateController {
+  final UserStateService storyStateService;
   final StoryLevelsService levelsService;
   final IFlowRepository flowRepository;
   final IBalanceController balanceController;
 
-  late StoryStateModel _storyState;
+  late UserStateModel _storyState;
 
   final Event<Value<WordFlowState>> onFlowStateUpdated = Event<Value<WordFlowState>>();
 
-  StoryStateController({
+  UserStateController({
     required this.storyStateService,
     required this.levelsService,
     required this.flowRepository,
@@ -36,7 +36,7 @@ class StoryStateController {
   void processLevelCompleted() async {
     var completedLevel = await levelsService.getLevelConfigById(_storyState.currentLevelId);
     _storyState = await storyStateService.updateStoryProgress(
-      StoryStateModel(
+      UserStateModel(
         storyLevelsIdList: _storyState.storyLevelsIdList,
         currentLevelId: _storyState.currentLevelId + 1
       )
@@ -49,7 +49,11 @@ class StoryStateController {
     ));
   }
 
-  Future<StoryStateModel> getStoryState(){
+  Future<UserStateModel> getStoryState(){
     return storyStateService.getStoryState();
+  }
+
+  Future<int> getRocketRecord(){
+    return Future(() => 1000);
   }
 }

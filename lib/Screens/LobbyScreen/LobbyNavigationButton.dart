@@ -36,7 +36,7 @@ class _LobbyNavigationButtonState extends State<LobbyNavigationButton> {
   Widget build(BuildContext context) {
 
     var fontSizeTop = !TabletDetector.isTablet() ? 35 : 55;
-    var fontSizeBottom = !TabletDetector.isTablet() ? 14 : 20;
+    var fontSizeBottom = !TabletDetector.isTablet() ? 14 : 25;
 
     return GestureDetector(
       onTapDown: (e) {

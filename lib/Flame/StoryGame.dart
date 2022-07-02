@@ -1,19 +1,15 @@
 import 'dart:math';
 import 'package:cosmo_word/Flame/Common/SoundsController.dart';
-import 'package:cosmo_word/Flame/UiComponents/InputWordParticles/InputWordParticles.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IFlowRepository.dart';
 import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
-import 'package:cosmo_word/GameBL/Services/StoryStateService/StoryStateModel.dart';
-import 'package:cosmo_word/GameBL/Services/StoryStateService/StoryStateService.dart';
-import 'package:cosmo_word/GameBL/Story/StoryStateController.dart';
-import 'package:cosmo_word/GameBL/TimeChallenge/TimeAtackStage.dart';
+import 'package:cosmo_word/GameBL/Story/UserStateController.dart';
 import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/GameUiElement.dart';
 import 'package:flame/game.dart';
-import 'package:flame_audio/flame_audio.dart';
 import '../GameBL/Common/Abstract/IWordInputController.dart';
 import '../GameBL/Services/StoryLevelsService/StoryLevelsService.dart';
 import '../GameBL/Services/StoryLocationsService/StoryLocationsService.dart';
+import '../GameBL/Services/UserStateService/UserStateModel.dart';
 import '../GameBL/Story/LevelProgressBarState.dart';
 import 'Controllers/Abstract/BackgroundController.dart';
 import 'Controllers/Abstract/InputDisplayController.dart';
@@ -28,7 +24,7 @@ import 'UiComponents/ResultOverlay/ResultOverlayUiControl.dart';
 
 class StoryGame extends FlameGame with HasTappables, HasDraggables {
 
-  final StoryStateController storyStateController;
+  final UserStateController storyStateController;
   final IWordInputController wordInputController;
   final StoryLevelsService levelsService;
   final StoryLocationsService locationsService;
@@ -36,7 +32,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
   final SoundsController soundsController;
   late GameElementsLayout _layoutData;
 
-  late StoryStateModel _storyState;
+  late UserStateModel _storyState;
 
   late BackgroundController _backgroundController;
   late InputDisplayController _inputDisplayController;

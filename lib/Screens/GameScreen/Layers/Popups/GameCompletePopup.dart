@@ -2,13 +2,13 @@ import 'package:cosmo_word/Screens/Common/Story/MyStoryProgress.dart';
 import 'package:flutter/material.dart';
 import '../../../../GameBL/Common/Models/GameState.dart';
 import '../../../../GameBL/Common/StageManager.dart';
-import '../../../../GameBL/Services/StoryStateService/StoryStateModel.dart';
+import '../../../../GameBL/Services/UserStateService/UserStateModel.dart';
 import '../../../../di.dart';
 
 class GameCompletePopup extends StatelessWidget{
 
   final popupType;
-  final StoryStateModel storyStateModel;
+  final UserStateModel storyStateModel;
   final int coinReward;
 
   GameCompletePopup({

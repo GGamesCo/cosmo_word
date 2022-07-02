@@ -7,7 +7,7 @@ import 'package:cosmo_word/GameBL/Common/Abstract/IFlowRepository.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IGameState.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Models/GameState.dart';
-import 'package:cosmo_word/GameBL/Story/StoryStateController.dart';
+import 'package:cosmo_word/GameBL/Story/UserStateController.dart';
 import 'package:cosmo_word/Screens/GameScreen/GameScreen.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -29,7 +29,7 @@ class StoryStage extends IGameStage{
   Future initAsync() {
     storyGame = StoryGame(
       flowRepository: getIt.get<IFlowRepository>(),
-      storyStateController: getIt.get<StoryStateController>(),
+      storyStateController: getIt.get<UserStateController>(),
       levelsService: getIt.get<StoryLevelsService>(),
       locationsService: getIt.get<StoryLocationsService>(),
       wordInputController: getIt.get<IWordInputController>(),

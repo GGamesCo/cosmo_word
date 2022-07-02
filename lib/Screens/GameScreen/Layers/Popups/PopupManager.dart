@@ -6,14 +6,14 @@ import 'package:cosmo_word/Screens/GameScreen/Layers/Popups/OutOfCoinsPopup.dart
 import 'package:cosmo_word/di.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
-import '../../../../GameBL/Services/StoryStateService/StoryStateService.dart';
+import '../../../../GameBL/Services/UserStateService/UserStateService.dart';
 import '../../../../GameBL/TimeChallenge/TimeChallengeResults.dart';
 import '../../../../main.dart';
 import 'GameCompletePopup.dart';
 
 class PopupManager {
 
-  static final StoryStateService storyStateService = getIt.get<StoryStateService>();
+  static final UserStateService storyStateService = getIt.get<UserStateService>();
 
   static Future ShowLevelCompletePopup(StoryLevelCompleteResult resultsData) async {
     await FlameAudio.play(SoundsController.WIN_APPLAUSE);
