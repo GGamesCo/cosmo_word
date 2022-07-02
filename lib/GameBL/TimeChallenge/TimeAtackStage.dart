@@ -110,7 +110,9 @@ class TimeAtackStage extends IGameStage {
     );
     PopupManager.ShowTimeChallengeCompletePopup(results);
     balanceController.addBalanceAsync(rewardCoins);
-    userStateController.setRocketRecord(results.reachedHeight);
+    if(results.reachedHeight > record) {
+      userStateController.setRocketRecord(results.reachedHeight);
+    }
   }
 
   void onTimeTick(Value<int>? args) {
