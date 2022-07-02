@@ -20,9 +20,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:injectable/injectable.dart';
 import '../Common/Abstract/IGameState.dart';
+import '../UserStateController.dart';
 
 @Injectable()
 class TimeAtackStage extends IGameStage {
+  final UserStateController userStateController;
   final RocketChallengeConfig challengeConfig;
   final IWordInputController wordInputController;
   final ITimerController timerController;
@@ -39,8 +41,15 @@ class TimeAtackStage extends IGameStage {
   @override
   Widget get root => GameScreen(game: gameUi, gameScreenKey: GlobalKey());
 
-  TimeAtackStage({required this.wordRepository, required this.wordInputController, required this.timerController,
-  required this.challengeConfig, required this.balanceController, required this.soundsController});
+  TimeAtackStage({
+    required this.userStateController,
+    required this.wordRepository,
+    required this.wordInputController,
+    required this.timerController,
+    required this.challengeConfig,
+    required this.balanceController,
+    required this.soundsController
+  });
 
   late AudioPlayer player;
 
@@ -87,14 +96,21 @@ class TimeAtackStage extends IGameStage {
       print("Error. Input completed after game paused.");
   }
 
-  void onTimeIsOver(Value<int>? args){
+  void onTimeIsOver(Value<int>? args) async {
     print("handleGameCompletion..");
     player.stop();
     isActive = false;
     timerController.stop();
     var rewardCoins = wordInputController.flowState.completedWordsInFlow * 5;
-    PopupManager.ShowTimeChallengeCompletePopup(TimeChallengeResults(completedWordsCount: args!.value, coinReward: rewardCoins));
+    var record = await userStateController.getRocketRecord();
+    var results = TimeChallengeResults(
+      completedWordsCount: wordInputController.flowState.completedWordsInFlow,
+      coinReward: rewardCoins,
+      lastRecord: record
+    );
+    PopupManager.ShowTimeChallengeCompletePopup(results);
     balanceController.addBalanceAsync(rewardCoins);
+    userStateController.setRocketRecord(results.reachedHeight);
   }
 
   void onTimeTick(Value<int>? args) {

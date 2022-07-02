@@ -12,7 +12,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../Flame/StoryGame.dart';
 import '../../Flame/TimeChallengeGame.dart';
-import '../../GameBL/Story/UserStateController.dart';
+import '../../GameBL/UserStateController.dart';
 import '../../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import '../GameScreen/GameScreen.dart';
 import 'LobbyNavigationButton.dart';
@@ -82,7 +82,7 @@ class _LobbyNavigationState extends State<LobbyNavigation> {
                         LobbyNavigationButton(
                           onTap: () => _navigateToChallengeGame(context),
                           title1: "CHALLENGE",
-                          title2: "Can you hit your ${timeChallengeData['timeChallengeRecord']}m record?",
+                          title2: "Can you hit your record? (${timeChallengeData['timeChallengeRecord']}m)",
                           fontColor: Color.fromRGBO(209, 129, 30, 1),
                           buttonIcon: 'assets/images/lobby/time-challenge-btn-icon.png',
                           buttonBg: 'assets/images/lobby/lobby-navigation-goto-timechalenge.png',

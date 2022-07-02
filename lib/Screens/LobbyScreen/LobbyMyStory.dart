@@ -4,36 +4,52 @@ import 'package:flutter/material.dart';
 import '../../GameBL/Services/StoryLocationsService/StoryLocationModel.dart';
 import '../../GameBL/Services/StoryLocationsService/StoryLocationsService.dart';
 import '../../GameBL/Services/UserStateService/UserStateService.dart';
+import '../../GameBL/UserStateController.dart';
 import '../../di.dart';
 
-class LobbyMyStory extends StatelessWidget{
-
-  late List<StoryLocationModel> locations = [];
+class LobbyMyStory extends StatefulWidget{
 
   late StoryLocationsService locationsService;
-  late UserStateService storyStateService;
+  late UserStateController userStateController;
 
-  late Map<int, LocationStatus> locationStatus = Map<int, LocationStatus>();
 
   LobbyMyStory(){
     locationsService = getIt.get<StoryLocationsService>();
-    storyStateService = getIt.get<UserStateService>();
+    userStateController = getIt.get<UserStateController>();
+  }
+
+  @override
+  State<LobbyMyStory> createState() => _LobbyMyStoryState();
+}
+
+class _LobbyMyStoryState extends State<LobbyMyStory> {
+  late Map<int, LocationStatus> locationStatusData = Map<int, LocationStatus>();
+
+  @override
+  void initState(){
+    super.initState();
+
+    widget.userStateController.getStoryState().then((state){
+      var statuses = Map<int, LocationStatus>();
+      for(var loc in widget.locationsService.allLocations){
+        var locStatus = LocationStatus.opened;
+        if(loc.levels.reduce(max) < state.currentLevelId){
+          locStatus = LocationStatus.completed;
+        }
+        if(loc.levels.reduce(min) > state.currentLevelId){
+          locStatus = LocationStatus.locked;
+        }
+        statuses[loc.id] = locStatus;
+      }
+
+      setState((){
+        locationStatusData = statuses;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context){
-
-    for(var loc in locationsService.allLocations){
-      var locStatus = LocationStatus.opened;
-      if(loc.levels.reduce(max) < storyStateService.currentLevelId){
-        locStatus = LocationStatus.completed;
-      }
-      if(loc.levels.reduce(min) > storyStateService.currentLevelId){
-        locStatus = LocationStatus.locked;
-      }
-      locationStatus[loc.id] = locStatus;
-    }
-
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(image: AssetImage('assets/images/lobby/lobby-my-story.png'), fit: BoxFit.fitWidth)
@@ -43,12 +59,14 @@ class LobbyMyStory extends StatelessWidget{
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            for(var loc in locationsService.allLocations.take(4)) ...[
-              StoryItemCard(
-                imageFile: "assets/images/backgrounds/${loc.backgroundFileName.replaceAll(".jpg", "_tile.jpg")}",
-                title: loc.title,
-                locationStatus: locationStatus[loc.id]!,
-              ),
+            if(locationStatusData.length > 0) ...[
+              for(var loc in widget.locationsService.allLocations.take(4)) ...[
+                StoryItemCard(
+                  imageFile: "assets/images/backgrounds/${loc.backgroundFileName.replaceAll(".jpg", "_tile.jpg")}",
+                  title: loc.title,
+                  locationStatus: locationStatusData[loc.id]!,
+                ),
+              ]
             ]
           ],
         ),

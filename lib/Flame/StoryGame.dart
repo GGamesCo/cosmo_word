@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IFlowRepository.dart';
 import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
-import 'package:cosmo_word/GameBL/Story/UserStateController.dart';
+import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/GameUiElement.dart';
 import 'package:flame/game.dart';

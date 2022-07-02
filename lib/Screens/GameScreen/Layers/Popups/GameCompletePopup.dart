@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:cosmo_word/Screens/Common/Story/MyStoryProgress.dart';
 import 'package:flutter/material.dart';
 import '../../../../GameBL/Common/Models/GameState.dart';
 import '../../../../GameBL/Common/StageManager.dart';
 import '../../../../GameBL/Services/UserStateService/UserStateModel.dart';
+import '../../../../GameBL/TimeChallenge/TimeChallengeResults.dart';
 import '../../../../di.dart';
 
 class GameCompletePopup extends StatelessWidget{
@@ -10,11 +13,13 @@ class GameCompletePopup extends StatelessWidget{
   final popupType;
   final UserStateModel storyStateModel;
   final int coinReward;
+  final TimeChallengeResults? timeChallengeResults;
 
   GameCompletePopup({
     required this.popupType,
     required this.storyStateModel,
-    required this.coinReward
+    required this.coinReward,
+    this.timeChallengeResults
   });
 
   @override
@@ -45,7 +50,7 @@ class GameCompletePopup extends StatelessWidget{
                                     _getStoryData(),
                                   ],
                                   if(popupType == 2) ...[
-                                    _getTimeChallengeData(),
+                                    _getTimeChallengeData(timeChallengeResults!),
                                   ],
                                   Expanded(child: _getControls(context))
                                 ],
@@ -114,7 +119,7 @@ class GameCompletePopup extends StatelessWidget{
     );
   }
 
-  Widget _getTimeChallengeData(){
+  Widget _getTimeChallengeData(TimeChallengeResults results){
 
     var textStyle = TextStyle(
       fontFamily: 'Agency',
@@ -140,7 +145,7 @@ class GameCompletePopup extends StatelessWidget{
                         Row(
                           children: [
                             Text("YOU REACHED ", style: textStyle),
-                            Text("1000m", style: textStyle.copyWith(color: Color.fromRGBO(107, 160, 22, 1))),
+                            Text("${results.reachedHeight}m", style: textStyle.copyWith(color: Color.fromRGBO(107, 160, 22, 1))),
                           ],
                         )
                       ]
@@ -151,7 +156,7 @@ class GameCompletePopup extends StatelessWidget{
                           Row(
                             children: [
                               Text("YOUR RECORD IS ", style: textStyle),
-                              Text("1100m", style: textStyle.copyWith(color: Color.fromRGBO(107, 160, 22, 1))),
+                              Text("${max(results.lastRecord, results.reachedHeight)}m", style: textStyle.copyWith(color: Color.fromRGBO(107, 160, 22, 1))),
                             ],
                           )
                         ]

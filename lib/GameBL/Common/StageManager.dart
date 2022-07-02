@@ -7,6 +7,7 @@ import 'package:cosmo_word/GameBL/Lobby/LobbyStage.dart';
 import 'package:cosmo_word/GameBL/Story/StoryStage.dart';
 import 'package:cosmo_word/GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import 'package:cosmo_word/GameBL/TimeChallenge/TimeAtackStage.dart';
+import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -64,12 +65,13 @@ class StageManager {
         break;
       case GameStage.TimeAtack: {
         newStage = TimeAtackStage(
-            wordRepository: getIt.get<IWordRepository>(),
-            wordInputController: getIt.get<IWordInputController>(),
-            timerController: getIt.get<ITimerController>(),
-            challengeConfig: getIt.get<RocketChallengeConfig>(),
-            balanceController: getIt.get<IBalanceController>(),
-            soundsController: getIt.get<SoundsController>());
+          userStateController: getIt.get<UserStateController>(),
+          wordRepository: getIt.get<IWordRepository>(),
+          wordInputController: getIt.get<IWordInputController>(),
+          timerController: getIt.get<ITimerController>(),
+          challengeConfig: getIt.get<RocketChallengeConfig>(),
+          balanceController: getIt.get<IBalanceController>(),
+          soundsController: getIt.get<SoundsController>());
       }
       break;
       default: {
