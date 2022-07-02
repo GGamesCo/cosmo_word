@@ -16,7 +16,7 @@ import 'LobbyNavigationButton.dart';
 
 class LobbyNavigation extends StatelessWidget{
 
-  LobbyNavigation();
+  LobbyNavigation()
 
   @override
   Widget build(BuildContext context){
@@ -33,11 +33,20 @@ class LobbyNavigation extends StatelessWidget{
                     children: [
                       LobbyNavigationButton(
                         onTap: () => _navigateToStoryGame(context),
-                        imageFileName: 'assets/images/lobby/lobby-navigation-goto-mystory.png',
+                        title1: "MY STORY",
+                        title2: "LEVEL 3 - Welcome party",
+                        fontColor: Color.fromRGBO(107, 160, 22, 1),
+                        buttonIcon: 'assets/images/lobby/story-btn-icon.png',
+                        buttonBg: 'assets/images/lobby/lobby-navigation-goto-mystory.png',
                       ),
+
                       LobbyNavigationButton(
                         onTap: () => _navigateToChallengeGame(context),
-                        imageFileName: 'assets/images/lobby/lobby-navigation-goto-timechalenge.png',
+                        title1: "CHALLENGE",
+                        title2: "Try to do your best in time!",
+                        fontColor: Color.fromRGBO(209, 129, 30, 1),
+                        buttonIcon: 'assets/images/lobby/time-challenge-btn-icon.png',
+                        buttonBg: 'assets/images/lobby/lobby-navigation-goto-timechalenge.png',
                       )
                     ],
                   ),

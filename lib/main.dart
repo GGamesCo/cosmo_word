@@ -15,6 +15,10 @@ import 'package:sizer/sizer.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
+// Determine if we should use mobile layout or not, 600 here is
+// a common breakpoint for a typical 7-inch tablet.
+bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide < 550;
+
 void main() async {
 
   configureDependencies();
