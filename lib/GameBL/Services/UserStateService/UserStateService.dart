@@ -14,11 +14,19 @@ class UserStateService {
     );
   }
 
-  Future<UserStateModel> updateStoryProgress(UserStateModel newState) async {
+  Future<UserStateModel> setStoryState(UserStateModel newState) async {
     currentLevelId++;
     return UserStateModel(
         storyLevelsIdList: [1, 2, 3, 4, 5, 6, 7, 8 ,9, 10],
         currentLevelId: currentLevelId
     );
+  }
+
+  Future<int> getTimeChallengeRecord() async {
+    return 1000;
+  }
+
+  Future<void> setTimeChallengeRecord(int newRecord) async {
+
   }
 }

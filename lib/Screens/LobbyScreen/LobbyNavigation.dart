@@ -12,7 +12,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../Flame/StoryGame.dart';
 import '../../Flame/TimeChallengeGame.dart';
-import '../../GameBL/Story/UserStateController.dart';
+import '../../GameBL/UserStateController.dart';
 import '../../GameBL/TimeChallenge/RocketChallengeConfig.dart';
 import '../GameScreen/GameScreen.dart';
 import 'LobbyNavigationButton.dart';

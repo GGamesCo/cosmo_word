@@ -7,7 +7,7 @@ import 'package:cosmo_word/GameBL/Common/Abstract/IFlowRepository.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IGameState.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Models/GameState.dart';
-import 'package:cosmo_word/GameBL/Story/UserStateController.dart';
+import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/Screens/GameScreen/GameScreen.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:flutter/src/widgets/framework.dart';

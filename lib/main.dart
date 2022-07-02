@@ -3,7 +3,7 @@ import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/GameBL/Common/StageManager.dart';
 import 'package:cosmo_word/GameBL/Common/UserController.dart';
-import 'package:cosmo_word/GameBL/Story/UserStateController.dart';
+import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/MyAppWidget.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -55,8 +55,6 @@ void main() async {
 }
 
 Future initDiInstances() async {
-  await (getIt.get<UserStateController>()).initAsync();
-
   var stageManager = getIt.get<StageManager>();
   await stageManager.initAsync();
 

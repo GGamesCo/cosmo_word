@@ -28,10 +28,10 @@ import 'GameBL/Services/StoryLevelsService/StoryLevelsService.dart' as _i15;
 import 'GameBL/Services/StoryLocationsService/StoryLocationsService.dart'
     as _i16;
 import 'GameBL/Services/UserStateService/UserStateService.dart' as _i18;
-import 'GameBL/Story/UserStateController.dart' as _i24;
 import 'GameBL/TimeChallenge/RocketChallengeConfig.dart' as _i11;
-import 'GameBL/TimeChallenge/TimeAtackStage.dart'
-    as _i23; // ignore_for_file: unnecessary_lambdas
+import 'GameBL/TimeChallenge/TimeAtackStage.dart' as _i23;
+import 'GameBL/UserStateController.dart'
+    as _i24; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -66,7 +66,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       balanceController: get<_i3.IBalanceController>(),
       soundsController: get<_i13.SoundsController>()));
   gh.singleton<_i24.UserStateController>(_i24.UserStateController(
-      storyStateService: get<_i18.UserStateService>(),
+      userStateService: get<_i18.UserStateService>(),
       levelsService: get<_i15.StoryLevelsService>(),
       flowRepository: get<_i5.IFlowRepository>(),
       balanceController: get<_i3.IBalanceController>()));
