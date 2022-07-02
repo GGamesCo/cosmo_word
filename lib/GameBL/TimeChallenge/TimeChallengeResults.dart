@@ -2,5 +2,8 @@ class TimeChallengeResults {
   final int completedWordsCount;
   final int coinReward;
 
-  TimeChallengeResults({required this.completedWordsCount, required this.coinReward});
+  final int lastRecord;
+  int get reachedHeight => completedWordsCount * 100;
+
+  TimeChallengeResults({required this.completedWordsCount, required this.coinReward, required this.lastRecord});
 }

@@ -29,9 +29,9 @@ import 'GameBL/Services/StoryLocationsService/StoryLocationsService.dart'
     as _i16;
 import 'GameBL/Services/UserStateService/UserStateService.dart' as _i18;
 import 'GameBL/TimeChallenge/RocketChallengeConfig.dart' as _i11;
-import 'GameBL/TimeChallenge/TimeAtackStage.dart' as _i23;
+import 'GameBL/TimeChallenge/TimeAtackStage.dart' as _i24;
 import 'GameBL/UserStateController.dart'
-    as _i24; // ignore_for_file: unnecessary_lambdas
+    as _i23; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -58,18 +58,19 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       balanceController: get<_i3.IBalanceController>()));
   gh.factory<_i22.LobbyStage>(
       () => _i22.LobbyStage(soundsController: get<_i13.SoundsController>()));
-  gh.factory<_i23.TimeAtackStage>(() => _i23.TimeAtackStage(
+  gh.singleton<_i23.UserStateController>(_i23.UserStateController(
+      userStateService: get<_i18.UserStateService>(),
+      levelsService: get<_i15.StoryLevelsService>(),
+      flowRepository: get<_i5.IFlowRepository>(),
+      balanceController: get<_i3.IBalanceController>()));
+  gh.factory<_i24.TimeAtackStage>(() => _i24.TimeAtackStage(
+      userStateController: get<_i23.UserStateController>(),
       wordRepository: get<_i9.IWordRepository>(),
       wordInputController: get<_i20.IWordInputController>(),
       timerController: get<_i7.ITimerController>(),
       challengeConfig: get<_i11.RocketChallengeConfig>(),
       balanceController: get<_i3.IBalanceController>(),
       soundsController: get<_i13.SoundsController>()));
-  gh.singleton<_i24.UserStateController>(_i24.UserStateController(
-      userStateService: get<_i18.UserStateService>(),
-      levelsService: get<_i15.StoryLevelsService>(),
-      flowRepository: get<_i5.IFlowRepository>(),
-      balanceController: get<_i3.IBalanceController>()));
   return get;
 }
 

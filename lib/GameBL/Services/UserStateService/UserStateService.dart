@@ -22,11 +22,13 @@ class UserStateService {
     );
   }
 
+  late int _record = 0;
+
   Future<int> getTimeChallengeRecord() async {
-    return 1000;
+    return _record;
   }
 
   Future<void> setTimeChallengeRecord(int newRecord) async {
-
+    _record = newRecord;
   }
 }

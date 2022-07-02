@@ -51,6 +51,7 @@ class PopupManager {
             popupType: 2,
             storyStateModel: storyState,
             coinReward: resultsData.coinReward,
+            timeChallengeResults: resultsData,
           ),
         );
       }
