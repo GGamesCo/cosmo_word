@@ -33,7 +33,7 @@ class GameCompletePopup extends StatelessWidget{
       backgroundColor: Colors.transparent,
       body: Center(
         child: AspectRatio(
-          aspectRatio: 7 / 16,
+          aspectRatio: 7.5 / 16,
           child: Stack(
             children: [
               Positioned.fill(child: Image.asset("assets/images/popups/popup-bg.png")),
@@ -109,7 +109,7 @@ class GameCompletePopup extends StatelessWidget{
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: !TabletDetector.isTablet() ? 10 : 30),
           child: Column(
             children: [
               SizedBox(height: storyHeaderHeight/2),

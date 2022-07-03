@@ -20,6 +20,7 @@ class LobbyScreen extends StatelessWidget {
           context: context,
           builder: (BuildContext context){
             return GameCompletePopup(
+              completedLevelId: 1,
               popupType: 1,
               coinReward: 100,
               storyStateModel: UserStateModel(
