@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cosmo_word/Screens/Common/Story/MyStoryProgress.dart';
+import 'package:cosmo_word/TabletDetector.dart';
 import 'package:flutter/material.dart';
 import '../../../../GameBL/Common/Models/GameState.dart';
 import '../../../../GameBL/Common/StageManager.dart';
@@ -12,12 +13,14 @@ class GameCompletePopup extends StatelessWidget{
 
   final popupType;
   final UserStateModel storyStateModel;
+  final int completedLevelId;
   final int coinReward;
   final TimeChallengeResults? timeChallengeResults;
 
   GameCompletePopup({
     required this.popupType,
     required this.storyStateModel,
+    required this.completedLevelId,
     required this.coinReward,
     this.timeChallengeResults
   });
@@ -52,6 +55,7 @@ class GameCompletePopup extends StatelessWidget{
                                   if(popupType == 2) ...[
                                     _getTimeChallengeData(timeChallengeResults!),
                                   ],
+                                  SizedBox(height: 15),
                                   Expanded(child: _getControls(context))
                                 ],
                               ),
@@ -99,23 +103,43 @@ class GameCompletePopup extends StatelessWidget{
   }
 
   Widget _getStoryData(){
-    return IntrinsicHeight(
-      child: Stack(
-          children: [
-            Container(
-              child: Image.asset("assets/images/popups/story-bg.png"),
-            ),
-            Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: MyStoryProgress(
-                      progressCurrent: storyStateModel.currentLevelNumber,
-                      progressTotal: storyStateModel.nextMilestoneTargetLevel
+    var storyHeaderHeight = !TabletDetector.isTablet() ? 50 : 80;
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              SizedBox(height: storyHeaderHeight/2),
+              Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.19),
+                        spreadRadius: 6,
+                        blurRadius: 14,
+                        offset: Offset(0, 10), // changes position of shadow
+                      ),
+                    ],
                   ),
-                )
-            )
-          ]
-      ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    child: MyStoryProgress(completedLevelId: completedLevelId),
+                  )
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: storyHeaderHeight*1,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Image.asset("assets/images/popups/story-bg-header.png")
+          ),
+        ),
+      ]
     );
   }
 
