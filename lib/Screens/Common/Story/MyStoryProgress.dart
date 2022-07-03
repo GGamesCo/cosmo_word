@@ -1,3 +1,6 @@
+import 'package:cosmo_word/GameBL/Services/StoryLocationsService/StoryLocationModel.dart';
+import 'package:cosmo_word/Screens/LobbyScreen/LobbyMyStory.dart';
+import 'package:cosmo_word/TabletDetector.dart';
 import 'package:flutter/material.dart';
 
 class MyStoryProgress extends StatelessWidget {
@@ -12,63 +15,48 @@ class MyStoryProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-      child: Container(
-        child: Stack(
-          children: <Widget>[
-            Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                child: LinearProgressIndicator(
-                  value: progressCurrent/progressTotal,
-                  minHeight: 30,
-                  backgroundColor: Color.fromRGBO(116, 126, 126, 1),
-                  color: Color.fromRGBO(255, 207, 123, 1),
-                  semanticsLabel: 'Linear progress indicator',
-                ),
-              ),
-            ),
-            Center(
-              child: Text(
-                "${progressCurrent}/${progressTotal}",
-                style: TextStyle(
-                  color: Color.fromRGBO(209, 129, 30, 1),
-                  fontSize: 18,
-                  fontFamily: 'Roboto',
-                ),
-              ),
-            ),
-            Positioned.fill(
-              child:Align(
-                alignment: Alignment.centerRight,
-                child: IntrinsicHeight(
-                  child: IntrinsicWidth(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                            height: 40,
-                            child: Image.asset('assets/images/common_controls/chest.png')
-                        ),
-                        SizedBox(height: 5),
-                        Center(
-                            child: Text(
-                              "04:33",
-                              style: TextStyle(
-                                color: Color.fromRGBO(116, 126, 126, 1),
-                                fontSize: 15,
-                                fontFamily: 'Roboto',
-                              ),
-                            )
-                        )
-                      ],
+    return Container(
+      child: Row(
+        children: [
+          Flexible(
+            flex: 3,
+            child: IntrinsicHeight(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 20),
+                  ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: LinearProgressIndicator(
+                      value: progressCurrent/progressTotal,
+                      minHeight: 30,
+                      backgroundColor: Color.fromRGBO(131, 135, 125, 1),
+                      color: Color.fromRGBO(255, 207, 123, 1),
+                      semanticsLabel: 'Linear progress indicator',
                     ),
                   ),
-                ),
+                  SizedBox(height: 5),
+                  Text(
+                    "Progress: ${progressCurrent}/${progressTotal}",
+                    style: TextStyle(
+                      color: Color.fromRGBO(131, 135, 125, 1),
+                      fontSize: !TabletDetector.isTablet() ? 18 : 28,
+                      fontFamily: 'Roboto',
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          Flexible(
+            flex: 2,
+            child: StoryItemCard(
+              imageFile: 'assets/images/backgrounds/blue_tile.jpg',
+              locationStatus: LocationStatus.locked,
+              title: "",
+              borderRadius: 8,
+            ),
+          ),
+        ],
       ),
     );
   }

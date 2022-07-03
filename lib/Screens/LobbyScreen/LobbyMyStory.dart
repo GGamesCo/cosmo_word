@@ -65,6 +65,7 @@ class _LobbyMyStoryState extends State<LobbyMyStory> {
                   imageFile: "assets/images/backgrounds/${loc.backgroundFileName.replaceAll(".jpg", "_tile.jpg")}",
                   title: loc.title,
                   locationStatus: locationStatusData[loc.id]!,
+                  borderRadius: 12,
                 ),
               ]
             ]
@@ -80,8 +81,14 @@ class StoryItemCard extends StatelessWidget {
   final String imageFile;
   final String title;
   final LocationStatus locationStatus;
+  final double borderRadius;
 
-  StoryItemCard({required this.imageFile, required this.title, required this.locationStatus});
+  StoryItemCard({
+    required this.imageFile,
+    required this.title,
+    required this.locationStatus,
+    required this.borderRadius
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +115,7 @@ class StoryItemCard extends StatelessWidget {
                           ],
                         ),*/
                         child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
                           child: Image.asset(imageFile)
                         ),
                       ),
@@ -133,10 +140,12 @@ class StoryItemCard extends StatelessWidget {
                     ]
                   ),
                 ),
-                SizedBox(height: 5),
-                Container(
-                  child: Text(title, style: TextStyle(color: Color.fromRGBO(116, 126, 126, 1), fontFamily: 'Roboto'), textAlign: TextAlign.center)
-                )
+                if(title != "") ...[
+                  SizedBox(height: 5),
+                  Container(
+                    child: Text(title, style: TextStyle(color: Color.fromRGBO(116, 126, 126, 1), fontFamily: 'Roboto'), textAlign: TextAlign.center)
+                  )
+                ]
               ],
             ),
           ),
