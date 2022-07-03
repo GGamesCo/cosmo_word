@@ -35,8 +35,7 @@ class FlowRepository implements IFlowRepository {
       WordSetFlowItem(setId: 14, requiredWordsCount: 4),
     ]),
     WordSetFlow(id: 8, title: "Level 7", sets: [
-      WordSetFlowItem(setId: 13, requiredWordsCount: 4),
-      WordSetFlowItem(setId: 14, requiredWordsCount: 4),
+      WordSetFlowItem(setId: 15, requiredWordsCount: 8),
     ]),
     WordSetFlow(id: 9, title: "Level 7", sets: [
       WordSetFlowItem(setId: 16, requiredWordsCount: 4),
