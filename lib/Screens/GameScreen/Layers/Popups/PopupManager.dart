@@ -51,7 +51,9 @@ class PopupManager {
     await getIt.get<AnalyticsController>().logEventAsync(AnalyticEvents.CHALLENGE_COMPLETE_POPUP_SHOW, params: {
       "coinReward": resultsData.coinReward,
       "lastRecord": resultsData.lastRecord,
-      "completedWordsCount": resultsData.completedWordsCount});
+      "completedWordsCount": resultsData.completedWordsCount,
+      "reachedHeight": resultsData.reachedHeight
+    });
 
     var storyState = await storyStateService.getStoryState();
     await showDialog(
