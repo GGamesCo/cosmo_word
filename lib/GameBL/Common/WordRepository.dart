@@ -37,11 +37,13 @@ class WordRepository implements IWordRepository {
     WordSet(id: 28, chars: ["S", "L", "O", "I", "D"], words: ["SOLID", "IDOLS", "IDOL", "LIDS", "SLID", "SOLD", "OILS", "SILO", "SOIL", "LID", "OLD", "OIL"]),
     WordSet(id: 29, chars: ["W", "A", "L", "C", "R"], words: ["CRAWL", "CLAW", "CRAW", "CAR", "CAW", "LAW", "RAW", "WAR", "ARC"]),
     WordSet(id: 30, chars: ["O", "N", "A", "I", "P"], words: ["PIANO", "PAIN", "NAP", "PAN", "PIN", "ION", "NIP"]),
+    WordSet(id: 31, chars: ["O", "D", "A", "E", "R"], words: ["ADORE", "DARE", "DEAR", "REDO", "READ", "RODE", "ROAD", "EAR", "ERA", "DOE", "RED", "ORE", "ADO", "ARE", "OAR", "ROD"]),
+    WordSet(id: 32, chars: ["Y", "R", "R", "S", "O"], words: ["SORRY", "ROSY", "SOY"]),
 
-    WordSet(id: 22, chars: ["C", "A", "R", "E"], words: ["CARE", "CAR", "RACE", "EAR", "ERA"]),
-    WordSet(id: 23, chars: ["T", "H", "U", "M", "B"], words: ["THUMB", "BUT", "HUM", "BUM", "HUB", "TUB", "HUT"]),
-    WordSet(id: 24, chars: ["F", "L", "O", "O", "D"], words: ["FLOOD", "FOOD", "FOLD", "FOOL", "OLD"]),
-    WordSet(id: 25, chars: ["S", "T", "O", "V", "E"], words: ["STOVE", "VOTES", "TOES", "VEST", "VETO", "VETS", "VOES", "VOTE" ])
+    WordSet(id: 23, chars: ["C", "A", "R", "E"], words: ["CARE", "CAR", "RACE", "EAR", "ERA"]),
+    WordSet(id: 34, chars: ["T", "H", "U", "M", "B"], words: ["THUMB", "BUT", "HUM", "BUM", "HUB", "TUB", "HUT"]),
+    WordSet(id: 35, chars: ["F", "L", "O", "O", "D"], words: ["FLOOD", "FOOD", "FOLD", "FOOL", "OLD"]),
+    WordSet(id: 36, chars: ["S", "T", "O", "V", "E"], words: ["STOVE", "VOTES", "TOES", "VEST", "VETO", "VETS", "VOES", "VOTE" ])
   ];
 
   Future<WordSet> getSetAsync(int setSize, List<int> excludeIds) async {
