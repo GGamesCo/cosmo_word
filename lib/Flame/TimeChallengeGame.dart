@@ -125,7 +125,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
     var initialHeight = updatesCount*heightDelta*-1;
     currentReachedHeight = initialHeight;
     new DartAsync.Timer.periodic(Duration(milliseconds: 20), (t){
-      currentReachedHeight += heightDelta;
+      currentReachedHeight = max(0, currentReachedHeight + heightDelta);
       _rocketZoneController.renderReachedHeight(currentReachedHeight);
     });
   }
