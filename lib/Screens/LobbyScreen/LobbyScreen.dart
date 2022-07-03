@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../Common/Background/StaticBackground.dart';
 import '../Common/TopBar/TopBarLayer.dart';
 import '../GameScreen/Layers/Popups/GameCompletePopup.dart';
+import '../GameScreen/Layers/Popups/OutOfCoinsPopup.dart';
 import 'LobbyLogo.dart';
 import 'LobbyMyStory.dart';
 import 'LobbyNavigation.dart';
@@ -32,7 +33,16 @@ class LobbyScreen extends StatelessWidget {
       );
     });
 */
-
+  /*
+    Timer(Duration(seconds: 1), (){
+      showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return OutOfCoinsPopup();
+        }
+      );
+    });
+*/
     var lobbyWidth = min(MediaQuery.of(context).size.width, 650);
 
     return Scaffold(

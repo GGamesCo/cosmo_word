@@ -32,53 +32,22 @@ class OutOfCoinsPopup extends StatelessWidget{
                             padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                             child: Container(
                               //color: Colors.blue,
-                              child: Stack(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Positioned(
-                                        left: 90,
-                                        top: 250,
-                                        width: 130,
-                                        height: 60,
-                                        child:
-                                    Container(
-                                      // decoration: BoxDecoration(
-                                      //     border: Border.all(color: Colors.orangeAccent, width: 4)
-                                      // ),
-                                      child: TextButton(
-                                        style: ButtonStyle(
-                                          foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                                        ),
-                                        onPressed: () {
+                                  GestureDetector(
 
-                                          _onBuyClick(context);
-
-                                          print("TODO: Add analytics on buy btn click");
-                                        },
-                                        child: Text(''),
-                                      ),
-                                    )
-                                    ),
-                                  Positioned(
-                                      left: 0,
-                                      top: 320,
-                                      width: 290,
-                                      height: 70,
-                                      child:
-                                      Container(
-                                        // decoration: BoxDecoration(
-                                        //     border: Border.all(color: Colors.orangeAccent, width: 4)
-                                        // ),
-                                        child: TextButton(
-                                          style: ButtonStyle(
-                                            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(''),
-                                        ),
-                                      )
+                                    onTap: () => _onBuyClick(context),
+                                    child: SizedBox(width: MediaQuery.of(context).size.width/2, child: Image.asset('assets/images/popups/buy-btn.png')),
                                   ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      var analyticsController = getIt.get<AnalyticsController>();
+                                      analyticsController.logEventAsync(AnalyticEvents.CLOSE_BUY_HINTS_CLICK, params: {"compensation" : false});
+                                    },
+                                    child: SizedBox(width: MediaQuery.of(context).size.width/8, child: Image.asset('assets/images/popups/close-buy-btn.png')),
+                                  )
                                 ],
                               ),
                             ),
