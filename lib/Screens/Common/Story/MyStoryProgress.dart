@@ -78,6 +78,7 @@ class _MyStoryProgressState extends State<MyStoryProgress> {
                         fontSize: !TabletDetector.isTablet() ? 18 : 28,
                         fontFamily: 'Roboto',
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                   if(nextLocationState != null && nextLocationState['locationStatus'] == LocationStatus.locked) ...[
@@ -88,6 +89,7 @@ class _MyStoryProgressState extends State<MyStoryProgress> {
                         fontSize: !TabletDetector.isTablet() ? 18 : 28,
                         fontFamily: 'Roboto',
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ]
                 ],
