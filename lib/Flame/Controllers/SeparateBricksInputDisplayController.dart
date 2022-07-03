@@ -129,8 +129,11 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
   }
 
   void initJoystickUi(WordSet wordSet) {
+    var shuffledSet =  {...wordSet.chars}.toList();
+    shuffledSet.shuffle();
+
     var joystick = WordJoystickComponent(
-        alph: wordSet.chars,
+        alph: shuffledSet,
         layoutData: joystickLayoutData
     );
 

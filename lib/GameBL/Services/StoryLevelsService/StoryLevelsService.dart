@@ -17,7 +17,9 @@ class StoryLevelsService {
     StoryLevelModel(levelId: 9, flowId: 10, coinReward: 250),
     StoryLevelModel(levelId: 10, flowId: 11, coinReward: 270),
     StoryLevelModel(levelId: 11, flowId: 12, coinReward: 290),
-    StoryLevelModel(levelId: 12, flowId: 13, coinReward: 300),
+    StoryLevelModel(levelId: 12, flowId: 13, coinReward: 200),
+    StoryLevelModel(levelId: 13, flowId: 14, coinReward: 200),
+    StoryLevelModel(levelId: 14, flowId: 15, coinReward: 200),
   ];
 
   Future<StoryLevelModel> getLevelConfigById(int levelId) async {

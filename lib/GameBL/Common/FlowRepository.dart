@@ -10,7 +10,7 @@ class FlowRepository implements IFlowRepository {
     WordSetFlow(id: 1, title: "Tutorial flow", sets: [
       WordSetFlowItem(setId: 1, requiredWordsCount: 2),
     ]),
-    WordSetFlow(id: 2, title: "Level 1 flow", sets: [
+    WordSetFlow(id: 2, title: "Level 1", sets: [
       WordSetFlowItem(setId: 2, requiredWordsCount: 2),
       WordSetFlowItem(setId: 3, requiredWordsCount: 2),
       WordSetFlowItem(setId: 4, requiredWordsCount: 2),
@@ -55,8 +55,16 @@ class FlowRepository implements IFlowRepository {
       WordSetFlowItem(setId: 23, requiredWordsCount: 4),
     ]),
     WordSetFlow(id: 13, title: "Level 11", sets: [
-      WordSetFlowItem(setId: 24, requiredWordsCount: 5),
-      WordSetFlowItem(setId: 25, requiredWordsCount: 5),
+      WordSetFlowItem(setId: 24, requiredWordsCount: 7),
+      WordSetFlowItem(setId: 25, requiredWordsCount: 8),
+    ]),
+    WordSetFlow(id: 14, title: "Level 12", sets: [
+      WordSetFlowItem(setId: 26, requiredWordsCount: 5),
+      WordSetFlowItem(setId: 27, requiredWordsCount: 10),
+    ]),
+    WordSetFlow(id: 15, title: "Level 13", sets: [
+      WordSetFlowItem(setId: 28, requiredWordsCount: 12),
+      WordSetFlowItem(setId: 29, requiredWordsCount: 8),
     ]),
   ];
 

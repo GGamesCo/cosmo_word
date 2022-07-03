@@ -40,7 +40,7 @@ class WordRepository implements IWordRepository {
     WordSet(id: 31, chars: ["O", "D", "A", "E", "R"], words: ["ADORE", "DARE", "DEAR", "REDO", "READ", "RODE", "ROAD", "EAR", "ERA", "DOE", "RED", "ORE", "ADO", "ARE", "OAR", "ROD"]),
     WordSet(id: 32, chars: ["Y", "R", "R", "S", "O"], words: ["SORRY", "ROSY", "SOY"]),
 
-    WordSet(id: 23, chars: ["C", "A", "R", "E"], words: ["CARE", "CAR", "RACE", "EAR", "ERA"]),
+    WordSet(id: 33, chars: ["C", "A", "R", "E"], words: ["CARE", "CAR", "RACE", "EAR", "ERA"]),
     WordSet(id: 34, chars: ["T", "H", "U", "M", "B"], words: ["THUMB", "BUT", "HUM", "BUM", "HUB", "TUB", "HUT"]),
     WordSet(id: 35, chars: ["F", "L", "O", "O", "D"], words: ["FLOOD", "FOOD", "FOLD", "FOOL", "OLD"]),
     WordSet(id: 36, chars: ["S", "T", "O", "V", "E"], words: ["STOVE", "VOTES", "TOES", "VEST", "VETO", "VETS", "VOES", "VOTE" ])
