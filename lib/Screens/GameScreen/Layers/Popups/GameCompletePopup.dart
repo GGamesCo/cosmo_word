@@ -86,15 +86,18 @@ class GameCompletePopup extends StatelessWidget{
                 Center(
                   child: SizedBox(height: 100, child: Image.asset("assets/images/popups/reward-coin.png"))
                 ),
-                Center(
-                  child: Text(
-                    "+${coinReward.round()}",
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      color: Color.fromRGBO(131, 135, 125, 1),
-                      fontSize: 50
-                    ),
-                  )
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                  child: Center(
+                    child: Text(
+                      "+${coinReward.round()}",
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Color.fromRGBO(131, 135, 125, 1),
+                        fontSize: 50
+                      ),
+                    )
+                  ),
                 )
               ],
             ),
