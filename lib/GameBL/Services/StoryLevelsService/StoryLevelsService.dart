@@ -20,6 +20,25 @@ class StoryLevelsService {
     StoryLevelModel(levelId: 12, flowId: 13, coinReward: 200),
     StoryLevelModel(levelId: 13, flowId: 14, coinReward: 200),
     StoryLevelModel(levelId: 14, flowId: 15, coinReward: 200),
+
+    StoryLevelModel(levelId: 15, flowId: 16, coinReward: 340),
+    StoryLevelModel(levelId: 16, flowId: 19, coinReward: 350),
+    StoryLevelModel(levelId: 17, flowId: 20, coinReward: 360),
+    StoryLevelModel(levelId: 18, flowId: 21, coinReward: 365),
+    StoryLevelModel(levelId: 19, flowId: 22, coinReward: 370),
+    StoryLevelModel(levelId: 20, flowId: 23, coinReward: 375),
+    StoryLevelModel(levelId: 21, flowId: 24, coinReward: 380),
+    StoryLevelModel(levelId: 22, flowId: 25, coinReward: 385),
+    StoryLevelModel(levelId: 23, flowId: 26, coinReward: 390),
+    StoryLevelModel(levelId: 24, flowId: 27, coinReward: 395),
+    StoryLevelModel(levelId: 25, flowId: 28, coinReward: 400),
+    StoryLevelModel(levelId: 26, flowId: 29, coinReward: 405),
+    StoryLevelModel(levelId: 27, flowId: 30, coinReward: 410),
+    StoryLevelModel(levelId: 28, flowId: 31, coinReward: 415),
+    StoryLevelModel(levelId: 29, flowId: 32, coinReward: 420),
+    StoryLevelModel(levelId: 30, flowId: 33, coinReward: 425),
+    StoryLevelModel(levelId: 31, flowId: 34, coinReward: 430),
+
   ];
 
   Future<StoryLevelModel> getLevelConfigById(int levelId) async {
