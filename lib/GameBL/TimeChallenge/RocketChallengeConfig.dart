@@ -7,7 +7,7 @@ class RocketChallengeConfig {
   late int wordSize;
 
   RocketChallengeConfig(){
-    totalTimeSec = 30;
+    totalTimeSec = 300;
     wordCompletionTimeRewardSec = 5;
     wordSize = 5;
   }
