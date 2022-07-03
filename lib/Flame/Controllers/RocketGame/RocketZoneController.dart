@@ -88,4 +88,8 @@ class RocketZoneController implements UiControllerBase {
     var newHeight = _rocketBoxUiControl.flyBounds.x + availableFlyDistance * (1-progress);
     return Vector2(_rocketUiControl.position.x, newHeight);
   }
+
+  void renderReachedHeight(double currentReachedHeight) {
+    _rocketUiControl.renderReachedHeight(currentReachedHeight);
+  }
 }
