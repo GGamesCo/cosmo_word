@@ -62,7 +62,7 @@ class _LobbyMyStoryState extends State<LobbyMyStory> {
             if(locationStatusData.length > 0) ...[
               for(var loc in widget.locationsService.allLocations.take(4)) ...[
                 StoryItemCard(
-                  imageFile: "assets/images/backgrounds/${loc.backgroundFileName.replaceAll(".jpg", "_tile.jpg")}",
+                  imageFile: loc.backgroundFileName,
                   title: loc.title,
                   locationStatus: locationStatusData[loc.id]!,
                   borderRadius: 12,
@@ -116,7 +116,7 @@ class StoryItemCard extends StatelessWidget {
                         ),*/
                         child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-                          child: Image.asset(imageFile)
+                          child: Image.asset("assets/images/backgrounds/${imageFile.replaceAll(".jpg", "_tile.jpg")}")
                         ),
                       ),
                       if(locationStatus == LocationStatus.completed) ...[

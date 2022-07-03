@@ -13,12 +13,14 @@ class GameCompletePopup extends StatelessWidget{
 
   final popupType;
   final UserStateModel storyStateModel;
+  final int completedLevelId;
   final int coinReward;
   final TimeChallengeResults? timeChallengeResults;
 
   GameCompletePopup({
     required this.popupType,
     required this.storyStateModel,
+    required this.completedLevelId,
     required this.coinReward,
     this.timeChallengeResults
   });
@@ -124,10 +126,7 @@ class GameCompletePopup extends StatelessWidget{
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                    child: MyStoryProgress(
-                      progressCurrent: storyStateModel.currentLevelNumber,
-                      progressTotal: storyStateModel.nextMilestoneTargetLevel
-                    ),
+                    child: MyStoryProgress(completedLevelId: completedLevelId),
                   )
               ),
             ],

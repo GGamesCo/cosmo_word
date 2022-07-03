@@ -1,7 +1,7 @@
 class StoryLevelCompleteResult {
 
-  final int levelNumber;
+  final int completedLevelId;
   final int coinReward;
 
-  StoryLevelCompleteResult({required this.levelNumber, required this.coinReward});
+  StoryLevelCompleteResult({required this.completedLevelId, required this.coinReward});
 }
