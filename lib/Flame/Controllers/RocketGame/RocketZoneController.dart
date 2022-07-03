@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:cosmo_word/Flame/Controllers/Abstract/UiControllerBase.dart';
 import 'package:cosmo_word/Flame/UiComponents/Rocket/RocketBoxUiControl.dart';
 import 'package:cosmo_word/Flame/Utils/CompleterExtensions.dart';
@@ -90,6 +91,6 @@ class RocketZoneController implements UiControllerBase {
   }
 
   void renderReachedHeight(double currentReachedHeight) {
-    _rocketUiControl.renderReachedHeight(currentReachedHeight);
+    _rocketUiControl.renderReachedHeight(max(0, currentReachedHeight));
   }
 }

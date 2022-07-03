@@ -24,14 +24,21 @@ class LobbyMyStory extends StatefulWidget{
 
 class _LobbyMyStoryState extends State<LobbyMyStory> {
   late Map<int, LocationStatus> locationStatusData = Map<int, LocationStatus>();
+  late List<StoryLocationModel> renderedLocations = [];
 
   @override
   void initState(){
     super.initState();
 
-    widget.userStateController.getStoryState().then((state){
+    widget.userStateController.getStoryState().then((state) async {
       var statuses = Map<int, LocationStatus>();
-      for(var loc in widget.locationsService.allLocations){
+
+      var currentLocId = (await widget.locationsService.getLocationConfigByLevelId(state.currentLevelId)).id;
+      var indexOfCurrent = widget.locationsService.allLocations.indexWhere((element) => element.id == currentLocId);
+      var startIndex = max(0, indexOfCurrent - 2);
+      var displayedLocations = widget.locationsService.allLocations.skip(startIndex).take(4).toList();
+
+      for(var loc in displayedLocations){
         var locStatus = LocationStatus.opened;
         if(loc.levels.reduce(max) < state.currentLevelId){
           locStatus = LocationStatus.completed;
@@ -44,6 +51,7 @@ class _LobbyMyStoryState extends State<LobbyMyStory> {
 
       setState((){
         locationStatusData = statuses;
+        renderedLocations = displayedLocations;
       });
     });
   }
@@ -60,7 +68,7 @@ class _LobbyMyStoryState extends State<LobbyMyStory> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             if(locationStatusData.length > 0) ...[
-              for(var loc in widget.locationsService.allLocations.take(4)) ...[
+              for(var loc in renderedLocations) ...[
                 StoryItemCard(
                   imageFile: loc.backgroundFileName,
                   title: loc.title,
