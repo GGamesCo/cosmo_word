@@ -18,8 +18,9 @@ class AnalyticsController{
     userStateController = getIt.get<UserStateController>();
 
     defaultParams = {
+      "localDateTime": DateTime.now().toString(),
       "userId": userController.userId,
-      "sessionId": userController.sessionId
+      "sessionId": userController.sessionId,
     };
 
     await FirebaseAnalytics.instance

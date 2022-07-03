@@ -61,7 +61,7 @@ void main() async {
 
 Future initDiInstances() async {
 
-  var userStateService = getIt.get<UserStateService>();
+  var userStateService = await getIt.getAsync<UserStateService>();
   userStateService.init();
 
   var stageManager = getIt.get<StageManager>();

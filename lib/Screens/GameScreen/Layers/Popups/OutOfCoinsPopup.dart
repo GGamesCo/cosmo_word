@@ -132,8 +132,8 @@ class OutOfCoinsPopup extends StatelessWidget{
         try {
           analyticsController.logEventAsync(AnalyticEvents.BUY_HINTS_CLICK, params: {"compensation" : true});
 
-          await getIt.get<IBalanceController>().addBalanceAsync(10 * PriceListConfig.HINT_PRICE);
-          await showAlertDialog(context, "Error", "Sorry, payments error occurred!\n10 hints reward COMPENSATION provided!");
+          await getIt.get<IBalanceController>().addBalanceAsync(5 * PriceListConfig.HINT_PRICE);
+          await showAlertDialog(context, "Error", "Sorry, payments error occurred!\n5 hints reward COMPENSATION provided!");
           storage.setInt(compensationStringKey, DateTime.now().millisecondsSinceEpoch);
         } on PlatformException catch (error) {
           print(error.message);
