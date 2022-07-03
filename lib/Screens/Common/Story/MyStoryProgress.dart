@@ -1,74 +1,113 @@
+import 'package:cosmo_word/GameBL/Services/StoryLocationsService/StoryLocationModel.dart';
+import 'package:cosmo_word/GameBL/Services/StoryLocationsService/StoryLocationsService.dart';
+import 'package:cosmo_word/Screens/LobbyScreen/LobbyMyStory.dart';
+import 'package:cosmo_word/TabletDetector.dart';
 import 'package:flutter/material.dart';
 
-class MyStoryProgress extends StatelessWidget {
+import '../../../GameBL/UserStateController.dart';
+import '../../../di.dart';
 
-  final int progressCurrent;
-  final int progressTotal;
+class MyStoryProgress extends StatefulWidget {
 
-  MyStoryProgress({
-    required this.progressCurrent,
-    required this.progressTotal
-  });
+  final int completedLevelId;
+
+  late UserStateController userStateController;
+  late StoryLocationsService storyLocationsService;
+
+  MyStoryProgress({required this.completedLevelId}){
+    userStateController = getIt.get<UserStateController>();
+    storyLocationsService = getIt.get<StoryLocationsService>();
+  }
+
+  @override
+  State<MyStoryProgress> createState() => _MyStoryProgressState();
+}
+
+class _MyStoryProgressState extends State<MyStoryProgress> {
+
+  late dynamic progressBarState = null;
+  late dynamic nextLocationState = null;
+
+  @override
+  void initState(){
+    super.initState();
+
+    widget.userStateController.getStoryState().then((state) async {
+      var completedLevelId = widget.completedLevelId;
+      var completedLevelLocation = await widget.storyLocationsService.getLocationConfigByLevelId(completedLevelId);
+      var completedLevelIndexInLocation = completedLevelLocation.levels.indexOf(completedLevelId);
+      var barState = {'currentProgress': completedLevelIndexInLocation+1, 'targetProgress': completedLevelLocation.levels.length};
+      var indexOfCurrent = widget.storyLocationsService.allLocations.indexOf(completedLevelLocation);
+      var locationStatus = completedLevelId == completedLevelLocation.levels.last ? LocationStatus.opened : LocationStatus.locked;
+      var nextLocation = widget.storyLocationsService.allLocations[indexOfCurrent+1];
+      var nextLocState = {'imageFile': nextLocation.backgroundFileName, 'locationStatus': locationStatus};
+      setState((){
+        progressBarState = barState;
+        nextLocationState = nextLocState;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context){
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-      child: Container(
-        child: Stack(
-          children: <Widget>[
-            Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                child: LinearProgressIndicator(
-                  value: progressCurrent/progressTotal,
-                  minHeight: 30,
-                  backgroundColor: Color.fromRGBO(116, 126, 126, 1),
-                  color: Color.fromRGBO(255, 207, 123, 1),
-                  semanticsLabel: 'Linear progress indicator',
-                ),
-              ),
-            ),
-            Center(
-              child: Text(
-                "${progressCurrent}/${progressTotal}",
-                style: TextStyle(
-                  color: Color.fromRGBO(209, 129, 30, 1),
-                  fontSize: 18,
-                  fontFamily: 'Roboto',
-                ),
-              ),
-            ),
-            Positioned.fill(
-              child:Align(
-                alignment: Alignment.centerRight,
-                child: IntrinsicHeight(
-                  child: IntrinsicWidth(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                            height: 40,
-                            child: Image.asset('assets/images/common_controls/chest.png')
-                        ),
-                        SizedBox(height: 5),
-                        Center(
-                            child: Text(
-                              "04:33",
-                              style: TextStyle(
-                                color: Color.fromRGBO(116, 126, 126, 1),
-                                fontSize: 15,
-                                fontFamily: 'Roboto',
-                              ),
-                            )
-                        )
-                      ],
+    return Container(
+      child: Row(
+        children: [
+          Flexible(
+            flex: 3,
+            child: IntrinsicHeight(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 20),
+                  ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: LinearProgressIndicator(
+                      value: progressBarState!= null ? progressBarState['currentProgress']/progressBarState['targetProgress'] : 0,
+                      minHeight: 30,
+                      backgroundColor: Color.fromRGBO(131, 135, 125, 1),
+                      color: Color.fromRGBO(255, 207, 123, 1),
+                      semanticsLabel: 'Linear progress indicator',
                     ),
                   ),
-                ),
+                  SizedBox(height: 5),
+                  if(nextLocationState != null && nextLocationState['locationStatus'] == LocationStatus.opened) ...[
+                    Text(
+                      "New location available!",
+                      style: TextStyle(
+                        color: Color.fromRGBO(131, 135, 125, 1),
+                        fontSize: !TabletDetector.isTablet() ? 18 : 28,
+                        fontFamily: 'Roboto',
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                  if(nextLocationState != null && nextLocationState['locationStatus'] == LocationStatus.locked) ...[
+                    Text(
+                      progressBarState!= null ? "Progress: ${progressBarState['currentProgress']}/${progressBarState['targetProgress']}" : "",
+                      style: TextStyle(
+                        color: Color.fromRGBO(131, 135, 125, 1),
+                        fontSize: !TabletDetector.isTablet() ? 18 : 28,
+                        fontFamily: 'Roboto',
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ]
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          if(nextLocationState != null) ...[
+            Flexible(
+              flex: 2,
+              child: StoryItemCard(
+                imageFile: nextLocationState['imageFile'],
+                locationStatus: nextLocationState['locationStatus'],
+                title: "",
+                borderRadius: 8,
+              ),
+            ),
+          ]
+        ],
       ),
     );
   }

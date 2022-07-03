@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:cosmo_word/GameBL/Services/UserStateService/UserStateModel.dart';
 import 'package:flutter/material.dart';
 import '../Common/Background/StaticBackground.dart';
 import '../Common/TopBar/TopBarLayer.dart';
@@ -13,16 +14,23 @@ import 'package:sizer/sizer.dart';
 class LobbyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    /*
+/*
     Timer(Duration(seconds: 1), (){
       showDialog(
           context: context,
           builder: (BuildContext context){
-            return GameCompletePopup();
+            return GameCompletePopup(
+              popupType: 1,
+              coinReward: 100,
+              storyStateModel: UserStateModel(
+                currentLevelId: 1,
+                storyLevelsIdList: [1,2,3,4]
+              ),
+            );
           }
       );
     });
-   */
+*/
 
     var lobbyWidth = min(MediaQuery.of(context).size.width, 650);
 

@@ -31,6 +31,7 @@ class PopupManager {
           child: GameCompletePopup(
             popupType: 1,
             storyStateModel: storyState,
+            completedLevelId: resultsData.completedLevelId,
             coinReward: resultsData.coinReward,
           ),
         );
@@ -61,6 +62,7 @@ class PopupManager {
           child: GameCompletePopup(
             popupType: 2,
             storyStateModel: storyState,
+            completedLevelId: 0,
             coinReward: resultsData.coinReward,
             timeChallengeResults: resultsData,
           ),

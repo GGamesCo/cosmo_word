@@ -45,7 +45,7 @@ class UserStateController {
 
     await balanceController.addBalanceAsync(completedLevel.coinReward);
     await PopupManager.ShowLevelCompletePopup(StoryLevelCompleteResult(
-        levelNumber: storyState.currentLevelNumber,
+        completedLevelId: completedLevel.levelId,
         coinReward: completedLevel.coinReward
     ));
   }
