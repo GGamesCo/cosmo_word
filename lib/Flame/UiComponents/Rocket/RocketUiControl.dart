@@ -45,7 +45,7 @@ class RocketUiControl extends RectangleComponent {
     );
 
     _heightTxt = TextComponent(
-        text: "467m",
+        text: "0m",
         textRenderer: textPaint,
         anchor: Anchor.center,
         position: Vector2(heightBg.width/2, heightBg.height/2)
@@ -65,7 +65,7 @@ class RocketUiControl extends RectangleComponent {
     _flameUiControl.playFlameAnim();
   }
 
-  void updateTimerState(int secondsLeft) {
-    _heightTxt.text = "123m";
+  void renderReachedHeight(double currentReachedHeight) {
+    _heightTxt.text = "${currentReachedHeight.toInt()}m";
   }
 }

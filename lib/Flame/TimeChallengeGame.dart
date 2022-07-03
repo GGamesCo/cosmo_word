@@ -111,7 +111,33 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
       _rocketZoneController.initRocketPosition(timerController.timeLeftSec, challengeConfig.totalTimeSec);
       setupSubscriptions();
       //setupCountdown();
+      runHeightCalculation();
   });
+  }
+
+  late double currentReachedHeight;
+  double heightDelta = -0.03;
+  int heightUpdateIntervalMs = 20;
+  void runHeightCalculation(){
+    var updatesCount = challengeConfig.totalTimeSec*1000/heightUpdateIntervalMs;
+    var initialHeight = updatesCount*heightDelta*-1;
+    currentReachedHeight = initialHeight;
+    new DartAsync.Timer.periodic(Duration(milliseconds: 20), (t){
+      currentReachedHeight += heightDelta;
+      _rocketZoneController.renderReachedHeight(currentReachedHeight);
+    });
+  }
+
+  void applyHeightDeltaBooster(int completedWordLength){
+    var boosterInitialMultiplier = 400.0;
+    var boostSteps = 5;
+    new DartAsync.Timer.periodic(Duration(milliseconds: 200), (t){
+      currentReachedHeight += heightDelta*-1*boosterInitialMultiplier;
+      _rocketZoneController.renderReachedHeight(currentReachedHeight);
+      boosterInitialMultiplier -= boosterInitialMultiplier/boostSteps;
+      if(boosterInitialMultiplier <= 0)
+        t.cancel();
+    });
   }
 
   void setupSubscriptions() {
@@ -138,6 +164,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
       var pickedColor = _pickRandomListElement(_colorCodes);
 
       add(ResultOverlayUiControl(isSuccess: true));
+      applyHeightDeltaBooster(pickedWord.length);
       _rocketZoneController.animateNewInput(_completedWordsZoneController.bricksStackHeight);
       _inputWordParticlesController.showParticles(wordInput.acceptedWord.length);
       _completedWordsZoneController.renderNewBrick(CompletedBrickData(word: pickedWord, colorCode: pickedColor));
