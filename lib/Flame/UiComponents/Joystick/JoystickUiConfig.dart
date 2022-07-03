@@ -28,6 +28,14 @@ class JoystickUiConfig{
       JoystickBtnUiConfig(Vector2(size.x * .21, size.y * .21), Vector2(size.x * .65, size.y * .7)),
       JoystickBtnUiConfig(Vector2(size.x * .21, size.y * .21), Vector2(size.x * .35, size.y * .7)),
     ];
+    // configs[6] = [
+    //   JoystickBtnUiConfig(Vector2(size.x * .2, size.y * .2), Vector2(size.x * .25, size.y * .35)),
+    //   JoystickBtnUiConfig(Vector2(size.x * .2, size.y * .2), Vector2(size.x * .5, size.y * .2)),
+    //   JoystickBtnUiConfig(Vector2(size.x * .2, size.y * .2), Vector2(size.x * .75, size.y * .35)),
+    //   JoystickBtnUiConfig(Vector2(size.x * .2, size.y * .2), Vector2(size.x * .75, size.y * .6)),
+    //   JoystickBtnUiConfig(Vector2(size.x * .2, size.y * .2), Vector2(size.x * .25, size.y * .6)),
+    //   JoystickBtnUiConfig(Vector2(size.x * .2, size.y * .2), Vector2(size.x * .5, size.y * .75)),
+    // ];
   }
 }
 
