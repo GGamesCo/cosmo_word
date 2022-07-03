@@ -43,8 +43,6 @@ class OutOfCoinsPopup extends StatelessWidget{
                                   GestureDetector(
                                     onTap: () {
                                       Navigator.pop(context);
-                                      var analyticsController = getIt.get<AnalyticsController>();
-                                      analyticsController.logEventAsync(AnalyticEvents.CLOSE_BUY_HINTS_CLICK, params: {"compensation" : false});
                                     },
                                     child: SizedBox(width: MediaQuery.of(context).size.width/8, child: Image.asset('assets/images/popups/close-buy-btn.png')),
                                   )

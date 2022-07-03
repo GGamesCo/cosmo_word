@@ -7,7 +7,6 @@ class AnalyticEvents{
   static const STORY_ENTER = "story_enter";
   static const LOBBY_ENTER = "lobby_enter";
   static const BUY_HINTS_CLICK = "buy_hints_click";
-  static const CLOSE_BUY_HINTS_CLICK = "close_buy_hints_click";
   static const HINT_CLICK = "hint_click";
   static const SHUFFLE_CLICK = "shuffle_click";
   static const STORY_COMPLETE_POPUP_SHOW = "story_complete_popup_show";
