@@ -15,7 +15,7 @@ class WordRepository implements IWordRepository {
     WordSet(id: 6, chars: ["F", "A", "I", "R"],  words: ["FAIR", "AIR", "FIR", "FAR"]),
     WordSet(id: 7, chars: ["D", "E", "N", "T"],  words: ["DENT", "TEND", "NET", "TEN", "END", "DEN"]),
     WordSet(id: 8, chars: ["P", "A", "R", "K"], words: ["PARK", "RAP", "PAR", "ARK"]),
-    WordSet(id: 9, chars: ["U", "N", "T", "O"], words: ["UNTO", "NOT", "NUT", "TON", "OUT"]),
+    WordSet(id: 9, chars: ["U", "N", "T", "O"], words: ["UNTO", "NOT", "NUT", "TO", "TON", "OUT"]),
     WordSet(id: 10, chars: ["L", "A", "D", "Y"], words: ["LADY", "LAD", "DAY", "LAY"]),
     WordSet(id: 11, chars: ["B", "E", "T", "A"], words: ["BETA", "BEAT", "BATE", "ABET", "ATE", "BET", "EAT", "TAB", "TEA", "TAE", "ETA"]),
     WordSet(id: 12, chars: ["B", "A", "R", "N"], words: ["BARN", "BRAN", "ARB", "BAN", "BAR", "BRA", "RAN", "NAB"]),

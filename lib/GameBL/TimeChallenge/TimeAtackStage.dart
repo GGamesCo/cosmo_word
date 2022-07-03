@@ -101,7 +101,7 @@ class TimeAtackStage extends IGameStage {
     player.stop();
     isActive = false;
     timerController.stop();
-    var rewardCoins = wordInputController.flowState.completedWordsInFlow * 5;
+    var rewardCoins = wordInputController.flowState.completedWordsInFlow * 15;
     var record = await userStateController.getRocketRecord();
     var results = TimeChallengeResults(
       completedWordsCount: wordInputController.flowState.completedWordsInFlow,

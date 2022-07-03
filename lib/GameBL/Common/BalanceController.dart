@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 @Singleton(as: IBalanceController)
 class BalanceController extends IBalanceController{
-  final int defaultValue = 200;
+  final int defaultValue = 500;
   final String key = "balance";
 
   Future<bool> isEnoughAsync(int requestedAmount) async {
