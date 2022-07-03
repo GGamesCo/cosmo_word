@@ -56,6 +56,7 @@ class TimeAtackStage extends IGameStage {
   @override
   Future initAsync() async {
     var flowSets = wordRepository.sets.map((e) => WordSetFlowItem(setId: e.id, requiredWordsCount: Random().nextInt(1 + (e.words.length - 1)))).toList();
+    flowSets.shuffle();
 
     var flow = WordSetFlow(id: 99999, title: "Time Challenge", sets: flowSets);
     wordInputController.initializeAsync(flow);
