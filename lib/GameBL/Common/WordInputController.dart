@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cosmo_word/Analytics/AnalyticEvent.dart';
+import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Configs/PriceListConfig.dart';
@@ -17,6 +19,7 @@ class WordInputController extends IWordInputController  {
 
   final IWordRepository wordRepository;
   final IBalanceController balanceController;
+  final AnalyticsController analyticsController;
 
   late WordSetFlow _currentFlow;
   late WordFlowState flowState;
@@ -25,7 +28,8 @@ class WordInputController extends IWordInputController  {
 
   WordInputController({
     required this.wordRepository,
-    required this.balanceController
+    required this.balanceController,
+    required this.analyticsController
   });
 
   @override
@@ -65,10 +69,11 @@ class WordInputController extends IWordInputController  {
       if(newState.completedWordsInFlow == newState.totalWordsInFlow)
         onFlowCompleted.broadcast();
 
+      analyticsController.logEventAsync(AnalyticEvents.WORD_INPUT, params: {"input": word, "accepted": true});
     } else {
+      analyticsController.logEventAsync(AnalyticEvents.WORD_INPUT, params: {"input": word, "accepted": false});
       onInputRejected.broadcast(Value<String>(word));
     }
-
     return wasWordAccepted;
   }
 

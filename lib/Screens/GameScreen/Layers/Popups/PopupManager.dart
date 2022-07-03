@@ -1,3 +1,5 @@
+import 'package:cosmo_word/Analytics/AnalyticEvent.dart';
+import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/GameBL/Common/GameEventBus.dart';
 import 'package:cosmo_word/GameBL/Events/EventBusEvents.dart';
@@ -16,9 +18,11 @@ class PopupManager {
   static final UserStateService storyStateService = getIt.get<UserStateService>();
 
   static Future ShowLevelCompletePopup(StoryLevelCompleteResult resultsData) async {
+    await getIt.get<AnalyticsController>().logEventAsync(AnalyticEvents.STORY_COMPLETE_POPUP_SHOW, params: {"coinReward": resultsData.coinReward});
+
     await FlameAudio.play(SoundsController.WIN_APPLAUSE);
     var storyState = await storyStateService.getStoryState();
-    return showDialog(
+    await showDialog(
       context: navigatorKey.currentContext!,
       barrierDismissible: false,
       builder: (BuildContext context){
@@ -32,6 +36,8 @@ class PopupManager {
         );
       }
     );
+
+    await getIt.get<AnalyticsController>().logEventAsync(AnalyticEvents.STORY_COMPLETE_POPUP_CLOSE);
   }
 
   static Future ShowTimeChallengeCompletePopup(TimeChallengeResults resultsData) async {
@@ -40,6 +46,11 @@ class PopupManager {
     }else{
       await FlameAudio.play(SoundsController.WIN_SIMPLE);
     }
+
+    await getIt.get<AnalyticsController>().logEventAsync(AnalyticEvents.CHALLENGE_COMPLETE_POPUP_SHOW, params: {
+      "coinReward": resultsData.coinReward,
+      "lastRecord": resultsData.lastRecord,
+      "completedWordsCount": resultsData.completedWordsCount});
 
     var storyState = await storyStateService.getStoryState();
     await showDialog(
@@ -56,9 +67,11 @@ class PopupManager {
         );
       }
     );
+    await getIt.get<AnalyticsController>().logEventAsync(AnalyticEvents.CHALLENGE_COMPLETE_POPUP_CLOSE);
   }
 
   static Future NotEnoughMoneyPopup() async {
+    await getIt.get<AnalyticsController>().logEventAsync(AnalyticEvents.OUT_COINS_POPUP_SHOW);
     mainEventBus.fire(OutOfCoinsPopupShowing());
     try{
       await showDialog(
@@ -69,6 +82,7 @@ class PopupManager {
       );
     }finally{
       mainEventBus.fire(OutOfCoinsPopupClosed());
+      await getIt.get<AnalyticsController>().logEventAsync(AnalyticEvents.OUT_COINS_POPUP_CLOSE);
     }
   }
 

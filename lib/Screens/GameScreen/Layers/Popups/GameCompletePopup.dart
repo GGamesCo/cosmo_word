@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:cosmo_word/Analytics/AnalyticEvent.dart';
+import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/Screens/Common/Story/MyStoryProgress.dart';
 import 'package:flutter/material.dart';
 import '../../../../GameBL/Common/Models/GameState.dart';

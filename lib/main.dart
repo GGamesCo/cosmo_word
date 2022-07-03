@@ -19,6 +19,10 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 // a common breakpoint for a typical 7-inch tablet.
 bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide < 550;
 
+// KeyHash:
+// keytool -exportcert -alias YOUR_RELEASE_KEY_ALIAS -keystore YOUR_RELEASE_KEY_PATH | openssl sha1 -binary | openssl base64
+// eKJJHinr+D3pnrXYFuIJnPbO7ag=
+
 void main() async {
 
   configureDependencies();
@@ -68,7 +72,6 @@ Future initDiInstances() async {
 
   var analytics = getIt.get<AnalyticsController>();
   await analytics.initAsync();
-  analytics.logEventAsync("test_event");
 }
 
 void initializeAppsflyer(){

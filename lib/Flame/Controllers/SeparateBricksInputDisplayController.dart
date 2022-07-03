@@ -1,3 +1,5 @@
+import 'package:cosmo_word/Analytics/AnalyticEvent.dart';
+import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/Flame/UiComponents/InputDisplayZone/BtnComponent.dart';
 import 'package:cosmo_word/Flame/UiComponents/InputDisplayZone/HintBtnComponent.dart';
@@ -5,6 +7,7 @@ import 'package:cosmo_word/Flame/UiComponents/Previewer/PreviewZoneComponent.dar
 import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordRepository.dart';
+import 'package:cosmo_word/GameBL/Common/StageManager.dart';
 import 'package:cosmo_word/GameBL/Configs/PriceListConfig.dart';
 import 'package:cosmo_word/Screens/GameScreen/Layers/Popups/PopupManager.dart';
 import 'package:cosmo_word/di.dart';
@@ -25,6 +28,7 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
   final ElementLayoutData storeBtnLayoutData;
   final ElementLayoutData adsBtnLayoutData;
   final IWordInputController wordInputController;
+  final AnalyticsController analyticsController;
   late IBalanceController balanceController;
 
   final FlameGame game;
@@ -50,6 +54,7 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
     required this.storeBtnLayoutData,
     required this.adsBtnLayoutData,
     required this.wordInputController,
+    required this.analyticsController,
     required this.game,
     required this.wordSize
   }){
@@ -149,6 +154,8 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 	}
 
   void onShuffleBtnClicked(EventArgs? _){
+    analyticsController.logEventAsync(AnalyticEvents.SHUFFLE_CLICK, params: {"alph":wordJoystickComponent!.alph.join()});
+
     FlameAudio.play(SoundsController.SHUFFLE_JOYSTICK, volume: 0.5);
     wordJoystickComponent!.shuffle();
   }
@@ -164,10 +171,14 @@ class SeparateBricksInputDisplayController implements InputDisplayController {
 
     try{
       if (await balanceController.isEnoughAsync(PriceListConfig.HINT_PRICE)){
+        analyticsController.logEventAsync(AnalyticEvents.HINT_CLICK, params: {"applied": true, "stage": getIt.get<StageManager>().currentStage.state.toString()});
+
         var hintWord = await wordInputController.getHintAsync();
         await wordJoystickComponent!.autoSelectAsync(hintWord);
         await balanceController.spendBalanceAsync(PriceListConfig.HINT_PRICE);
       }else{
+        analyticsController.logEventAsync(AnalyticEvents.HINT_CLICK, params: {"applied": false, "stage": getIt.get<StageManager>().currentStage.state.toString()});
+
         FlameAudio.play("outOfCoins.wav");
         await PopupManager.NotEnoughMoneyPopup();
       }

@@ -1,3 +1,5 @@
+import 'package:cosmo_word/Analytics/AnalyticEvent.dart';
+import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
@@ -17,7 +19,11 @@ import 'Models/GameState.dart';
 
 @Singleton()
 class StageManager {
+  final AnalyticsController analyticsController;
+
   late IGameStage currentStage;
+
+  StageManager({required this.analyticsController});
 
   Future<void> initAsync() async {
     currentStage = getIt.get<LobbyStage>();
@@ -56,14 +62,17 @@ class StageManager {
     IGameStage? newStage = null;
     switch(stageMode) {
       case GameStage.Lobby:{
+        analyticsController.logEventAsync(AnalyticEvents.LOBBY_ENTER);
         newStage = getIt.get<LobbyStage>();
       }
         break;
       case GameStage.Story:{
+        analyticsController.logEventAsync(AnalyticEvents.STORY_ENTER);
         newStage = StoryStage();
       }
         break;
       case GameStage.TimeAtack: {
+        analyticsController.logEventAsync(AnalyticEvents.TIME_CHALLENGE_ENTER);
         newStage = TimeAtackStage(
           userStateController: getIt.get<UserStateController>(),
           wordRepository: getIt.get<IWordRepository>(),

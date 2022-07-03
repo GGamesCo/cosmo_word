@@ -1,3 +1,5 @@
+import 'package:cosmo_word/Analytics/AnalyticEvent.dart';
+import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/GameBL/Common/Models/GameState.dart';
 import 'package:cosmo_word/GameBL/Common/StageManager.dart';
 import 'package:cosmo_word/GameBL/Services/StoryLevelsService/StoryLevelsService.dart';
@@ -35,11 +37,13 @@ class _LobbyNavigationState extends State<LobbyNavigation> {
 
   late dynamic storyData = null;
   late dynamic timeChallengeData = null;
-
+  late AnalyticsController analyticsController;
+  
   @override
   void initState() {
     super.initState();
 
+    analyticsController = getIt.get<AnalyticsController>();
     widget.userStateController.getStoryState().then((storyState) async {
       var location = await widget.storyLocationsService.getLocationConfigByLevelId(storyState.currentLevelId);
       var data = {'levelNumber': storyState.currentLevelId, 'locationTitle': location.title};
@@ -98,7 +102,7 @@ class _LobbyNavigationState extends State<LobbyNavigation> {
     );
   }
 
-  void _navigateToStoryGame(BuildContext context){
+  Future<void> _navigateToStoryGame(BuildContext context) async {
     getIt.get<StageManager>().navigateToStage(GameStage.Story, context);
   }
 

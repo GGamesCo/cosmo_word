@@ -2,6 +2,7 @@ import 'dart:async' as DartAsync;
 import 'dart:async';
 import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/ITimerController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IWordInputController.dart';
@@ -63,6 +64,7 @@ class TimeChallengeGame extends FlameGame with HasTappables, HasDraggables, HasC
         storeBtnLayoutData: _layoutData.elementsData[GameUiElement.StoreBtn]!,
         adsBtnLayoutData: _layoutData.elementsData[GameUiElement.AdsBtn]!,
         wordInputController: wordInputController,
+        analyticsController: getIt.get<AnalyticsController>(),
         game: this,
         wordSize: challengeConfig.wordSize
     );

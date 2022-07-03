@@ -1,3 +1,5 @@
+import 'package:cosmo_word/Analytics/AnalyticEvent.dart';
+import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:cosmo_word/GameBL/Common/AlertDialog.dart';
 import 'package:cosmo_word/GameBL/Configs/PriceListConfig.dart';
@@ -48,7 +50,7 @@ class OutOfCoinsPopup extends StatelessWidget{
                                         ),
                                         onPressed: () {
 
-                                          _onLoading(context);
+                                          _onBuyClick(context);
 
                                           print("TODO: Add analytics on buy btn click");
                                         },
@@ -92,7 +94,7 @@ class OutOfCoinsPopup extends StatelessWidget{
     );
   }
 
-  void _onLoading(BuildContext context) {
+  void _onBuyClick(BuildContext context) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -116,6 +118,8 @@ class OutOfCoinsPopup extends StatelessWidget{
     );
     new Future.delayed(new Duration(seconds: 1), () async {
       Navigator.pop(context); //pop dialog
+
+      var analyticsController = getIt.get<AnalyticsController>();
       var storage = await getIt.getAsync<SharedPreferences>();
       final String compensationStringKey = "LastFreeHintsTime";
       var shouldFreeReward = true;
@@ -126,6 +130,8 @@ class OutOfCoinsPopup extends StatelessWidget{
 
       if (shouldFreeReward){
         try {
+          analyticsController.logEventAsync(AnalyticEvents.BUY_HINTS_CLICK, params: {"compensation" : true});
+
           await getIt.get<IBalanceController>().addBalanceAsync(10 * PriceListConfig.HINT_PRICE);
           await showAlertDialog(context, "Error", "Sorry, payments error occurred!\n10 hints reward COMPENSATION provided!");
           storage.setInt(compensationStringKey, DateTime.now().millisecondsSinceEpoch);
@@ -134,6 +140,8 @@ class OutOfCoinsPopup extends StatelessWidget{
         }
       }else{
         try {
+          analyticsController.logEventAsync(AnalyticEvents.BUY_HINTS_CLICK, params: {"compensation" : false});
+
           await showAlertDialog(context, "Error", "Sorry, payments error occurred! Try again later!");
         } on PlatformException catch (error) {
           print(error.message);

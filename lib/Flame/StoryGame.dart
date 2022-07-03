@@ -1,10 +1,13 @@
 import 'dart:math';
+import 'package:cosmo_word/Analytics/AnalyticEvent.dart';
+import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IFlowRepository.dart';
 import 'package:cosmo_word/GameBL/Common/Models/InputAcceptedEventArgs.dart';
 import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/Flame/ElementsLayoutBuilder.dart';
 import 'package:cosmo_word/Flame/Models/GameUiElement.dart';
+import 'package:cosmo_word/di.dart';
 import 'package:flame/game.dart';
 import '../GameBL/Common/Abstract/IWordInputController.dart';
 import '../GameBL/Services/StoryLevelsService/StoryLevelsService.dart';
@@ -80,6 +83,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
       storeBtnLayoutData: _layoutData.elementsData[GameUiElement.StoreBtn]!,
       adsBtnLayoutData: _layoutData.elementsData[GameUiElement.AdsBtn]!,
       wordInputController: wordInputController,
+      analyticsController: getIt.get<AnalyticsController>(),
       game: this,
       wordSize: 3
     );
