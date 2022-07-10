@@ -25,11 +25,13 @@ class AnalyticsController{
 
     await FirebaseAnalytics.instance
         .setDefaultEventParameters(defaultParams);
+
+    FirebaseAnalytics.instance.setUserId(id: userController.userId);
+    FirebaseAnalytics.instance.setUserProperty(name: "sessionId",  value: userController.sessionId);
   }
 
   Future<void> logEventAsync(String eventName, {Map<String, Object>? params}) async{
     var eventParams = await _wrapWithAmbientContextAsync(params);
-
     await FirebaseAnalytics.instance.logEvent(name: eventName, parameters: eventParams);
   }
 
