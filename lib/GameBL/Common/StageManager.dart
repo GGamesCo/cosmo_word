@@ -26,7 +26,7 @@ class StageManager {
   StageManager({required this.analyticsController});
 
   Future<void> initAsync() async {
-    currentStage = getIt.get<LobbyStage>();
+    currentStage = createGameStage(GameStage.Lobby);
     currentStage.initAsync();
     currentStage.start();
     var soundsController = getIt.get<SoundsController>();
