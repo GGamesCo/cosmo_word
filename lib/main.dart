@@ -48,11 +48,18 @@ void main() async {
   runApp(
     Sizer(
       builder: (context, orientation, deviceType) {
-        return MyAppWidget(child: MaterialApp(
-          navigatorKey: navigatorKey,
-          title: 'Word Rambo',
-          home: stageManager.currentStage.root,
-        )
+        return MyAppWidget(
+          child: MaterialApp(
+            navigatorKey: navigatorKey,
+            title: 'Word Rambo',
+            home: stageManager.currentStage.root,
+            builder: (context, child) {
+              return MediaQuery(
+                child: child!,
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              );
+            },
+          )
         );
       }
     ),
