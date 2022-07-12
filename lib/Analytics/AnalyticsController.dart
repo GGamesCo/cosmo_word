@@ -1,4 +1,4 @@
-import 'package:appsflyer_sdk/appsflyer_sdk.dart';
+import 'package:cosmo_word/Analytics/AnalyticsServiceApi.dart';
 import 'package:cosmo_word/GameBL/Common/UserController.dart';
 import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/di.dart';
@@ -8,11 +8,12 @@ import 'package:injectable/injectable.dart';
 @singleton
 class AnalyticsController{
   final UserController userController;
+  final AnalyticsServiceApi analyticsServiceApi;
   late UserStateController userStateController;
 
   late Map<String, Object> defaultParams;
 
-  AnalyticsController({required this.userController});
+  AnalyticsController({required this.userController, required this.analyticsServiceApi});
 
   Future<void> initAsync() async{
     userStateController = getIt.get<UserStateController>();
@@ -28,10 +29,13 @@ class AnalyticsController{
 
     FirebaseAnalytics.instance.setUserId(id: userController.userId);
     FirebaseAnalytics.instance.setUserProperty(name: "sessionId",  value: userController.sessionId);
+
+    await analyticsServiceApi.initAsync().timeout(Duration(seconds: 10), onTimeout: () => {});
   }
 
   Future<void> logEventAsync(String eventName, {Map<String, Object>? params}) async{
     var eventParams = await _wrapWithAmbientContextAsync(params);
+    await analyticsServiceApi.sendEvent(eventName, eventParams);
     await FirebaseAnalytics.instance.logEvent(name: eventName, parameters: eventParams);
   }
 
