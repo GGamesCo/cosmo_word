@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:cosmo_word/Analytics/AnalyticsController.dart';
+import 'package:cosmo_word/Analytics/SegmentationController.dart';
 import 'package:cosmo_word/GameBL/Common/StageManager.dart';
 import 'package:cosmo_word/GameBL/Common/UserController.dart';
 import 'package:cosmo_word/GameBL/Services/UserStateService/UserStateService.dart';
@@ -76,6 +77,9 @@ Future initDiInstances() async {
 
   var userController = getIt.get<UserController>();
   await userController.initAsync();
+
+  var segmentationController = getIt.get<SegmentationController>();
+  await segmentationController.initAsync().timeout(Duration(seconds: 10),onTimeout: () => {});
 
   var analytics = getIt.get<AnalyticsController>();
   await analytics.initAsync();

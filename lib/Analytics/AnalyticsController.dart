@@ -1,5 +1,6 @@
 import 'package:cosmo_word/Analytics/AnalyticsServiceApi.dart';
 import 'package:cosmo_word/Analytics/MixpanelTracker.dart';
+import 'package:cosmo_word/Analytics/SegmentationController.dart';
 import 'package:cosmo_word/GameBL/Common/UserController.dart';
 import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/di.dart';
@@ -11,6 +12,7 @@ class AnalyticsController{
   final UserController userController;
   final AnalyticsServiceApi analyticsServiceApi;
   final MixpanelTracker mixpanelTracker;
+  final SegmentationController segmentationController;
   late UserStateController userStateController;
 
   late Map<String, Object> defaultParams;
@@ -18,7 +20,8 @@ class AnalyticsController{
   AnalyticsController({
     required this.userController,
     required this.analyticsServiceApi,
-    required this.mixpanelTracker
+    required this.mixpanelTracker,
+    required this.segmentationController
   });
 
   Future<void> initAsync() async{
@@ -30,20 +33,27 @@ class AnalyticsController{
       "sessionId": userController.sessionId,
     };
 
-    await mixpanelTracker.initAsync(userController.userId);
+    if (segmentationController.isEnabled(FeatureType.mixpanelTracker))
+      await mixpanelTracker.initAsync(userController.userId);
+
+    if (segmentationController.isEnabled(FeatureType.analytics))
+      await analyticsServiceApi.initAsync().timeout(Duration(seconds: 10), onTimeout: () => {});
+
     await FirebaseAnalytics.instance
         .setDefaultEventParameters(defaultParams);
 
     FirebaseAnalytics.instance.setUserId(id: userController.userId);
     FirebaseAnalytics.instance.setUserProperty(name: "sessionId",  value: userController.sessionId);
-
-    await analyticsServiceApi.initAsync().timeout(Duration(seconds: 10), onTimeout: () => {});
   }
 
   Future<void> logEventAsync(String eventName, {Map<String, Object>? params}) async{
     var eventParams = await _wrapWithAmbientContextAsync(params);
-    mixpanelTracker.track(eventName, params: eventParams);
-    await analyticsServiceApi.sendEvent(eventName, eventParams);
+
+    if (segmentationController.isEnabled(FeatureType.mixpanelTracker))
+      mixpanelTracker.track(eventName, params: eventParams);
+    if (segmentationController.isEnabled(FeatureType.analytics))
+      await analyticsServiceApi.sendEvent(eventName, eventParams);
+
     await FirebaseAnalytics.instance.logEvent(name: eventName, parameters: eventParams);
   }
 
