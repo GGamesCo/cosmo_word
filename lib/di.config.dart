@@ -9,20 +9,20 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i13;
 
 import 'Analytics/AnalyticsController.dart' as _i19;
-import 'Analytics/MixpanelTracker.dart' as _i11;
+import 'Analytics/AnalyticsServiceApi.dart' as _i3;
 import 'Flame/Common/SoundsController.dart' as _i14;
-import 'GameBL/Common/Abstract/IBalanceController.dart' as _i3;
-import 'GameBL/Common/Abstract/IFlowRepository.dart' as _i5;
-import 'GameBL/Common/Abstract/ITimerController.dart' as _i7;
+import 'GameBL/Common/Abstract/IBalanceController.dart' as _i4;
+import 'GameBL/Common/Abstract/IFlowRepository.dart' as _i6;
+import 'GameBL/Common/Abstract/ITimerController.dart' as _i8;
 import 'GameBL/Common/Abstract/IWordInputController.dart' as _i20;
-import 'GameBL/Common/Abstract/IWordRepository.dart' as _i9;
-import 'GameBL/Common/BalanceController.dart' as _i4;
-import 'GameBL/Common/FlowRepository.dart' as _i6;
+import 'GameBL/Common/Abstract/IWordRepository.dart' as _i10;
+import 'GameBL/Common/BalanceController.dart' as _i5;
+import 'GameBL/Common/FlowRepository.dart' as _i7;
 import 'GameBL/Common/StageManager.dart' as _i23;
-import 'GameBL/Common/TimerController.dart' as _i8;
+import 'GameBL/Common/TimerController.dart' as _i9;
 import 'GameBL/Common/UserController.dart' as _i17;
 import 'GameBL/Common/WordInputController.dart' as _i21;
-import 'GameBL/Common/WordRepository.dart' as _i10;
+import 'GameBL/Common/WordRepository.dart' as _i11;
 import 'GameBL/DI/Module.dart' as _i26;
 import 'GameBL/Lobby/LobbyStage.dart' as _i22;
 import 'GameBL/Services/StoryLevelsService/StoryLevelsService.dart' as _i15;
@@ -40,11 +40,11 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
     {String? environment, _i2.EnvironmentFilter? environmentFilter}) {
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   final registerModule = _$RegisterModule();
-  gh.singleton<_i3.IBalanceController>(_i4.BalanceController());
-  gh.factory<_i5.IFlowRepository>(() => _i6.FlowRepository());
-  gh.factory<_i7.ITimerController>(() => _i8.TimerController());
-  gh.factory<_i9.IWordRepository>(() => _i10.WordRepository());
-  gh.singleton<_i11.MixpanelTracker>(_i11.MixpanelTracker());
+  gh.singleton<_i3.AnalyticsServiceApi>(_i3.AnalyticsServiceApi());
+  gh.singleton<_i4.IBalanceController>(_i5.BalanceController());
+  gh.factory<_i6.IFlowRepository>(() => _i7.FlowRepository());
+  gh.factory<_i8.ITimerController>(() => _i9.TimerController());
+  gh.factory<_i10.IWordRepository>(() => _i11.WordRepository());
   gh.factory<_i12.RocketChallengeConfig>(() => _i12.RocketChallengeConfig());
   gh.factoryAsync<_i13.SharedPreferences>(() => registerModule.prefs);
   gh.singleton<_i14.SoundsController>(_i14.SoundsController());
@@ -55,10 +55,10 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       sharedPreferences: await get.getAsync<_i13.SharedPreferences>()));
   gh.singleton<_i19.AnalyticsController>(_i19.AnalyticsController(
       userController: get<_i17.UserController>(),
-      mixpanelTracker: get<_i11.MixpanelTracker>()));
+      analyticsServiceApi: get<_i3.AnalyticsServiceApi>()));
   gh.factory<_i20.IWordInputController>(() => _i21.WordInputController(
-      wordRepository: get<_i9.IWordRepository>(),
-      balanceController: get<_i3.IBalanceController>(),
+      wordRepository: get<_i10.IWordRepository>(),
+      balanceController: get<_i4.IBalanceController>(),
       analyticsController: get<_i19.AnalyticsController>()));
   gh.factory<_i22.LobbyStage>(
       () => _i22.LobbyStage(soundsController: get<_i14.SoundsController>()));
@@ -68,16 +68,16 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       _i24.UserStateController(
           userStateService: await get.getAsync<_i18.UserStateService>(),
           levelsService: get<_i15.StoryLevelsService>(),
-          flowRepository: get<_i5.IFlowRepository>(),
-          balanceController: get<_i3.IBalanceController>(),
+          flowRepository: get<_i6.IFlowRepository>(),
+          balanceController: get<_i4.IBalanceController>(),
           analyticsController: get<_i19.AnalyticsController>()));
   gh.factoryAsync<_i25.TimeAtackStage>(() async => _i25.TimeAtackStage(
       userStateController: await get.getAsync<_i24.UserStateController>(),
-      wordRepository: get<_i9.IWordRepository>(),
+      wordRepository: get<_i10.IWordRepository>(),
       wordInputController: get<_i20.IWordInputController>(),
-      timerController: get<_i7.ITimerController>(),
+      timerController: get<_i8.ITimerController>(),
       challengeConfig: get<_i12.RocketChallengeConfig>(),
-      balanceController: get<_i3.IBalanceController>(),
+      balanceController: get<_i4.IBalanceController>(),
       soundsController: get<_i14.SoundsController>()));
   return get;
 }
