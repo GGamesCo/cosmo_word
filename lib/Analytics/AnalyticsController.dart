@@ -1,4 +1,5 @@
 import 'package:cosmo_word/Analytics/AnalyticsServiceApi.dart';
+import 'package:cosmo_word/Analytics/MixpanelTracker.dart';
 import 'package:cosmo_word/GameBL/Common/UserController.dart';
 import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/di.dart';
@@ -9,11 +10,16 @@ import 'package:injectable/injectable.dart';
 class AnalyticsController{
   final UserController userController;
   final AnalyticsServiceApi analyticsServiceApi;
+  final MixpanelTracker mixpanelTracker;
   late UserStateController userStateController;
 
   late Map<String, Object> defaultParams;
 
-  AnalyticsController({required this.userController, required this.analyticsServiceApi});
+  AnalyticsController({
+    required this.userController,
+    required this.analyticsServiceApi,
+    required this.mixpanelTracker
+  });
 
   Future<void> initAsync() async{
     userStateController = getIt.get<UserStateController>();
@@ -24,6 +30,7 @@ class AnalyticsController{
       "sessionId": userController.sessionId,
     };
 
+    await mixpanelTracker.initAsync(userController.userId);
     await FirebaseAnalytics.instance
         .setDefaultEventParameters(defaultParams);
 
@@ -35,6 +42,7 @@ class AnalyticsController{
 
   Future<void> logEventAsync(String eventName, {Map<String, Object>? params}) async{
     var eventParams = await _wrapWithAmbientContextAsync(params);
+    mixpanelTracker.track(eventName, params: eventParams);
     await analyticsServiceApi.sendEvent(eventName, eventParams);
     await FirebaseAnalytics.instance.logEvent(name: eventName, parameters: eventParams);
   }
