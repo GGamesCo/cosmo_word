@@ -26,7 +26,9 @@ bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.s
 
 void main() async {
 
-  configureDependencies();
+  await configureDependencies();
+
+  WidgetsFlutterBinding.ensureInitialized();
 
   // Firebase initialization
   if (Firebase.apps.isEmpty) {
@@ -69,20 +71,20 @@ void main() async {
 
 Future initDiInstances() async {
 
-  var userStateService = await getIt.getAsync<UserStateService>();
+  var userController = getIt.get<UserController>();
+  await userController.initAsync();
+
+  var analytics = getIt.get<AnalyticsController>();
+  await analytics.initAsync();
+
+  var userStateService = getIt.get<UserStateService>();
   userStateService.init();
 
   var stageManager = getIt.get<StageManager>();
   await stageManager.initAsync();
 
-  var userController = getIt.get<UserController>();
-  await userController.initAsync();
-
   var segmentationController = getIt.get<SegmentationController>();
   await segmentationController.initAsync().timeout(Duration(seconds: 10),onTimeout: () => {});
-
-  var analytics = getIt.get<AnalyticsController>();
-  await analytics.initAsync();
 }
 
 void initializeAppsflyer(){

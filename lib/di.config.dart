@@ -38,8 +38,8 @@ import 'GameBL/UserStateController.dart'
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
-_i1.GetIt $initGetIt(_i1.GetIt get,
-    {String? environment, _i2.EnvironmentFilter? environmentFilter}) {
+Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
+    {String? environment, _i2.EnvironmentFilter? environmentFilter}) async {
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   final registerModule = _$RegisterModule();
   gh.singleton<_i3.AnalyticsServiceApi>(_i3.AnalyticsServiceApi());
@@ -50,13 +50,14 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.singleton<_i12.MixpanelTracker>(_i12.MixpanelTracker());
   gh.factory<_i13.RocketChallengeConfig>(() => _i13.RocketChallengeConfig());
   gh.singleton<_i14.SegmentationController>(_i14.SegmentationController());
-  gh.factoryAsync<_i15.SharedPreferences>(() => registerModule.prefs);
+  await gh.factoryAsync<_i15.SharedPreferences>(() => registerModule.prefs,
+      preResolve: true);
   gh.singleton<_i16.SoundsController>(_i16.SoundsController());
   gh.singleton<_i17.StoryLevelsService>(_i17.StoryLevelsService());
   gh.singleton<_i18.StoryLocationsService>(_i18.StoryLocationsService());
   gh.singleton<_i19.UserController>(_i19.UserController());
-  gh.singletonAsync<_i20.UserStateService>(() async => _i20.UserStateService(
-      sharedPreferences: await get.getAsync<_i15.SharedPreferences>()));
+  gh.singleton<_i20.UserStateService>(
+      _i20.UserStateService(sharedPreferences: get<_i15.SharedPreferences>()));
   gh.singleton<_i21.AnalyticsController>(_i21.AnalyticsController(
       userController: get<_i19.UserController>(),
       analyticsServiceApi: get<_i3.AnalyticsServiceApi>(),
@@ -70,15 +71,14 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       () => _i24.LobbyStage(soundsController: get<_i16.SoundsController>()));
   gh.singleton<_i25.StageManager>(
       _i25.StageManager(analyticsController: get<_i21.AnalyticsController>()));
-  gh.singletonAsync<_i26.UserStateController>(() async =>
-      _i26.UserStateController(
-          userStateService: await get.getAsync<_i20.UserStateService>(),
-          levelsService: get<_i17.StoryLevelsService>(),
-          flowRepository: get<_i6.IFlowRepository>(),
-          balanceController: get<_i4.IBalanceController>(),
-          analyticsController: get<_i21.AnalyticsController>()));
-  gh.factoryAsync<_i27.TimeAtackStage>(() async => _i27.TimeAtackStage(
-      userStateController: await get.getAsync<_i26.UserStateController>(),
+  gh.singleton<_i26.UserStateController>(_i26.UserStateController(
+      userStateService: get<_i20.UserStateService>(),
+      levelsService: get<_i17.StoryLevelsService>(),
+      flowRepository: get<_i6.IFlowRepository>(),
+      balanceController: get<_i4.IBalanceController>(),
+      analyticsController: get<_i21.AnalyticsController>()));
+  gh.factory<_i27.TimeAtackStage>(() => _i27.TimeAtackStage(
+      userStateController: get<_i26.UserStateController>(),
       wordRepository: get<_i10.IWordRepository>(),
       wordInputController: get<_i22.IWordInputController>(),
       timerController: get<_i8.ITimerController>(),
