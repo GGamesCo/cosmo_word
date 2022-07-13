@@ -5,6 +5,7 @@ import 'package:cosmo_word/GameBL/Common/UserController.dart';
 import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/di.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
@@ -39,11 +40,14 @@ class AnalyticsController{
     if (segmentationController.isEnabled(FeatureType.analytics))
       await analyticsServiceApi.initAsync().timeout(Duration(seconds: 10), onTimeout: () => {});
 
-    await FirebaseAnalytics.instance
-        .setDefaultEventParameters(defaultParams);
+    if(!kIsWeb) {
+      FirebaseAnalytics.instance.setUserId(id: userController.userId);
+      FirebaseAnalytics.instance.setUserProperty(
+        name: "sessionId", value: userController.sessionId);
 
-    FirebaseAnalytics.instance.setUserId(id: userController.userId);
-    FirebaseAnalytics.instance.setUserProperty(name: "sessionId",  value: userController.sessionId);
+      // Error: UnimplementedError: setDefaultEventParameters() is not supported on web
+      await FirebaseAnalytics.instance.setDefaultEventParameters(defaultParams);
+    }
   }
 
   Future<void> logEventAsync(String eventName, {Map<String, Object>? params}) async{
@@ -53,8 +57,9 @@ class AnalyticsController{
       mixpanelTracker.track(eventName, params: eventParams);
     if (segmentationController.isEnabled(FeatureType.analytics))
       await analyticsServiceApi.sendEvent(eventName, eventParams);
-
+/*
     await FirebaseAnalytics.instance.logEvent(name: eventName, parameters: eventParams);
+ */
   }
 
   Future<Map<String, Object>> _wrapWithAmbientContextAsync(Map<String, Object>? params) async {
