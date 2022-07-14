@@ -17,7 +17,7 @@ class BalanceController extends IBalanceController{
   }
 
   Future<int> getBalanceAsync() async {
-    final localStorage = await getIt.getAsync<SharedPreferences>();
+    final localStorage = getIt.get<SharedPreferences>();
     if (!localStorage.containsKey(key)){
       localStorage.setInt(key, defaultValue);
     }
@@ -33,7 +33,7 @@ class BalanceController extends IBalanceController{
     if (newBalance < 0)
       throw Exception("Not enough money on balance");
 
-    (await getIt.getAsync<SharedPreferences>()).setInt(key, newBalance);
+    (getIt.get<SharedPreferences>()).setInt(key, newBalance);
     balanceUpdatedEvent.broadcast(Value<int>(newBalance));
   }
 
@@ -42,7 +42,7 @@ class BalanceController extends IBalanceController{
      print("Add \(amount) coins to user balance.");
       var currentBalance = await getBalanceAsync();
       var newBalance = currentBalance + amount;
-      final localStorage = await getIt.getAsync<SharedPreferences>();
+      final localStorage = getIt.get<SharedPreferences>();
       localStorage.setInt(key, newBalance);
 
      balanceUpdatedEvent.broadcast(Value<int>(newBalance));

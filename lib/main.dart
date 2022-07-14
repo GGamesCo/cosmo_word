@@ -9,10 +9,12 @@ import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/MyAppWidget.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'di.dart';
 import 'firebase_options.dart';
 import 'package:sizer/sizer.dart';
+import 'package:universal_io/io.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
@@ -26,21 +28,17 @@ bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.s
 
 void main() async {
 
-  configureDependencies();
+  await configureDependencies();
 
-  // Firebase initialization
-  if (Firebase.apps.isEmpty) {
-    WidgetsFlutterBinding.ensureInitialized();
+  //Should be before any DI resolves
+  WidgetsFlutterBinding.ensureInitialized();
 
-    var firebaseApp = await Firebase.initializeApp(
-      name: "ggames-cosmo-word",
-      options: DefaultFirebaseOptions.currentPlatform,
-    ).whenComplete(() {
-      print("completedAppInitialize");
-    });
+  if(!kIsWeb) {
+    await initializeFirebase();
   }
 
   initializeAppsflyer();
+
   await initDiInstances();
 
   var stageManager = getIt.get<StageManager>();
@@ -68,21 +66,34 @@ void main() async {
 }
 
 Future initDiInstances() async {
-
-  var userStateService = await getIt.getAsync<UserStateService>();
-  userStateService.init();
-
-  var stageManager = getIt.get<StageManager>();
-  await stageManager.initAsync();
+  // Must be first init
+  var segmentationController = getIt.get<SegmentationController>();
+  await segmentationController.initAsync().timeout(Duration(seconds: 10),onTimeout: () => {});
 
   var userController = getIt.get<UserController>();
   await userController.initAsync();
 
-  var segmentationController = getIt.get<SegmentationController>();
-  await segmentationController.initAsync().timeout(Duration(seconds: 10),onTimeout: () => {});
-
   var analytics = getIt.get<AnalyticsController>();
   await analytics.initAsync();
+
+  var userStateService = getIt.get<UserStateService>();
+  userStateService.init();
+
+  var stageManager = getIt.get<StageManager>();
+  await stageManager.initAsync();
+}
+
+Future<void> initializeFirebase() async {
+  if (Firebase.apps.isEmpty) {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    var firebaseApp = await Firebase.initializeApp(
+      name: "ggames-cosmo-word",
+      options: DefaultFirebaseOptions.currentPlatform,
+    ).whenComplete(() {
+      print("completedAppInitialize");
+    });
+  }
 }
 
 void initializeAppsflyer(){

@@ -87,7 +87,7 @@ class OutOfCoinsPopup extends StatelessWidget{
       Navigator.pop(context); //pop dialog
 
       var analyticsController = getIt.get<AnalyticsController>();
-      var storage = await getIt.getAsync<SharedPreferences>();
+      var storage = getIt.get<SharedPreferences>();
       final String compensationStringKey = "LastFreeHintsTime";
       var shouldFreeReward = true;
       if(storage.containsKey(compensationStringKey)){
