@@ -57,9 +57,10 @@ class AnalyticsController{
       mixpanelTracker.track(eventName, params: eventParams);
     if (segmentationController.isEnabled(FeatureType.analytics))
       await analyticsServiceApi.sendEvent(eventName, eventParams);
-/*
-    await FirebaseAnalytics.instance.logEvent(name: eventName, parameters: eventParams);
- */
+
+    if(!kIsWeb) {
+      await FirebaseAnalytics.instance.logEvent(name: eventName, parameters: eventParams);
+    }
   }
 
   Future<Map<String, Object>> _wrapWithAmbientContextAsync(Map<String, Object>? params) async {
