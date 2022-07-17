@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../GameBL/Services/StoryLocationsService/StoryLocationModel.dart';
 import '../../GameBL/Services/StoryLocationsService/StoryLocationsService.dart';
@@ -48,7 +49,9 @@ class _LobbyMyStoryState extends State<LobbyMyStory> {
         }
         statuses[loc.id] = locStatus;
       }
-
+      if(kIsWeb) {
+        await Future.delayed(Duration(milliseconds: 400));
+      }
       setState((){
         locationStatusData = statuses;
         renderedLocations = displayedLocations;
