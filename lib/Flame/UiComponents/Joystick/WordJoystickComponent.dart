@@ -206,22 +206,27 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
     var startPosition = firstSymbolComponent.position;
     startCollectingWord(SymbolPointerLocationArgs(id: firstSymbolComponent.id, symbol: firstSymbolComponent.symbolId, location: startPosition));
 
-    var xStep = -5;
+  //  var xStep = -5;
     for (var i = 1; i < word.length; i++){
       var currentSymbolComponent = symbols.firstWhere((element) => element.symbolId == word[i] && !selectedSymbols.map((x) => x.id).contains(element.id));
       selectedSymbols.add(currentSymbolComponent);
       var finalDrawPosition = currentSymbolComponent.position;
-      var startDrawPosition = navigator.points.last.position;
 
-      var currentSymbolLocation = SymbolLocationModel(id: currentSymbolComponent.id, symbol: currentSymbolComponent.symbolId, position: Offset(startDrawPosition.dx, startDrawPosition.dy));
+      // Uncomment code below to draw pretty.
 
-      while ((currentSymbolLocation.position.dx.abs() - finalDrawPosition.x.abs()).abs() > xStep.abs()){
-        await Future.delayed(const Duration(milliseconds: 1), () {
-          currentSymbolLocation.position = navigator.getPointOnLineWithOffset(Offset(finalDrawPosition.x, finalDrawPosition.y), currentSymbolLocation.position, xStep);
-        });
-      }
+      //  var startDrawPosition = navigator.points.last.position;
 
-      onDraggUpdate(SymbolPointerLocationArgs(id: selectedSymbols[0].id, symbol: selectedSymbols[0].symbolId, location: finalDrawPosition));
+      // var currentSymbolLocation = SymbolLocationModel(id: currentSymbolComponent.id, symbol: currentSymbolComponent.symbolId, position: Offset(startDrawPosition.dx, startDrawPosition.dy));
+      //
+      // while ((currentSymbolLocation.position.dx.abs() - finalDrawPosition.x.abs()).abs() > xStep.abs()){
+      //   await Future.delayed(const Duration(milliseconds: 1), () {
+      //     currentSymbolLocation.position = navigator.getPointOnLineWithOffset(Offset(finalDrawPosition.x, finalDrawPosition.y), currentSymbolLocation.position, xStep);
+      //   });
+      // }
+
+      await Future.delayed(const Duration(milliseconds: 50), () => {
+        onDraggUpdate(SymbolPointerLocationArgs(id: selectedSymbols[0].id, symbol: selectedSymbols[0].symbolId, location: finalDrawPosition))
+      });
     }
 
     await Future.delayed(const Duration(milliseconds: 500), completeWordInput);
