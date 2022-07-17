@@ -111,9 +111,11 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
           navigator.points.add(SymbolLocationModel(id: symbol.id, symbol: symbol.symbolId, position:  Offset(symbol.x, symbol.y)));
           var addedSymbolEvent = SymbolInputAddedEventArgs(id: symbol.id,lastInputSymbol: symbol.symbolId, inputString: navigator.inputString);
           symbolInputAddedEvent.broadcast(addedSymbolEvent);
-          HapticFeedback.heavyImpact();
+          HapticFeedback.lightImpact();
           symbol.changeStateAnimated(true);
         }
+
+        break;
       }
     }
   }
@@ -157,9 +159,17 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
     symbols.where((element) => element.isActive).forEach((element) {element.changeStateAnimated(false);});
   }
 
+
+  bool isRotating = false;
   void shuffle(){
+    if (isRotating)
+      return;
+
     var rotateEffect = RotateEffect.by(20*pi, EffectController(duration: 0.5));
     var shuffledPositions = shufflePositions(symbols.length);
+    rotateEffect.removeOnFinish = true;
+    rotateEffect.onComplete = () {isRotating = false;};
+    isRotating = true;
     add(rotateEffect);
 
     var oldPositions = symbols.map((x) => Vector2(x.position.x, x.position.y)).toList();

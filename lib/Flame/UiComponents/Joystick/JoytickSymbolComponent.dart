@@ -1,3 +1,4 @@
+import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 
 import '../../UiComponents/Joystick/DragPointerLocation.dart';
@@ -67,11 +68,13 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
     return false;
   }
 
+
   bool isPointInsideSymbol(Vector2 point){
     return point.x >= (position + transform.offset).x && point.y >= (position + transform.offset).y
         && point.x <= (position + transform.offset + size).x && point.y <=  (position + transform.offset + size).y;
   }
 
+  bool isAnimated = false;
   Future<void> changeStateAnimated(bool toogle) async {
       if (isActive == toogle){
         return;
@@ -79,20 +82,30 @@ class JoystickSymbolComponent extends PositionComponent with Tappable, Draggable
 
       isActive = toogle;
 
-      double scaleFactor = 1;
-      while(scaleFactor > 0.8){
-        scaleFactor -= 0.02;
-        await Future.delayed(const Duration(milliseconds: 10));
-        btn.scale = Vector2(scaleFactor, scaleFactor);
+      if (isAnimated){
+        return;
       }
 
-      while(scaleFactor < 1){
-        scaleFactor += 0.02;
-        await Future.delayed(const Duration(milliseconds: 10));
-        btn.scale = Vector2(scaleFactor, scaleFactor);
-      }
+      isAnimated = true;
 
-      btn.scale = Vector2(1, 1);
+      try{
+        double scaleFactor = 1;
+        while(scaleFactor > 0.8){
+          scaleFactor -= 0.02;
+          await Future.delayed(const Duration(milliseconds: 10));
+          btn.scale = Vector2(scaleFactor, scaleFactor);
+        }
+
+        while(scaleFactor < 1){
+          scaleFactor += 0.02;
+          await Future.delayed(const Duration(milliseconds: 10));
+          btn.scale = Vector2(scaleFactor, scaleFactor);
+        }
+
+        btn.scale = Vector2(1, 1);
+      }finally{
+        isAnimated = false;
+      }
   }
 
   Vector2 wordToLocalPosition(Vector2 positionInGame){

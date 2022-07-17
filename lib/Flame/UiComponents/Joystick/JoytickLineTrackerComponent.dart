@@ -62,19 +62,23 @@ class JoystickLineTrackerComponent extends PositionComponent with HasGameRef {
 
     isReseting = true;
 
-    while(points.length > 0){
-      if (points.length > 1)
-      {
-        await Future.delayed(const Duration(milliseconds: 1), cutLastPoint);
-      }
-      else
-      {
-        points.clear();
-      }
-    }
+    points.clear();
 
-    reset();
-    isReseting = false;
+    // while(points.length > 0){
+    //   if (points.length > 1)
+    //   {
+    //     await Future.delayed(const Duration(milliseconds: 1), cutLastPoint);
+    //   }
+    //   else
+    //   {
+    //     points.clear();
+    //   }
+    // }
+
+    await Future.delayed(const Duration(milliseconds: 500), (){
+      reset();
+      isReseting = false;
+    });
   }
 
   void cutLastPoint(){

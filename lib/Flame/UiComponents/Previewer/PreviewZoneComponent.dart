@@ -65,20 +65,32 @@ class PreviewZoneComponent extends SpriteComponent with HasGameRef {
   void onInputCompleted(InputCompletedEventArgs eventArgs){
     print("Input accepted");
     FlameAudio.play(SoundsController.INPUT_SUCCESS);
-    reset((x) => {
-      x.add(MoveEffect.to(Vector2(-gameRef.size.x - btnSize.x, 0), EffectController(duration: 0.5)))
+    reset((x) {
+      var moveEffects = x.children.whereType<MoveEffect>();
+      if (moveEffects.isNotEmpty){
+        moveEffects.first.pause();
+        moveEffects.first.removeFromParent();
+      }
+
+      x.add(MoveEffect.to(Vector2(-gameRef.size.x - btnSize.x, 0), EffectController(duration: 0.5)));
     });
   }
 
   void onInputRejected(){
     print("Input rejected");
     FlameAudio.play(SoundsController.FAIL);
-    reset((x) => {
-      x.add(MoveEffect.to(Vector2(gameRef.size.x, 0), EffectController(duration: 0.5)))
+    reset((x) {
+      var moveEffects = x.children.whereType<MoveEffect>();
+      if (moveEffects.isNotEmpty){
+        moveEffects.first.pause();
+        moveEffects.first.removeFromParent();
+      }
+
+        x.add(MoveEffect.to(Vector2(gameRef.size.x, 0), EffectController(duration: 0.5)));
     });
   }
 
-  void reset(void func(Component)){
+  void reset(Function(Component) func){
     symbolsHolder.children.forEach((element) async {
       func(element);
       symbolsHolder.size = Vector2(symbolsHolder.size.x - btnSize.x, symbolsHolder.height);
