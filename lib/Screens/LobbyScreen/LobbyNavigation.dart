@@ -8,6 +8,7 @@ import 'package:cosmo_word/GameBL/Services/UserStateService/UserStateService.dar
 import 'package:cosmo_word/GameBL/TimeChallenge/TimeAtackStage.dart';
 import 'package:cosmo_word/Screens/GameScreen/Layers/Popups/GameCompletePopup.dart';
 import 'package:cosmo_word/di.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
@@ -47,12 +48,18 @@ class _LobbyNavigationState extends State<LobbyNavigation> {
     widget.userStateController.getStoryState().then((storyState) async {
       var location = await widget.storyLocationsService.getLocationConfigByLevelId(storyState.currentLevelId);
       var data = {'levelNumber': storyState.currentLevelId, 'locationTitle': location.title};
+      if(kIsWeb) {
+        await Future.delayed(Duration(milliseconds: 400));
+      }
       setState((){
         storyData = data;
       });
     });
 
-    widget.userStateController.getRocketRecord().then((value) {
+    widget.userStateController.getRocketRecord().then((value) async {
+      if(kIsWeb) {
+        await Future.delayed(Duration(milliseconds: 400));
+      }
       setState((){
         timeChallengeData = {'timeChallengeRecord' : value};
       });
