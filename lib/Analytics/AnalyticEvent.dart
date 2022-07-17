@@ -1,4 +1,6 @@
 class AnalyticEvents{
+  static const APP_START = "app_start";
+  static const SEGMENTATION_LOADED = "segmentation_loaded";
   static const WORD_INPUT = "word_input";
   static const LEVEL_COMPLETED = "level_completed";
   static const TIME_CHALLENGE_ENTER = "time_challenge_enter";
@@ -15,4 +17,11 @@ class AnalyticEvents{
   static const CHALLENGE_COMPLETE_POPUP_CLOSE = "challenge_complete_popup_close";
   static const OUT_COINS_POPUP_SHOW = "out_of_coins_popup_show";
   static const OUT_COINS_POPUP_CLOSE = "out_of_coins_popup_close";
+
+  static const LEVELS_CONFIG_DOWNLOADED = "levels_config_downloaded";
+  static const LEVELS_CONFIG_DOWNLOAD_FAILED = "levels_config_download_failed";
+  static const LEVELS_CONFIG_USE_REMOTE = "levels_config_use_remote";
+  static const LEVELS_CONFIG_USE_INCLUDED = "levels_config_use_included";
+  static const LEVELS_CONFIG_LOAD_CACHED = "levels_config_load_cached";
+  static const LEVELS_CONFIG_LOAD_CACHED_FAILED = "levels_config_load_cached_failed";
 }
