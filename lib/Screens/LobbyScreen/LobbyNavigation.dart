@@ -17,6 +17,7 @@ import '../../Flame/StoryGame.dart';
 import '../../Flame/TimeChallengeGame.dart';
 import '../../GameBL/UserStateController.dart';
 import '../../GameBL/TimeChallenge/RocketChallengeConfig.dart';
+import '../../main.dart';
 import '../GameScreen/GameScreen.dart';
 import 'LobbyNavigationButton.dart';
 
@@ -49,7 +50,7 @@ class _LobbyNavigationState extends State<LobbyNavigation> {
       var location = await widget.storyLocationsService.getLocationConfigByLevelId(storyState.currentLevelId);
       var data = {'levelNumber': storyState.currentLevelId, 'locationTitle': location.title};
       if(kIsWeb) {
-        await Future.delayed(Duration(milliseconds: 400));
+        await Future.delayed(Duration(milliseconds: delayForWebRendering));
       }
       setState((){
         storyData = data;
@@ -58,7 +59,7 @@ class _LobbyNavigationState extends State<LobbyNavigation> {
 
     widget.userStateController.getRocketRecord().then((value) async {
       if(kIsWeb) {
-        await Future.delayed(Duration(milliseconds: 400));
+        await Future.delayed(Duration(milliseconds: delayForWebRendering));
       }
       setState((){
         timeChallengeData = {'timeChallengeRecord' : value};

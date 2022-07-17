@@ -7,6 +7,7 @@ import '../../GameBL/Services/StoryLocationsService/StoryLocationsService.dart';
 import '../../GameBL/Services/UserStateService/UserStateService.dart';
 import '../../GameBL/UserStateController.dart';
 import '../../di.dart';
+import '../../main.dart';
 
 class LobbyMyStory extends StatefulWidget{
 
@@ -50,7 +51,7 @@ class _LobbyMyStoryState extends State<LobbyMyStory> {
         statuses[loc.id] = locStatus;
       }
       if(kIsWeb) {
-        await Future.delayed(Duration(milliseconds: 400));
+        await Future.delayed(Duration(milliseconds: delayForWebRendering));
       }
       setState((){
         locationStatusData = statuses;
