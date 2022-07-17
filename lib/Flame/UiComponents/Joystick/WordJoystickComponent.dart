@@ -206,7 +206,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
     var startPosition = firstSymbolComponent.position;
     startCollectingWord(SymbolPointerLocationArgs(id: firstSymbolComponent.id, symbol: firstSymbolComponent.symbolId, location: startPosition));
 
-    var xStep = -1;
+    var xStep = -3;
     for (var i = 1; i < word.length; i++){
       var currentSymbolComponent = symbols.firstWhere((element) => element.symbolId == word[i] && !selectedSymbols.map((x) => x.id).contains(element.id));
       selectedSymbols.add(currentSymbolComponent);
@@ -224,7 +224,7 @@ class WordJoystickComponent extends SpriteComponent with HasGameRef, Disposable 
       onDraggUpdate(SymbolPointerLocationArgs(id: selectedSymbols[0].id, symbol: selectedSymbols[0].symbolId, location: finalDrawPosition));
     }
 
-    await Future.delayed(const Duration(milliseconds: 500), completeWordInput);
+    await Future.delayed(const Duration(milliseconds: 100), completeWordInput);
   }
 
   void reset() {
