@@ -29,10 +29,10 @@ bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.s
 
 void main() async {
 
-  await configureDependencies();
-
   //Should be before any DI resolves
   WidgetsFlutterBinding.ensureInitialized();
+
+  await configureDependencies();
 
   if(!kIsWeb) {
     await initializeFirebase();
