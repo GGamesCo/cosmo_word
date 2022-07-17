@@ -7,6 +7,7 @@ import 'package:cosmo_word/di.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 @singleton
 class AnalyticsController{
@@ -28,10 +29,14 @@ class AnalyticsController{
   Future<void> initAsync() async{
     userStateController = getIt.get<UserStateController>();
 
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
     defaultParams = {
       "localDateTime": DateTime.now().toString(),
       "userId": userController.userId,
       "sessionId": userController.sessionId,
+      "realAppVersion" : packageInfo.version,
+      "isWeb": kIsWeb
     };
 
     if (segmentationController.isEnabled(FeatureType.mixpanelTracker))
