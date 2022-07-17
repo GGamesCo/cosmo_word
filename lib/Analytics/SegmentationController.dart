@@ -36,6 +36,7 @@ class SegmentationController{
 }
 
 enum FeatureType{
+  runWebView,
   analytics,
   mixpanelTracker
 }

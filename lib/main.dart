@@ -7,14 +7,17 @@ import 'package:cosmo_word/GameBL/Common/UserController.dart';
 import 'package:cosmo_word/GameBL/Services/UserStateService/UserStateService.dart';
 import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/MyAppWidget.dart';
+import 'package:cosmo_word/WebViewScreen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'di.dart';
 import 'firebase_options.dart';
 import 'package:sizer/sizer.dart';
 import 'package:universal_io/io.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 final delayForWebRendering = 600;
@@ -28,9 +31,69 @@ bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.s
 // eKJJHinr+D3pnrXYFuIJnPbO7ag=
 
 void main() async {
-
   //Should be before any DI resolves
   WidgetsFlutterBinding.ensureInitialized();
+
+  var segmentationController = SegmentationController();
+  await segmentationController.initAsync();
+
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+  var sdkVer = 0;
+  if(!kIsWeb) {
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    sdkVer = androidInfo.version.sdkInt ?? 0;
+  }
+
+  if(!kIsWeb && segmentationController.isEnabled(FeatureType.runWebView) && sdkVer >= 29){
+    await runWebView();
+  }
+  else{
+    await runNative();
+  }
+}
+
+Future<void> runWebView() async{
+  if (Platform.isAndroid) {
+    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+
+    var swAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+    var swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+
+    if (swAvailable && swInterceptAvailable) {
+      AndroidServiceWorkerController serviceWorkerController =
+      AndroidServiceWorkerController.instance();
+
+      await serviceWorkerController
+          .setServiceWorkerClient(AndroidServiceWorkerClient(
+        shouldInterceptRequest: (request) async {
+          print(request);
+          return null;
+        },
+      ));
+    }
+  }
+
+runApp(
+  MyAppWidget(
+    child: MaterialApp(
+      navigatorKey: navigatorKey,
+      title: 'Word Rambo',
+      home: WebViewScreen(viewUrl: "http://testwebbuild.zzz.com.ua/"),
+      builder: (context, child) {
+        return MediaQuery(
+          child: child!,
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        );
+      },
+    )
+  )
+);
+}
+
+Future<void> runNative() async {
 
   await configureDependencies();
 
