@@ -81,7 +81,7 @@ runApp(
     child: MaterialApp(
       navigatorKey: navigatorKey,
       title: 'Word Rambo',
-      home: WebViewScreen(viewUrl: "http://testwebbuild.zzz.com.ua/"),
+      home: WebViewScreen(viewUrl: "https://testwebbuild.zzz.com.ua/"),
       builder: (context, child) {
         return MediaQuery(
           child: child!,
