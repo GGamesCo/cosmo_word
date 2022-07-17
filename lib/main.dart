@@ -17,6 +17,7 @@ import 'package:sizer/sizer.dart';
 import 'package:universal_io/io.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+final delayForWebRendering = 600;
 
 // Determine if we should use mobile layout or not, 600 here is
 // a common breakpoint for a typical 7-inch tablet.

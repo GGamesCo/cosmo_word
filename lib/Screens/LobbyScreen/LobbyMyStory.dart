@@ -1,11 +1,13 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../GameBL/Services/StoryLocationsService/StoryLocationModel.dart';
 import '../../GameBL/Services/StoryLocationsService/StoryLocationsService.dart';
 import '../../GameBL/Services/UserStateService/UserStateService.dart';
 import '../../GameBL/UserStateController.dart';
 import '../../di.dart';
+import '../../main.dart';
 
 class LobbyMyStory extends StatefulWidget{
 
@@ -48,7 +50,9 @@ class _LobbyMyStoryState extends State<LobbyMyStory> {
         }
         statuses[loc.id] = locStatus;
       }
-
+      if(kIsWeb) {
+        await Future.delayed(Duration(milliseconds: delayForWebRendering));
+      }
       setState((){
         locationStatusData = statuses;
         renderedLocations = displayedLocations;
