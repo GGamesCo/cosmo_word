@@ -1,0 +1,575 @@
+{
+    "version": 1,
+    "flows": [
+        {
+            "id": 1,
+            "title": "Tutorial flow",
+            "sets": [
+                {
+                    "setId": 1,
+                    "requiredWordsCount": 2
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Level 1",
+            "sets": [
+                {
+                    "setId": 2,
+                    "requiredWordsCount": 2
+                },
+                {
+                    "setId": 3,
+                    "requiredWordsCount": 2
+                },
+                {
+                    "setId": 4,
+                    "requiredWordsCount": 2
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Level 2",
+            "sets": [
+                {
+                    "setId": 6,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "title": "Level 3",
+            "sets": [
+                {
+                    "setId": 7,
+                    "requiredWordsCount": 4
+                },
+                {
+                    "setId": 8,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "title": "Level 4",
+            "sets": [
+                {
+                    "setId": 9,
+                    "requiredWordsCount": 4
+                },
+                {
+                    "setId": 10,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "title": "Level 5",
+            "sets": [
+                {
+                    "setId": 11,
+                    "requiredWordsCount": 4
+                },
+                {
+                    "setId": 12,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "title": "Level 6",
+            "sets": [
+                {
+                    "setId": 13,
+                    "requiredWordsCount": 4
+                },
+                {
+                    "setId": 14,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "title": "Level 7",
+            "sets": [
+                {
+                    "setId": 15,
+                    "requiredWordsCount": 8
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "title": "Level 8",
+            "sets": [
+                {
+                    "setId": 16,
+                    "requiredWordsCount": 4
+                },
+                {
+                    "setId": 17,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "title": "Level 9",
+            "sets": [
+                {
+                    "setId": 18,
+                    "requiredWordsCount": 4
+                },
+                {
+                    "setId": 19,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "title": "Level 10",
+            "sets": [
+                {
+                    "setId": 20,
+                    "requiredWordsCount": 4
+                },
+                {
+                    "setId": 21,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "title": "Level 11",
+            "sets": [
+                {
+                    "setId": 22,
+                    "requiredWordsCount": 4
+                },
+                {
+                    "setId": 23,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "title": "Level 12",
+            "sets": [
+                {
+                    "setId": 24,
+                    "requiredWordsCount": 7
+                },
+                {
+                    "setId": 25,
+                    "requiredWordsCount": 8
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "title": "Level 13",
+            "sets": [
+                {
+                    "setId": 26,
+                    "requiredWordsCount": 5
+                },
+                {
+                    "setId": 27,
+                    "requiredWordsCount": 9
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "title": "Level 14",
+            "sets": [
+                {
+                    "setId": 28,
+                    "requiredWordsCount": 8
+                },
+                {
+                    "setId": 29,
+                    "requiredWordsCount": 8
+                }
+            ]
+        },
+        {
+            "id": 16,
+            "title": "Level 15",
+            "sets": [
+                {
+                    "setId": 38,
+                    "requiredWordsCount": 5
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "title": "Level 16",
+            "sets": [
+                {
+                    "setId": 37,
+                    "requiredWordsCount": 5
+                },
+                {
+                    "setId": 39,
+                    "requiredWordsCount": 5
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "title": "Level 17",
+            "sets": [
+                {
+                    "setId": 40,
+                    "requiredWordsCount": 5
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "title": "Level 18",
+            "sets": [
+                {
+                    "setId": 41,
+                    "requiredWordsCount": 6
+                },
+                {
+                    "setId": 42,
+                    "requiredWordsCount": 6
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "title": "Level 19",
+            "sets": [
+                {
+                    "setId": 71,
+                    "requiredWordsCount": 2
+                },
+                {
+                    "setId": 43,
+                    "requiredWordsCount": 5
+                }
+            ]
+        },
+        {
+            "id": 21,
+            "title": "Level 20",
+            "sets": [
+                {
+                    "setId": 44,
+                    "requiredWordsCount": 7
+                },
+                {
+                    "setId": 45,
+                    "requiredWordsCount": 7
+                }
+            ]
+        },
+        {
+            "id": 22,
+            "title": "Level 21",
+            "sets": [
+                {
+                    "setId": 46,
+                    "requiredWordsCount": 5
+                },
+                {
+                    "setId": 63,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 23,
+            "title": "Level 22",
+            "sets": [
+                {
+                    "setId": 47,
+                    "requiredWordsCount": 4
+                },
+                {
+                    "setId": 48,
+                    "requiredWordsCount": 6
+                }
+            ]
+        },
+        {
+            "id": 24,
+            "title": "Level 23",
+            "sets": [
+                {
+                    "setId": 50,
+                    "requiredWordsCount": 4
+                },
+                {
+                    "setId": 72,
+                    "requiredWordsCount": 3
+                },
+                {
+                    "setId": 64,
+                    "requiredWordsCount": 3
+                }
+            ]
+        },
+        {
+            "id": 25,
+            "title": "Level 24",
+            "sets": [
+                {
+                    "setId": 51,
+                    "requiredWordsCount": 5
+                },
+                {
+                    "setId": 52,
+                    "requiredWordsCount": 5
+                }
+            ]
+        },
+        {
+            "id": 26,
+            "title": "Level 25",
+            "sets": [
+                {
+                    "setId": 53,
+                    "requiredWordsCount": 5
+                },
+                {
+                    "setId": 65,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 27,
+            "title": "Level 26",
+            "sets": [
+                {
+                    "setId": 54,
+                    "requiredWordsCount": 5
+                }
+            ]
+        },
+        {
+            "id": 28,
+            "title": "Level 27",
+            "sets": [
+                {
+                    "setId": 55,
+                    "requiredWordsCount": 7
+                },
+                {
+                    "setId": 56,
+                    "requiredWordsCount": 6
+                }
+            ]
+        },
+        {
+            "id": 29,
+            "title": "Level 28",
+            "sets": [
+                {
+                    "setId": 57,
+                    "requiredWordsCount": 5
+                },
+                {
+                    "setId": 66,
+                    "requiredWordsCount": 4
+                },
+                {
+                    "setId": 67,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 30,
+            "title": "Level 29",
+            "sets": [
+                {
+                    "setId": 58,
+                    "requiredWordsCount": 6
+                },
+                {
+                    "setId": 59,
+                    "requiredWordsCount": 4
+                }
+            ]
+        },
+        {
+            "id": 32,
+            "title": "Level 30",
+            "sets": [
+                {
+                    "setId": 60,
+                    "requiredWordsCount": 6
+                },
+                {
+                    "setId": 61,
+                    "requiredWordsCount": 6
+                }
+            ]
+        },
+        {
+            "id": 33,
+            "title": "Level 31",
+            "sets": [
+                {
+                    "setId": 62,
+                    "requiredWordsCount": 6
+                },
+                {
+                    "setId": 73,
+                    "requiredWordsCount": 2
+                },
+                {
+                    "setId": 74,
+                    "requiredWordsCount": 3
+                }
+            ]
+        },
+        {
+            "id": 34,
+            "title": "Level 32",
+            "sets": [
+                {
+                    "setId": 68,
+                    "requiredWordsCount": 3
+                },
+                {
+                    "setId": 69,
+                    "requiredWordsCount": 3
+                },
+                {
+                    "setId": 70,
+                    "requiredWordsCount": 5
+                }
+            ]
+        }
+    ],
+    "levels": [
+        {"levelId": 1, "flowId": 2, "coinReward": 100},
+        {"levelId": 2, "flowId": 3, "coinReward": 110},
+        {"levelId": 3, "flowId": 4, "coinReward": 120},
+        {"levelId": 4, "flowId": 5, "coinReward": 150},
+        {"levelId": 5, "flowId": 6, "coinReward": 170},
+        {"levelId": 6, "flowId": 7, "coinReward": 180},
+        {"levelId": 7, "flowId": 8, "coinReward": 190},
+        {"levelId": 8, "flowId": 9, "coinReward": 200},
+        {"levelId": 9, "flowId": 10, "coinReward": 250},
+        {"levelId": 10, "flowId": 11, "coinReward": 270},
+        {"levelId": 11, "flowId": 12, "coinReward": 290},
+        {"levelId": 12, "flowId": 13, "coinReward": 200},
+        {"levelId": 13, "flowId": 14, "coinReward": 200},
+        {"levelId": 14, "flowId": 15, "coinReward": 200},
+        
+        {"levelId": 15, "flowId": 16, "coinReward": 340},
+        {"levelId": 16, "flowId": 19, "coinReward": 350},
+        {"levelId": 17, "flowId": 20, "coinReward": 360},
+        {"levelId": 18, "flowId": 21, "coinReward": 365},
+        {"levelId": 19, "flowId": 22, "coinReward": 370},
+        {"levelId": 20, "flowId": 23, "coinReward": 375},
+        {"levelId": 21, "flowId": 24, "coinReward": 380},
+        {"levelId": 22, "flowId": 25, "coinReward": 385},
+        {"levelId": 23, "flowId": 26, "coinReward": 390},
+        {"levelId": 24, "flowId": 27, "coinReward": 395},
+        {"levelId": 25, "flowId": 28, "coinReward": 400},
+        {"levelId": 26, "flowId": 29, "coinReward": 405},
+        {"levelId": 27, "flowId": 30, "coinReward": 410},
+        {"levelId": 28, "flowId": 31, "coinReward": 415},
+        {"levelId": 29, "flowId": 32, "coinReward": 420},
+        {"levelId": 30, "flowId": 33, "coinReward": 425},
+        {"levelId": 31, "flowId": 34, "coinReward": 430}
+    ],
+    "wordSets": [
+        {"id": 1, "chars": ["A", "C", "T"], "words": ["ACT", "CAT"]},
+        {"id": 2, "chars": ["W", "O", "N"], "words": ["OWN", "NOW", "WON"]},
+        {"id": 3, "chars": ["A", "R", "E"],  "words": ["ARE", "ERA", "EAR"]},
+        {"id": 4, "chars": ["T", "A", "P"], "words": ["TAP", "PAT", "APT"]},
+        {"id": 5, "chars": ["D", "R", "I", "P"], "words": ["DRIP", "RIP", "RID", "DIP"]},
+        {"id": 6, "chars": ["F", "A", "I", "R"],  "words": ["FAIR", "AIR", "FIR", "FAR"]},
+        {"id": 7, "chars": ["D", "E", "N", "T"],  "words": ["DENT", "TEND", "NET", "TEN", "END", "DEN"]},
+        {"id": 8, "chars": ["P", "A", "R", "K"], "words": ["PARK", "RAP", "PAR", "ARK"]},
+        {"id": 9, "chars": ["U", "N", "T", "O"], "words": ["UNTO", "NOT", "NUT", "TO", "TON", "OUT"]},
+        {"id": 10, "chars": ["L", "A", "D", "Y"], "words": ["LADY", "LAD", "DAY", "LAY"]},
+        {"id": 11, "chars": ["B", "E", "T", "A"], "words": ["BETA", "BEAT", "BATE", "ABET", "ATE", "BET", "EAT", "TAB", "TEA", "TAE", "ETA"]},
+        {"id": 12, "chars": ["B", "A", "R", "N"], "words": ["BARN", "BRAN", "ARB", "BAN", "BAR", "BRA", "RAN", "NAB"]},
+        {"id": 13, "chars": ["S", "A", "V", "E", "D"], "words": ["SAVED", "SAVE", "VASE", "SAD", "ADS"]},
+        {"id": 14, "chars": ["L", "O", "V", "E", "D"], "words": ["LOVED", "LOVE", "OLD", "LED", "DOLE", "DOE", "DOVE", "ODE"]},
+        {"id": 15, "chars": ["S", "I", "G", "H", "T"], "words": ["SIGHT", "HIS", "SIT", "HIT", "HITS", "ITS", "SIGH", "THIS"]},
+        {"id": 16, "chars": ["T", "T", "R", "A", "C"], "words": ["TRACT", "CART", "TACT", "TART", "ACT", "CAR", "RAT", "CAT", "TAR", "ART", "ARC"]},
+        {"id": 17, "chars": ["C", "L", "O", "U", "D"], "words": ["CLOUD", "COULD", "LOUD", "COLD", "DOC", "DUO", "COD", "OLD"]},
+        {"id": 18, "chars": ["B", "L", "A", "N", "D"], "words": ["BLAND", "BALD", "BAND", "LAND", "AND", "LAB", "BAD", "NAB", "BAN"]},
+        {"id": 19, "chars": ["E", "A", "G", "L", "E"], "words": ["EAGLE", "GALE", "GLEE", "AGE", "GAL", "ALE", "GEL", "LEG", "LAG"]},
+        {"id": 20, "chars": ["H", "E", "A", "L", "S"], "words": ["HEALS", "LEASH", "HEAL", "SHALE", "HALES", "SALE", "SEAL", "SHEA", "LASH", "SHE", "SEA", "SHA", "ASH", "LEA", "HAS", "ALE"]},
+        {"id": 21, "chars": ["S", "C", "U", "B", "A"], "words": ["SCUBA", "CUBS", "CABS", "BUS", "BAS", "ABS", "SUB", "CUB", "CAB"]},
+        {"id": 22, "chars": ["A", "F", "T", "S", "F"], "words": ["STAFF", "FAST", "FATS", "SAT", "FAT"]},
+        {"id": 23, "chars": ["S", "L", "E", "O", "R"], "words": ["LOSER", "ROLES", "LORE", "SOLE", "ORES", "ROLE", "ROSE", "SORE", "LOSE", "ORE", "REO", "SEL"]},
+        {"id": 24, "chars": ["C", "E", "L", "O", "N"], "words": ["CLONE", "ONCE", "LONE", "NOEL", "CONE", "ONE", "COL", "CON"]},
+        {"id": 25, "chars": ["T", "I", "K", "H", "N"], "words": ["THINK", "HINT", "KITH", "THIN", "KNIT", "INK", "KIT", "HIT", "KIN", "NIT", "TIN"]},
+        {"id": 26, "chars": ["N", "I", "L", "D", "B"], "words": ["BLIND", "BIND", "BID", "BIN", "LID"]},
+        {"id": 27, "chars": ["P", "A", "S", "K", "E"], "words": ["PEAKS", "PEAK", "SPAKE", "SPEAK", "PEAS", "APSE", "APES", "SAKE", "SEA", "SPA", "PEA", "APE", "ASK", "SAP"]},
+        {"id": 28, "chars": ["S", "L", "O", "I", "D"], "words": ["SOLID", "IDOLS", "IDOL", "LIDS", "SLID", "SOLD", "OILS", "SILO", "SOIL", "LID", "OLD", "OIL"]},
+        {"id": 29, "chars": ["W", "A", "L", "C", "R"], "words": ["CRAWL", "CLAW", "CRAW", "CAR", "CAW", "LAW", "RAW", "WAR", "ARC"]},
+        {"id": 30, "chars": ["O", "N", "A", "I", "P"], "words": ["PIANO", "PAIN", "NAP", "PAN", "PIN", "ION", "NIP"]},
+        {"id": 31, "chars": ["O", "D", "A", "E", "R"], "words": ["ADORE", "DARE", "DEAR", "REDO", "READ", "RODE", "ROAD", "EAR", "ERA", "DOE", "RED", "ORE", "ADO", "ARE", "OAR", "ROD"]},
+        {"id": 32, "chars": ["Y", "R", "R", "S", "O"], "words": ["SORRY", "ROSY", "SOY"]},
+        
+        {"id": 33, "chars": ["C", "A", "R", "E"], "words": ["CARE", "CAR", "RACE", "EAR", "ERA"]},
+        {"id": 34, "chars": ["T", "H", "U", "M", "B"], "words": ["THUMB", "BUT", "HUM", "BUM", "HUB", "TUB", "HUT"]},
+        {"id": 35, "chars": ["F", "L", "O", "O", "D"], "words": ["FLOOD", "FOOD", "FOLD", "FOOL", "OLD"]},
+        {"id": 36, "chars": ["S", "T", "O", "V", "E"], "words": ["STOVE", "VOTES", "TOES", "VEST", "VETO", "VETS", "VOES", "VOTE" ]},
+
+        {"id": 37, "chars": ["D", "A", "T", "E", "D"], "words": ["DATED", "DATE", "DEAD", "ADD", "ATE", "DAD", "EAT", "ETA", "TEA", "TED", "AD", "AT", "TAE", "TAD" ]},
+        {"id": 38, "chars": ["F", "R", "E", "S", "H"], "words": ["FRESH", "HERS", "REFS", "RESH", "SERF", "FER", "FES", "REF", "RES", "SER", "SHE", "HE" ]},
+        {"id": 39, "chars": ["R", "O", "P", "E"], "words": ["ROPE", "PORE", "REPO", "ORE", "PER", "PRO", "REP", "ROE", "OR" ]},
+        {"id": 40, "chars": ["T", "R", "I", "E", "D"], "words": ["TRIED", "TIRED", "DIET", "DIRE", "DIRT", "DITE", "EDIT", "RIDE", "RITE", "TIDE", "TIED", "TIER", "TIRE", "DIE", "RED", "RID", "TED", "TIE", "DIT", "IRE", "IT" ]},
+        {"id": 41, "chars": ["W", "H", "I", "T", "E"], "words": ["WHITE", "WITH", "WHET", "WIT", "WET", "TIE", "THE", "HIT", "HEW", "HET", "WE", "IT", "HI", "HE", "EH"]},
+        {"id": 42, "chars": ["S", "T", "O", "O", "D"], "words": ["STOOD", "SOOT", "DOTS", "TOO", "SOT", "SOD", "DOT", "DOS", "TO", "SO", "OS", "DO"]},
+        {"id": 43, "chars": ["P", "O", "W", "E", "R"], "words": ["POWER", "WORE", "ROPE", "REPO", "PROW", "PORE", "OWER", "WOE", "ROW", "ROE", "POW", "PEW", "PER", "OWE", "ORE", "WE", "RE", "PE", "OW", "OR"]},
+        {"id": 44, "chars": ["A", "L", "I", "V", "E"], "words": ["ALIVE", "VILE", "VIAL", "VELA", "VEIL", "VEAL", "VALE", "LIVE", "LAVE", "ILEA", "EVIL", "VIE", "VIA", "LIE", "LEV", "LEA", "ALE", "AIL", "LA", "EL", "AI"]},
+        {"id": 45, "chars": ["T", "E", "C", "H", "S"], "words": ["TECHS", "CHEST", "TECH", "SECT", "ETCH", "THE", "SHE", "SET", "HET", "HES", "HE", "EH"]},
+        {"id": 46, "chars": ["C", "R", "I", "M", "E"], "words": ["CRIME", "RIME", "RICE", "MIRE", "MICE", "ICER", "EMIR", "RIM", "IRE", "ICE", "RE", "MI", "ME", "EM"]},
+        {"id": 47, "chars": ["E", "M", "P", "T", "Y"], "words": ["EMPTY", "TYPE", "YET", "YEP", "PET", "MET", "YE", "PE", "MY", "ME", "EM"]},
+        {"id": 48, "chars": ["L", "E", "A", "F", "S"], "words": ["LEAFS", "FLEAS", "FALSE", "SELF", "SEAL", "SALE", "SAFE", "LEAS", "LEAF", "FLEA", "ALES", "ALEF", "SEA", "LEA", "ELS", "ELF", "EFS", "ALE", "LA", "FA", "EL", "EF", "AS"]},
+        {"id": 49, "chars": ["M", "E", "A", "N", "T"], "words": ["MEANT", "AMENT", "TEAM", "TAME", "NEAT", "NAME", "MEAT", "MEAN", "MATE", "MANE", "ANTE", "AMEN", "TEN", "TEA", "TAN", "TAM", "NET", "MET", "MEN", "MAT", "MAN", "ETA", "EAT", "ATE", "ANT", "TA", "ME", "MA", "EN", "EM", "AT", "AN", "AM"]},
+        {"id": 50, "chars": ["D", "R", "I", "L", "L"], "words": ["DRILL", "RILL", "DILL", "RID", "LID", "ILL", "ID"]},
+        {"id": 51, "chars": ["F", "O", "U", "N", "D"], "words": ["FOUND", "UNDO", "FUND", "FOND", "NOD", "FUN", "DUO", "DON", "UN", "ON", "OF", "NU", "NO", "DO"]},
+        {"id": 52, "chars": ["Y", "O", "U", "T", "H"], "words": ["YOUTH", "THOU", "YOU", "TOY", "THY", "OUT", "HUT", "HOT", "UH", "TO", "OH"]},
+        {"id": 53, "chars": ["T", "I", "C", "K", "S"], "words": ["TICKS", "STICK", "TICS", "TICK", "SKIT", "SICK", "KITS", "TIC", "SKI", "SIT", "SIC", "KIT", "ITS", "ICK", "CIS", "IT", "IS"]},
+        {"id": 54, "chars": ["T", "A", "B", "L", "E"], "words": ["TABLE", "BLEAT", "TEAL", "TALE", "LATE", "BLAT", "BETA", "BELT", "BEAT", "BALE", "ABLE", "ABET", "TEA", "TAB", "LET", "LEA", "LAB", "ETA", "EAT", "BET", "BAT", "ATE", "ALE", "ALB", "TA", "LA", "EL", "BE", "AT", "AB"]},
+        {"id": 55, "chars": ["L", "E", "A", "F", "S"], "words": ["LEAFS", "FLEAS", "FALSE", "SELF", "SEAL", "SALE", "SAFE", "LEAS", "LEAF", "FLEA", "ALES", "ALEF", "SEA", "LEA", "ELS", "ELF", "EFS", "ALE", "LA", "FA", "EL", "EF", "AS"]},
+        {"id": 56, "chars": ["F", "I", "B", "R", "E"], "words": ["FIBRE", "FIBER", "BRIEF", "RIFE", "FIRE", "BRIE", "RIB", "REF", "IRE", "FIR", "FIB", "RE", "IF", "EF", "BE"]},
+        {"id": 57, "chars": ["M", "A", "G", "I", "C"], "words": ["MAGIC", "MICA", "MAGI", "GAM", "CAM", "AIM", "MI", "MA", "AM", "AI", "AG"]},
+        {"id": 58, "chars": ["G", "L", "E", "A", "N"], "words": ["GLEAN", "ANGLE", "ANGEL", "LEAN", "LANE", "GLEN", "GALE", "NAG", "LEG", "LEA", "LAG", "GEL", "GAL", "ALE", "AGE", "LA", "EN", "EL", "AN", "AG"]},
+        {"id": 59, "chars": ["R", "I", "D", "E"], "words": ["DIRE", "IRED", "RIDE", "DIE", "IRE", "RED", "RED", "REI", "RID", "DE", "ED", "ER", "ID", "RE"]},
+        {"id": 60, "chars": ["S", "H", "O", "R", "E"], "words": ["SHORE", "SHOER", "HOSER", "HORSE", "HEROS", "SORE", "SHOE", "ROSE", "ROES", "RHOS", "RESH", "ORES", "HOSE", "HOES", "HOER", "HERS", "HERO", "EROS", "SHE", "ROE", "RHO", "ORS", "ORE", "OHS", "HOE", "HES", "HER", "SO", "RE", "OS", "OR", "OH", "HE", "EH"]},
+        {"id": 61, "chars": ["T", "R", "A", "M", "S"], "words": ["TRAMS", "SMART", "MARTS", "TSAR", "TRAM", "TARS", "TAMS", "STAR", "RATS", "RAMS", "MATS", "MAST", "MART", "MARS", "ARTS", "ARMS", "TAR", "TAM", "SAT", "RAT", "RAM", "MAT", "MAS", "MAR", "ART", "ARS", "ARM", "TA", "MA", "AT", "AS", "AR", "AM"]},
+        {"id": 62, "chars": ["W", "O", "R", "T", "S"], "words": ["WORTS", "WORST", "STROW", "WORT", "TWOS", "TOWS", "STOW", "SORT", "ROWS", "ROTS", "TWO", "TOW", "SOW", "SOT", "ROW", "ROT", "OWS", "ORS", "TO", "SO", "OW", "OS", "OR"]},
+        {"id": 63, "chars": ["B", "E", "A", "K"], "words": ["BEAK", "BAKE", "KEA", "BE", "AB"]},
+        {"id": 64, "chars": ["B", "E", "A", "M"], "words": ["BEAM", "BAM", "ME", "MA", "EM", "BE", "AM", "AB"]},
+        {"id": 65, "chars": ["S", "T", "A", "Y"], "words": ["STAY", "STY", "SAY", "SAT", "AYS", "YA", "TA", "AY", "AT", "AS"]},
+        {"id": 66, "chars": ["B", "E", "T", "S"], "words": ["BETS", "BEST", "SET", "BET", "BE"]},
+        {"id": 67, "chars": ["M", "A", "G", "E"], "words": ["MAGE", "GAME", "GEM", "GAM", "AGE", "ME", "MA", "EM", "AM", "AG"]},
+        {"id": 68, "chars": ["R", "I", "C", "E"], "words": ["RICE", "ICER", "IRE", "ICE", "RE"]},
+        {"id": 69, "chars": ["E", "X", "I", "T"], "words": ["EXIT", "TIE", "XI", "IT", "EX"]},
+        {"id": 70, "chars": ["R", "A", "M", "S"], "words": ["RAMS", "MARS", "ARMS", "RAM", "MAS", "MAR", "ARS", "ARM", "MA", "AS", "AR", "AM"]},
+        {"id": 71, "chars": ["O", "U", "R"], "words": ["OUR", "OR"]},
+        {"id": 72, "chars": ["H", "A", "D"], "words": ["HAD", "HA", "AH", "AD"]},
+        {"id": 73, "chars": ["M", "U", "G"], "words": ["MUG", "GUM", "MU"]},
+        {"id": 74, "chars": ["T", "A", "B"], "words": ["TAB", "BAT", "TA", "AT", "AB"]}
+    ]
+}

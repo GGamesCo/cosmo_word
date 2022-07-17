@@ -47,6 +47,7 @@ dependencies:
   firebase_analytics: ^9.1.10
   mixpanel_flutter: ^1.0.0
   random_name_plus: ^1.0.1
+  json_serializable: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +87,7 @@ flutter:
     - assets/images/level_progress_bar/
     - assets/images/overlays/
     - assets/audio/
+    - configs/defaultGameConfig.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

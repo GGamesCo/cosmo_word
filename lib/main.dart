@@ -1,15 +1,18 @@
 import 'dart:async';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
+import 'package:cosmo_word/Analytics/AnalyticEvent.dart';
 import 'package:cosmo_word/Analytics/AnalyticsController.dart';
 import 'package:cosmo_word/Analytics/SegmentationController.dart';
 import 'package:cosmo_word/GameBL/Common/StageManager.dart';
 import 'package:cosmo_word/GameBL/Common/UserController.dart';
+import 'package:cosmo_word/GameBL/Configs/GameConfigController.dart';
 import 'package:cosmo_word/GameBL/Services/UserStateService/UserStateService.dart';
 import 'package:cosmo_word/GameBL/UserStateController.dart';
 import 'package:cosmo_word/MyAppWidget.dart';
 import 'package:cosmo_word/WebViewScreen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flame/components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -108,6 +111,8 @@ Future<void> runNative() async {
   var stageManager = getIt.get<StageManager>();
   await stageManager.initAsync();
 
+  getIt.get<AnalyticsController>().logEventAsync(AnalyticEvents.APP_START);
+
   runApp(
     Sizer(
       builder: (context, orientation, deviceType) {
@@ -142,6 +147,9 @@ Future initDiInstances() async {
 
   var userStateService = getIt.get<UserStateService>();
   userStateService.init();
+  
+  var gameConfigController = getIt.get<GameConfigController>();
+  await gameConfigController.initAsync();
 
   var stageManager = getIt.get<StageManager>();
   await stageManager.initAsync();

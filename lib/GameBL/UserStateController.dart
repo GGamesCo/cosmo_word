@@ -36,7 +36,6 @@ class UserStateController {
 
     storyState = await userStateService.setStoryState(
       UserStateModel(
-        storyLevelsIdList: storyState.storyLevelsIdList,
         currentLevelId: storyState.currentLevelId + 1
       )
     );

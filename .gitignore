@@ -54,3 +54,6 @@ app.*.map.json
 /.gradle/checksums/checksums.lock
 /.gradle/configuration-cache/gc.properties
 /.gradle/vcs-1/gc.properties
+
+# Flutter generated
+*.g.dart

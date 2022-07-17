@@ -8,4 +8,15 @@ class StoryLevelModel {
     required this.flowId,
     required this.coinReward
   });
+
+  StoryLevelModel.fromJson(Map<String, dynamic> json)
+      : levelId = json['levelId'],
+        flowId = json['flowId'],
+        coinReward = json['coinReward'];
+
+  Map toJson() => {
+    'levelId': levelId,
+    'flowId': flowId,
+    'coinReward': coinReward,
+  };
 }
