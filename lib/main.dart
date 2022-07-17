@@ -43,7 +43,7 @@ void main() async {
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
   var sdkVer = 0;
-  if(!kIsWeb) {
+  if(Platform.isAndroid) {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     sdkVer = androidInfo.version.sdkInt ?? 0;
   }
