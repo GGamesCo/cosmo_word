@@ -1,9 +1,7 @@
 import 'package:cosmo_word/Analytics/AnalyticEvent.dart';
 import 'package:cosmo_word/Analytics/AnalyticsController.dart';
-import 'package:cosmo_word/Flame/Common/SoundsController.dart';
 import 'package:cosmo_word/GameBL/Common/Abstract/IBalanceController.dart';
 import 'package:event/event.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:injectable/injectable.dart';
 import '../Screens/GameScreen/Layers/Popups/PopupManager.dart';
 import 'Common/Abstract/IFlowRepository.dart';

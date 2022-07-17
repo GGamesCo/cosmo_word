@@ -159,7 +159,7 @@ class StoryGame extends FlameGame with HasTappables, HasDraggables {
     return new LevelProgressBarState(
         currentValue: wordInputController.flowState.completedWordsInFlow,
         targetValue: wordInputController.flowState.totalWordsInFlow,
-        levelNumber: _storyState.currentLevelNumber
+        levelNumber: _storyState.currentLevelId
     );
   }
 

@@ -68,8 +68,7 @@ class AnalyticsController{
 
     var currentStoryState = await userStateController.getStoryState();
 
-    eventParams.addAll({"levelNumber" : currentStoryState.currentLevelNumber});
-    eventParams.addAll({"levelId" : currentStoryState.currentLevelNumber});
+    eventParams.addAll({"levelId" : currentStoryState.currentLevelId});
 
     if(params != null){
       eventParams.addAll(params);
